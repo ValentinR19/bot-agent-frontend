@@ -1,1 +1,320 @@
-/* You can add global styles to this file, and also import other style files */
+/* Importar tema de PrimeNG Aura (Modern Light Theme) */
+@import 'primeng/resources/themes/aura-light-blue/theme.css';
+
+/* Importar estilos base de PrimeNG */
+@import 'primeng/resources/primeng.min.css';
+
+/* Importar PrimeIcons */
+@import 'primeicons/primeicons.css';
+
+/* Importar PrimeFlex (Utilidades CSS) */
+@import 'primeflex/primeflex.css';
+
+/* ========================================
+   VARIABLES GLOBALES DE DISEÑO
+   ======================================== */
+:root {
+  /* Colores de Marca */
+  --brand-primary: #3b82f6;
+  --brand-secondary: #8b5cf6;
+  --brand-accent: #06b6d4;
+
+  /* Espaciado consistente */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  /* Bordes y radios */
+  --border-radius-sm: 0.25rem;
+  --border-radius-md: 0.5rem;
+  --border-radius-lg: 0.75rem;
+  --border-radius-xl: 1rem;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+
+  /* Transiciones */
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 200ms ease-in-out;
+  --transition-slow: 300ms ease-in-out;
+}
+
+/* ========================================
+   RESET Y ESTILOS BASE
+   ======================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue',
+    Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-size: 14px;
+  color: var(--text-color);
+  background-color: var(--surface-ground);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ========================================
+   TIPOGRAFÍA
+   ======================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+h1 {
+  font-size: 2.25rem;
+}
+
+h2 {
+  font-size: 1.875rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1.125rem;
+}
+
+h6 {
+  font-size: 1rem;
+}
+
+p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ========================================
+   UTILIDADES PERSONALIZADAS
+   ======================================== */
+.page-container {
+  padding: var(--spacing-xl);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.page-header {
+  margin-bottom: var(--spacing-xl);
+
+  h1 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  p {
+    color: var(--text-color-secondary);
+    font-size: 0.95rem;
+  }
+}
+
+.card {
+  background: var(--surface-card);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--surface-border);
+}
+
+.section-divider {
+  height: 1px;
+  background: var(--surface-border);
+  margin: var(--spacing-lg) 0;
+}
+
+/* ========================================
+   MEJORAS A COMPONENTES DE PRIMENG
+   ======================================== */
+
+/* Botones más modernos */
+.p-button {
+  font-weight: 500;
+  transition: all var(--transition-base);
+
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-md);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+}
+
+/* Cards con mejor diseño */
+.p-card {
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--surface-border);
+  transition: box-shadow var(--transition-base);
+
+  &:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .p-card-header {
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--surface-border);
+  }
+
+  .p-card-body {
+    padding: var(--spacing-lg);
+  }
+
+  .p-card-footer {
+    padding: var(--spacing-lg);
+    border-top: 1px solid var(--surface-border);
+    background: var(--surface-50);
+  }
+}
+
+/* Tablas más limpias */
+.p-datatable {
+  .p-datatable-header {
+    background: var(--surface-card);
+    border: 1px solid var(--surface-border);
+    padding: var(--spacing-lg);
+    border-top-left-radius: var(--border-radius-lg);
+    border-top-right-radius: var(--border-radius-lg);
+  }
+
+  .p-datatable-thead > tr > th {
+    background: var(--surface-100);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .p-datatable-tbody > tr {
+    transition: background-color var(--transition-fast);
+
+    &:hover {
+      background: var(--surface-hover);
+    }
+
+    > td {
+      padding: var(--spacing-md) var(--spacing-lg);
+    }
+  }
+}
+
+/* Inputs más modernos */
+.p-inputtext,
+.p-dropdown,
+.p-calendar,
+.p-inputnumber-input {
+  transition: all var(--transition-base);
+
+  &:enabled:hover {
+    border-color: var(--primary-color);
+  }
+
+  &:enabled:focus {
+    box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.1);
+  }
+}
+
+/* Menus más elegantes */
+.p-menu {
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--surface-border);
+
+  .p-menuitem-link {
+    transition: all var(--transition-fast);
+
+    &:hover {
+      background: var(--surface-hover);
+    }
+  }
+}
+
+/* Toasts con mejor diseño */
+.p-toast {
+  .p-toast-message {
+    box-shadow: var(--shadow-xl);
+    border-radius: var(--border-radius-lg);
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* ========================================
+   ANIMACIONES Y TRANSICIONES
+   ======================================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn var(--transition-base);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 768px) {
+  .page-container {
+    padding: var(--spacing-md);
+  }
+
+  .page-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .p-datatable-thead > tr > th {
+    font-size: 0.75rem;
+  }
+}
+
+/* ========================================
+   SCROLL PERSONALIZADO
+   ======================================== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--surface-100);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-300);
+  border-radius: var(--border-radius-md);
+
+  &:hover {
+    background: var(--surface-400);
+  }
+}

@@ -2,6 +2,7 @@
   display: flex;
   min-height: 100vh;
   background-color: var(--surface-ground);
+  position: relative;
 
   &.sidebar-collapsed {
     .layout-main {
@@ -15,17 +16,96 @@
   display: flex;
   flex-direction: column;
   margin-left: 280px;
-  transition: margin-left 0.3s;
+  transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 100vh;
 }
 
 .layout-content {
   flex: 1;
   padding: 2rem;
   overflow-y: auto;
+  overflow-x: hidden;
+  background: linear-gradient(135deg, var(--surface-ground) 0%, var(--surface-50) 100%);
+  min-height: calc(100vh - 70px);
+
+  /* Scrollbar personalizado */
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--surface-100);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--surface-300);
+    border-radius: 10px;
+
+    &:hover {
+      background: var(--surface-400);
+    }
+  }
+
+  /* Animación de fade-in para contenido */
+  > * {
+    animation: fadeInContent 0.3s ease-out;
+  }
 }
 
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
 @media (max-width: 991px) {
+  .layout-wrapper {
+    &.sidebar-collapsed {
+      .layout-main {
+        margin-left: 0;
+      }
+    }
+  }
+
   .layout-main {
     margin-left: 0;
+  }
+
+  .layout-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-content {
+    padding: 1rem;
+  }
+}
+
+/* Overlay para mobile cuando sidebar está abierto */
+@media (max-width: 991px) {
+  .layout-wrapper::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 998;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .layout-wrapper.sidebar-visible::before {
+    opacity: 1;
+    pointer-events: auto;
   }
 }
