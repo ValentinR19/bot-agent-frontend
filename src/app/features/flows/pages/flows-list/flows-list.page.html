@@ -1,29 +1,10 @@
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>
 
-<app-page-header
-  title="Flujos"
-  subtitle="Gestión de flujos conversacionales"
-  icon="diagram-project">
-  <button
-    pButton
-    type="button"
-    label="Nuevo Flujo"
-    icon="pi pi-plus"
-    (click)="createFlow()">
-  </button>
+<app-page-header title="Flujos" subtitle="Gestión de flujos conversacionales" icon="diagram-project">
+  <button pButton type="button" label="Nuevo Flujo" icon="pi pi-plus" (click)="createFlow()"></button>
 </app-page-header>
 
-<app-filter-panel
-  searchPlaceholder="Buscar flujos..."
-  (search)="onSearch($event)">
-</app-filter-panel>
+<app-filter-panel searchPlaceholder="Buscar flujos..." (search)="onSearch($event)"> </app-filter-panel>
 
-<app-custom-table
-  [data]="flows"
-  [columns]="columns"
-  [actions]="actions"
-  [loading]="loading"
-  [paginator]="true"
-  [rows]="10">
-</app-custom-table>
+<app-custom-table [data]="flows" [columns]="columns" [actions]="actions" [loading]="loading" [paginator]="true" [rows]="10"> </app-custom-table>

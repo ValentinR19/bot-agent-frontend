@@ -48,7 +48,7 @@ export enum FlowNodeType {
   ACTION = 'action',
   API_CALL = 'api_call',
   AI_RESPONSE = 'ai_response',
-  END = 'end'
+  END = 'end',
 }
 
 export interface NodePosition {

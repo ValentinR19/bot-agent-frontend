@@ -14,17 +14,10 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
 @Component({
   selector: 'app-tenants-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    ButtonModule,
-    CardModule,
-    TagModule,
-    ToastModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, ButtonModule, CardModule, TagModule, ToastModule],
   providers: [MessageService],
   templateUrl: './tenants-detail.page.html',
-  styleUrl: './tenants-detail.page.scss'
+  styleUrl: './tenants-detail.page.scss',
 })
 export class TenantsDetailPage implements OnInit {
   private readonly tenantsService = inject(TenantsService);
@@ -53,11 +46,11 @@ export class TenantsDetailPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudo cargar el tenant'
+          detail: 'No se pudo cargar el tenant',
         });
         this.loading = false;
         this.goBack();
-      }
+      },
     });
   }
 

@@ -16,18 +16,10 @@ import { FilterPanelComponent } from '../../../../shared/components/filter-panel
 @Component({
   selector: 'app-users-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    CustomTableComponent,
-    FilterPanelComponent,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, CustomTableComponent, FilterPanelComponent, ButtonModule, ToastModule, ConfirmDialogModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './users-list.page.html',
-  styleUrl: './users-list.page.scss'
+  styleUrl: './users-list.page.scss',
 })
 export class UsersListPage implements OnInit {
   private readonly usersService = inject(UsersService);
@@ -45,7 +37,7 @@ export class UsersListPage implements OnInit {
     { field: 'phone', header: 'Teléfono', sortable: true },
     { field: 'isActive', header: 'Activo', sortable: true, type: 'boolean' },
     { field: 'emailVerified', header: 'Email Verificado', sortable: true, type: 'boolean' },
-    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' }
+    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -53,20 +45,20 @@ export class UsersListPage implements OnInit {
       label: 'Ver',
       icon: 'pi pi-eye',
       severity: 'info',
-      command: (user: User) => this.viewUser(user)
+      command: (user: User) => this.viewUser(user),
     },
     {
       label: 'Editar',
       icon: 'pi pi-pencil',
       severity: 'primary',
-      command: (user: User) => this.editUser(user)
+      command: (user: User) => this.editUser(user),
     },
     {
       label: 'Eliminar',
       icon: 'pi pi-trash',
       severity: 'danger',
-      command: (user: User) => this.deleteUser(user)
-    }
+      command: (user: User) => this.deleteUser(user),
+    },
   ];
 
   ngOnInit(): void {
@@ -84,10 +76,10 @@ export class UsersListPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los usuarios'
+          detail: 'No se pudieron cargar los usuarios',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -121,7 +113,7 @@ export class UsersListPage implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Usuario eliminado correctamente'
+              detail: 'Usuario eliminado correctamente',
             });
             this.loadUsers();
           },
@@ -129,11 +121,11 @@ export class UsersListPage implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'No se pudo eliminar el usuario'
+              detail: 'No se pudo eliminar el usuario',
             });
-          }
+          },
         });
-      }
+      },
     });
   }
 }

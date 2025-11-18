@@ -1,17 +1,7 @@
 <p-toast></p-toast>
 
-<app-page-header
-  [title]="pageTitle"
-  subtitle="Complete los datos del tenant"
-  icon="building">
-  <button
-    pButton
-    type="button"
-    label="Cancelar"
-    icon="pi pi-times"
-    class="p-button-text"
-    (click)="goBack()">
-  </button>
+<app-page-header [title]="pageTitle" subtitle="Complete los datos del tenant" icon="building">
+  <button pButton type="button" label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="goBack()"></button>
 </app-page-header>
 
 <p-card>
@@ -21,6 +11,7 @@
     [loading]="loading"
     [submitLabel]="isEditMode ? 'Actualizar' : 'Crear'"
     (submit)="onSubmit($event)"
-    (cancel)="onCancel()">
+    (cancel)="onCancel()"
+  >
   </app-custom-form>
 </p-card>

@@ -1,19 +1,17 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
 import {
-  Flow,
   CreateFlowDto,
-  UpdateFlowDto,
-  FlowResponseDto,
-  FlowNode,
   CreateFlowNodeDto,
-  UpdateFlowNodeDto,
-  FlowTransition,
   CreateFlowTransitionDto,
+  Flow,
+  FlowNode,
+  FlowTransition,
+  UpdateFlowDto,
+  UpdateFlowNodeDto,
   UpdateFlowTransitionDto,
-  FlowValidationResult
 } from './flows.model';
 
 /**
@@ -21,7 +19,7 @@ import {
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FlowsService {
   private readonly http = inject(HttpService);
@@ -38,10 +36,10 @@ export class FlowsService {
    * GET /api/v1/flows
    * Listar todos los flujos
    */
-  findAll(): Observable<FlowResponseDto[]> {
+  findAll(): Observable<Flow[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<FlowResponseDto[]>(this.baseUrl).pipe(
+    return this.http.get<Flow[]>(this.baseUrl).pipe(
       tap({
         next: (flows) => {
           this.flowsSubject.next(flows);
@@ -49,8 +47,8 @@ export class FlowsService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -58,60 +56,60 @@ export class FlowsService {
    * GET /api/v1/flows/active
    * Listar flujos activos
    */
-  findActive(): Observable<FlowResponseDto[]> {
-    return this.http.get<FlowResponseDto[]>(`${this.baseUrl}/active`);
+  findActive(): Observable<Flow[]> {
+    return this.http.get<Flow[]>(`${this.baseUrl}/active`);
   }
 
   /**
    * POST /api/v1/flows/search
    * Buscar flujos
    */
-  search(query: string): Observable<FlowResponseDto[]> {
-    return this.http.post<FlowResponseDto[]>(`${this.baseUrl}/search`, { query });
+  search(query: string): Observable<Flow[]> {
+    return this.http.post<Flow[]>(`${this.baseUrl}/search`, { query });
   }
 
   /**
    * GET /api/v1/flows/slug/{slug}
    * Obtener flujo por slug
    */
-  findBySlug(slug: string): Observable<FlowResponseDto> {
-    return this.http.get<FlowResponseDto>(`${this.baseUrl}/slug/${slug}`);
+  findBySlug(slug: string): Observable<Flow> {
+    return this.http.get<Flow>(`${this.baseUrl}/slug/${slug}`);
   }
 
   /**
    * GET /api/v1/flows/{id}
    * Obtener un flujo por ID
    */
-  findOne(id: string): Observable<FlowResponseDto> {
-    return this.http.get<FlowResponseDto>(`${this.baseUrl}/${id}`);
+  findOne(id: string): Observable<Flow> {
+    return this.http.get<Flow>(`${this.baseUrl}/${id}`);
   }
 
   /**
    * GET /api/v1/flows/{id}/with-nodes
    * Obtener flujo con nodos
    */
-  findOneWithNodes(id: string): Observable<FlowResponseDto> {
-    return this.http.get<FlowResponseDto>(`${this.baseUrl}/${id}/with-nodes`);
+  findOneWithNodes(id: string): Observable<Flow> {
+    return this.http.get<Flow>(`${this.baseUrl}/${id}/with-nodes`);
   }
 
   /**
    * GET /api/v1/flows/{id}/full
    * Obtener flujo completo (con nodos y transiciones)
    */
-  findOneFull(id: string): Observable<FlowResponseDto> {
-    return this.http.get<FlowResponseDto>(`${this.baseUrl}/${id}/full`);
+  findOneFull(id: string): Observable<Flow> {
+    return this.http.get<Flow>(`${this.baseUrl}/${id}/full`);
   }
 
   /**
    * POST /api/v1/flows
    * Crear un nuevo flujo
    */
-  create(dto: CreateFlowDto): Observable<FlowResponseDto> {
-    return this.http.post<FlowResponseDto>(this.baseUrl, dto).pipe(
+  create(dto: CreateFlowDto): Observable<Flow> {
+    return this.http.post<Flow>(this.baseUrl, dto).pipe(
       tap((newFlow) => {
         const currentFlows = this.flowsSubject.value;
         this.flowsSubject.next([...currentFlows, newFlow]);
-      })
+      }),
     );
   }
 
@@ -119,16 +117,16 @@ export class FlowsService {
    * PUT /api/v1/flows/{id}
    * Actualizar un flujo
    */
-  update(id: string, dto: UpdateFlowDto): Observable<FlowResponseDto> {
-    return this.http.put<FlowResponseDto>(`${this.baseUrl}/${id}`, dto).pipe(
+  update(id: string, dto: UpdateFlowDto): Observable<Flow> {
+    return this.http.put<Flow>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedFlow) => {
         const currentFlows = this.flowsSubject.value;
-        const index = currentFlows.findIndex(f => f.id === id);
+        const index = currentFlows.findIndex((f) => f.id === id);
         if (index !== -1) {
           currentFlows[index] = updatedFlow;
           this.flowsSubject.next([...currentFlows]);
         }
-      })
+      }),
     );
   }
 
@@ -140,8 +138,8 @@ export class FlowsService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentFlows = this.flowsSubject.value;
-        this.flowsSubject.next(currentFlows.filter(f => f.id !== id));
-      })
+        this.flowsSubject.next(currentFlows.filter((f) => f.id !== id));
+      }),
     );
   }
 
@@ -149,16 +147,16 @@ export class FlowsService {
    * POST /api/v1/flows/{id}/validate
    * Validar un flujo
    */
-  validate(id: string): Observable<FlowValidationResult> {
-    return this.http.post<FlowValidationResult>(`${this.baseUrl}/${id}/validate`, {});
+  validate(id: string): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${id}/validate`, {});
   }
 
   /**
    * POST /api/v1/flows/{id}/clone
    * Clonar un flujo
    */
-  clone(id: string, newName?: string): Observable<FlowResponseDto> {
-    return this.http.post<FlowResponseDto>(`${this.baseUrl}/${id}/clone`, { newName });
+  clone(id: string, newName?: string): Observable<Flow> {
+    return this.http.post<Flow>(`${this.baseUrl}/${id}/clone`, { newName });
   }
 
   /**

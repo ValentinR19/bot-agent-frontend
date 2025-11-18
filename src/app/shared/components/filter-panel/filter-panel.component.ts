@@ -16,7 +16,7 @@ export interface Filter {
   standalone: true,
   imports: [CommonModule, FormsModule, InputTextModule, ButtonModule, ChipModule],
   templateUrl: './filter-panel.component.html',
-  styleUrl: './filter-panel.component.scss'
+  styleUrl: './filter-panel.component.scss',
 })
 export class FilterPanelComponent {
   @Input() filters: Filter[] = [];
@@ -33,7 +33,7 @@ export class FilterPanelComponent {
   }
 
   removeFilter(filter: Filter): void {
-    this.filters = this.filters.filter(f => f.key !== filter.key);
+    this.filters = this.filters.filter((f) => f.key !== filter.key);
     this.filtersChange.emit(this.filters);
   }
 

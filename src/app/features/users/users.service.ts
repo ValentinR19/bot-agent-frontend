@@ -2,21 +2,16 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  User,
-  CreateUserDto,
-  UpdateUserDto,
-  UserResponseDto,
-  Role,
-  Team
-} from './users.model';
+import { User, CreateUserDto, UpdateUserDto } from './user.model';
+import { Role } from '../roles/role.model';
+import { Team } from '../teams/team.model';
 
 /**
  * Servicio para gestión de Users
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
   private readonly http = inject(HttpService);
@@ -33,10 +28,10 @@ export class UsersService {
    * GET /api/v1/users
    * Listar todos los usuarios
    */
-  findAll(): Observable<UserResponseDto[]> {
+  findAll(): Observable<User[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<UserResponseDto[]>(this.baseUrl).pipe(
+    return this.http.get<User[]>(this.baseUrl).pipe(
       tap({
         next: (users) => {
           this.usersSubject.next(users);
@@ -44,8 +39,8 @@ export class UsersService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -53,20 +48,20 @@ export class UsersService {
    * GET /api/v1/users/{id}
    * Obtener un usuario por ID
    */
-  findOne(id: string): Observable<UserResponseDto> {
-    return this.http.get<UserResponseDto>(`${this.baseUrl}/${id}`);
+  findOne(id: string): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}/${id}`);
   }
 
   /**
    * POST /api/v1/users
    * Crear un nuevo usuario
    */
-  create(dto: CreateUserDto): Observable<UserResponseDto> {
-    return this.http.post<UserResponseDto>(this.baseUrl, dto).pipe(
+  create(dto: CreateUserDto): Observable<User> {
+    return this.http.post<User>(this.baseUrl, dto).pipe(
       tap((newUser) => {
         const currentUsers = this.usersSubject.value;
         this.usersSubject.next([...currentUsers, newUser]);
-      })
+      }),
     );
   }
 
@@ -74,16 +69,16 @@ export class UsersService {
    * PUT /api/v1/users/{id}
    * Actualizar un usuario
    */
-  update(id: string, dto: UpdateUserDto): Observable<UserResponseDto> {
-    return this.http.put<UserResponseDto>(`${this.baseUrl}/${id}`, dto).pipe(
+  update(id: string, dto: UpdateUserDto): Observable<User> {
+    return this.http.put<User>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedUser) => {
         const currentUsers = this.usersSubject.value;
-        const index = currentUsers.findIndex(u => u.id === id);
+        const index = currentUsers.findIndex((u) => u.id === id);
         if (index !== -1) {
           currentUsers[index] = updatedUser;
           this.usersSubject.next([...currentUsers]);
         }
-      })
+      }),
     );
   }
 
@@ -95,8 +90,8 @@ export class UsersService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentUsers = this.usersSubject.value;
-        this.usersSubject.next(currentUsers.filter(u => u.id !== id));
-      })
+        this.usersSubject.next(currentUsers.filter((u) => u.id !== id));
+      }),
     );
   }
 

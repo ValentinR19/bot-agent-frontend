@@ -1,39 +1,29 @@
-import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 export interface HttpOptions {
-  headers?: HttpHeaders | { [header: string]: string | string[] };
-  params?: HttpParams | { [param: string]: string | string[] };
-  observe?: 'body' | 'response';
-  responseType?: 'json' | 'text' | 'blob' | 'arraybuffer';
+  headers?: Record<string, string>;
+  params?: Record<string, string | number | boolean>;
 }
 
-/**
- * Servicio HTTP centralizado que encapsula HttpClient
- * Agrega automáticamente headers necesarios (Authorization)
- *
- * NOTA: El header X-Tenant-Id se agrega automáticamente vía TenantInterceptor
- * NO se debe agregar manualmente aquí
- *
- * Maneja la construcción de URLs con el baseURL del environment
- */
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class HttpService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = environment.apiUrl;
 
-  /**
-   * Construye headers con Authorization
-   * X-Tenant-Id se agrega automáticamente vía interceptor
-   */
-  private buildHeaders(customHeaders?: HttpHeaders | { [header: string]: string | string[] }): HttpHeaders {
-    let headers = new HttpHeaders(customHeaders || {});
+  private buildHeaders(custom?: Record<string, string>): HttpHeaders {
+    let headers = new HttpHeaders();
 
-    // Agregar Authorization si existe JWT en localStorage
+    // custom headers
+    if (custom) {
+      for (const [key, value] of Object.entries(custom)) {
+        headers = headers.set(key, value);
+      }
+    }
+
+    // auth
     const token = localStorage.getItem('access_token');
     if (token) {
       headers = headers.set('Authorization', `Bearer ${token}`);
@@ -42,86 +32,70 @@ export class HttpService {
     return headers;
   }
 
-  /**
-   * Construye la URL completa
-   */
-  private buildUrl(endpoint: string): string {
-    // Si el endpoint ya contiene http:// o https://, usarlo directamente
-    if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) {
-      return endpoint;
+  private buildParams(params?: Record<string, string | number | boolean>): HttpParams {
+    let httpParams = new HttpParams();
+
+    if (params) {
+      for (const [key, value] of Object.entries(params)) {
+        httpParams = httpParams.set(key, String(value));
+      }
     }
 
-    // Eliminar "/" inicial del endpoint si existe
-    const cleanEndpoint = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
-
-    // Asegurar que baseUrl NO termina con "/"
-    const cleanBaseUrl = this.baseUrl.endsWith('/') ? this.baseUrl.slice(0, -1) : this.baseUrl;
-
-    return `${cleanBaseUrl}/${cleanEndpoint}`;
+    return httpParams;
   }
 
-  /**
-   * GET request tipado
-   */
+  private buildUrl(endpoint: string): string {
+    if (endpoint.startsWith('http://') || endpoint.startsWith('https://')) return endpoint;
+
+    const base = this.baseUrl.replace(/\/+$/, '');
+    const clean = endpoint.replace(/^\/+/, '');
+
+    return `${base}/${clean}`;
+  }
+
   get<T>(endpoint: string, options?: HttpOptions): Observable<T> {
-    const url = this.buildUrl(endpoint);
-    const headers = this.buildHeaders(options?.headers);
-
-    return this.http.get<T>(url, {
-      ...options,
-      headers
+    return this.http.get<T>(this.buildUrl(endpoint), {
+      headers: this.buildHeaders(options?.headers),
+      params: this.buildParams(options?.params),
     });
   }
 
-  /**
-   * POST request tipado
-   */
   post<T>(endpoint: string, body: any, options?: HttpOptions): Observable<T> {
-    const url = this.buildUrl(endpoint);
-    const headers = this.buildHeaders(options?.headers);
-
-    return this.http.post<T>(url, body, {
-      ...options,
-      headers
+    return this.http.post<T>(this.buildUrl(endpoint), body, {
+      headers: this.buildHeaders(options?.headers),
+      params: this.buildParams(options?.params),
     });
   }
 
-  /**
-   * PUT request tipado
-   */
   put<T>(endpoint: string, body: any, options?: HttpOptions): Observable<T> {
-    const url = this.buildUrl(endpoint);
-    const headers = this.buildHeaders(options?.headers);
-
-    return this.http.put<T>(url, body, {
-      ...options,
-      headers
+    return this.http.put<T>(this.buildUrl(endpoint), body, {
+      headers: this.buildHeaders(options?.headers),
+      params: this.buildParams(options?.params),
     });
   }
 
-  /**
-   * PATCH request tipado
-   */
   patch<T>(endpoint: string, body: any, options?: HttpOptions): Observable<T> {
-    const url = this.buildUrl(endpoint);
-    const headers = this.buildHeaders(options?.headers);
-
-    return this.http.patch<T>(url, body, {
-      ...options,
-      headers
+    return this.http.patch<T>(this.buildUrl(endpoint), body, {
+      headers: this.buildHeaders(options?.headers),
+      params: this.buildParams(options?.params),
     });
   }
 
-  /**
-   * DELETE request tipado
-   */
   delete<T>(endpoint: string, options?: HttpOptions): Observable<T> {
-    const url = this.buildUrl(endpoint);
-    const headers = this.buildHeaders(options?.headers);
+    return this.http.delete<T>(this.buildUrl(endpoint), {
+      headers: this.buildHeaders(options?.headers),
+      params: this.buildParams(options?.params),
+    });
+  }
 
-    return this.http.delete<T>(url, {
-      ...options,
-      headers
+  // special types
+  getBlob(endpoint: string): Observable<Blob> {
+    return this.http.get(this.buildUrl(endpoint), { responseType: 'blob' });
+  }
+
+  getBuffer(endpoint: string): Observable<ArrayBuffer> {
+    return this.http.get(this.buildUrl(endpoint), {
+      responseType: 'arraybuffer',
     });
   }
 }

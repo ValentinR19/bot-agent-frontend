@@ -8,32 +8,20 @@ export const ROLES_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./pages/roles-list/roles-list.page').then(
-            (m) => m.RolesListPage
-          )
+        loadComponent: () => import('./pages/roles-list.page').then((m) => m.RolesListPage),
       },
       {
         path: 'new',
-        loadComponent: () =>
-          import('./pages/roles-list/roles-list.page').then(
-            (m) => m.RolesListPage
-          )
+        loadComponent: () => import('./pages/roles-form.page').then((m) => m.RolesFormPage),
       },
       {
         path: ':id',
-        loadComponent: () =>
-          import('./pages/roles-list/roles-list.page').then(
-            (m) => m.RolesListPage
-          )
+        loadComponent: () => import('./pages/roles-detail.page').then((m) => m.RolesDetailPage),
       },
       {
         path: ':id/edit',
-        loadComponent: () =>
-          import('./pages/roles-list/roles-list.page').then(
-            (m) => m.RolesListPage
-          )
-      }
-    ]
-  }
+        loadComponent: () => import('./pages/roles-form.page').then((m) => m.RolesFormPage),
+      },
+    ],
+  },
 ];

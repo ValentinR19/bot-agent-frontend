@@ -1,29 +1,10 @@
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>
 
-<app-page-header
-  title="Conversaciones"
-  subtitle="Historial de conversaciones con usuarios"
-  icon="comments">
-  <button
-    pButton
-    type="button"
-    label="Nueva Conversación"
-    icon="pi pi-plus"
-    (click)="createConversation()">
-  </button>
+<app-page-header title="Conversaciones" subtitle="Historial de conversaciones con usuarios" icon="comments">
+  <button pButton type="button" label="Nueva Conversación" icon="pi pi-plus" (click)="createConversation()"></button>
 </app-page-header>
 
-<app-filter-panel
-  searchPlaceholder="Buscar conversaciones..."
-  (search)="onSearch($event)">
-</app-filter-panel>
+<app-filter-panel searchPlaceholder="Buscar conversaciones..." (search)="onSearch($event)"> </app-filter-panel>
 
-<app-custom-table
-  [data]="conversations"
-  [columns]="columns"
-  [actions]="actions"
-  [loading]="loading"
-  [paginator]="true"
-  [rows]="10">
-</app-custom-table>
+<app-custom-table [data]="conversations" [columns]="columns" [actions]="actions" [loading]="loading" [paginator]="true" [rows]="10"> </app-custom-table>

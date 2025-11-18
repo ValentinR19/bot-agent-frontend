@@ -1,24 +1,24 @@
-import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
-import { DropdownModule } from 'primeng/dropdown';
-import { MenuItem } from 'primeng/api';
 
-import { AuthService } from '../../features/auth/auth.service';
-import { AuthUser } from '../../features/auth/auth.model';
-import { TenantsService } from '../../features/tenants/tenants.service';
+import { SelectModule } from 'primeng/select';
 import { TenantService } from '../../core/services/tenant.service';
-import { Tenant } from '../../features/tenants/tenants.model';
+import { AuthUser } from '../../features/auth/auth.model';
+import { AuthService } from '../../features/auth/auth.service';
+import { Tenant } from '../../features/tenants/tenant.model';
+import { TenantsService } from '../../features/tenants/tenants.service';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonModule, MenuModule, DropdownModule],
+  imports: [CommonModule, FormsModule, ButtonModule, MenuModule, SelectModule],
   templateUrl: './topbar.component.html',
-  styleUrl: './topbar.component.scss'
+  styleUrl: './topbar.component.scss',
 })
 export class TopbarComponent implements OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();
@@ -36,21 +36,21 @@ export class TopbarComponent implements OnInit {
     {
       label: 'Perfil',
       icon: 'pi pi-user',
-      command: () => this.goToProfile()
+      command: () => this.goToProfile(),
     },
     {
       label: 'Configuración',
       icon: 'pi pi-cog',
-      command: () => this.goToSettings()
+      command: () => this.goToSettings(),
     },
     {
-      separator: true
+      separator: true,
     },
     {
       label: 'Cerrar Sesión',
       icon: 'pi pi-sign-out',
-      command: () => this.logout()
-    }
+      command: () => this.logout(),
+    },
   ];
 
   ngOnInit(): void {
@@ -77,7 +77,7 @@ export class TopbarComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading tenants:', error);
-      }
+      },
     });
   }
 
@@ -125,7 +125,7 @@ export class TopbarComponent implements OnInit {
   get currentTenantName(): string {
     if (!this.selectedTenantId) return 'Sin tenant';
 
-    const tenant = this.availableTenants.find(t => t.id === this.selectedTenantId);
+    const tenant = this.availableTenants.find((t) => t.id === this.selectedTenantId);
     return tenant?.name || 'Tenant';
   }
 }

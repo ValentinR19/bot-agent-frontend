@@ -34,7 +34,7 @@ export enum ConversationStatus {
   WAITING = 'waiting',
   COMPLETED = 'completed',
   ABANDONED = 'abandoned',
-  ERROR = 'error'
+  ERROR = 'error',
 }
 
 export interface ConversationContext {
@@ -58,7 +58,7 @@ export interface Message {
 
 export enum MessageDirection {
   INBOUND = 'inbound',
-  OUTBOUND = 'outbound'
+  OUTBOUND = 'outbound',
 }
 
 export enum MessageType {
@@ -68,7 +68,7 @@ export enum MessageType {
   VIDEO = 'video',
   DOCUMENT = 'document',
   LOCATION = 'location',
-  CONTACT = 'contact'
+  CONTACT = 'contact',
 }
 
 export interface CreateConversationDto {

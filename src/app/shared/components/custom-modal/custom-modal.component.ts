@@ -8,7 +8,7 @@ import { ButtonModule } from 'primeng/button';
   standalone: true,
   imports: [CommonModule, DialogModule, ButtonModule],
   templateUrl: './custom-modal.component.html',
-  styleUrl: './custom-modal.component.scss'
+  styleUrl: './custom-modal.component.scss',
 })
 export class CustomModalComponent {
   @Input() visible = false;

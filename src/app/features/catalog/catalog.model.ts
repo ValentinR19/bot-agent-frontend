@@ -3,79 +3,87 @@
  * Generados a partir de swagger-export.json
  */
 
+export type CatalogItemType = 'product' | 'service' | 'property' | 'course' | 'vehicle' | 'plan' | 'custom';
+
 export interface CatalogItem {
   id: string;
-  tenantId: string;
-  name: string;
-  description?: string;
-  sku: string;
   type: CatalogItemType;
-  price: number;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  sku?: string;
+  price?: number;
   currency: string;
-  stock?: number;
+  externalSystem?: string;
+  externalId?: string;
+  attributes: Record<string, any>;
+  tags: string[];
+  imageUrl?: string;
+  images: string[];
   isActive: boolean;
   isFeatured: boolean;
-  images?: string[];
-  attributes?: Record<string, any>;
-  metadata?: Record<string, any>;
-  externalId?: string;
-  externalSystem?: string;
+  stock?: number;
+  metadata: Record<string, any>;
   createdAt: string;
   updatedAt: string;
-  deletedAt?: string | null;
-}
-
-export enum CatalogItemType {
-  PRODUCT = 'product',
-  SERVICE = 'service',
-  SUBSCRIPTION = 'subscription',
-  BUNDLE = 'bundle'
 }
 
 export interface CreateCatalogItemDto {
-  tenantId: string;
-  name: string;
-  description?: string;
-  sku: string;
   type: CatalogItemType;
-  price: number;
-  currency: string;
-  stock?: number;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  sku?: string;
+  price?: number;
+  currency?: string;
+  externalSystem?: string;
+  externalId?: string;
+  attributes?: Record<string, any>;
+  tags?: string[];
+  imageUrl?: string;
+  images?: string[];
   isActive?: boolean;
   isFeatured?: boolean;
-  images?: string[];
-  attributes?: Record<string, any>;
+  stock?: number;
   metadata?: Record<string, any>;
-  externalId?: string;
-  externalSystem?: string;
 }
 
 export interface UpdateCatalogItemDto {
-  name?: string;
+  type?: CatalogItemType;
+  title?: string;
+  subtitle?: string;
   description?: string;
   sku?: string;
-  type?: CatalogItemType;
   price?: number;
   currency?: string;
-  stock?: number;
+  externalSystem?: string;
+  externalId?: string;
+  attributes?: Record<string, any>;
+  tags?: string[];
+  imageUrl?: string;
+  images?: string[];
   isActive?: boolean;
   isFeatured?: boolean;
-  images?: string[];
-  attributes?: Record<string, any>;
+  stock?: number;
   metadata?: Record<string, any>;
 }
 
-export interface CatalogItemResponseDto extends CatalogItem {}
-
-export interface CatalogSearchDto {
-  query: string;
+export interface CatalogSearchParams {
+  q?: string;
   type?: CatalogItemType;
+  tags?: string[];
+  isActive?: boolean;
+  isFeatured?: boolean;
   minPrice?: number;
   maxPrice?: number;
-  isActive?: boolean;
+  page?: number;
+  limit?: number;
 }
 
 export interface UpdateStockDto {
   stock: number;
-  operation?: 'set' | 'add' | 'subtract';
+}
+
+export interface SyncExternalSystemDto {
+  externalSystem: string;
 }

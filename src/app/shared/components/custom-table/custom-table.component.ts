@@ -26,7 +26,7 @@ export interface TableAction {
   standalone: true,
   imports: [CommonModule, TableModule, ButtonModule, InputTextModule],
   templateUrl: './custom-table.component.html',
-  styleUrl: './custom-table.component.scss'
+  styleUrl: './custom-table.component.scss',
 })
 export class CustomTableComponent {
   @Input() data: any[] = [];

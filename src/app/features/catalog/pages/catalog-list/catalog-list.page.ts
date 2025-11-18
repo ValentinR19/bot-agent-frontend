@@ -16,18 +16,10 @@ import { FilterPanelComponent } from '../../../../shared/components/filter-panel
 @Component({
   selector: 'app-catalog-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    CustomTableComponent,
-    FilterPanelComponent,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, CustomTableComponent, FilterPanelComponent, ButtonModule, ToastModule, ConfirmDialogModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './catalog-list.page.html',
-  styleUrl: './catalog-list.page.scss'
+  styleUrl: './catalog-list.page.scss',
 })
 export class CatalogListPage implements OnInit {
   private readonly catalogService = inject(CatalogService);
@@ -47,7 +39,7 @@ export class CatalogListPage implements OnInit {
     { field: 'stock', header: 'Stock', sortable: true },
     { field: 'isActive', header: 'Activo', sortable: true, type: 'boolean' },
     { field: 'isFeatured', header: 'Destacado', sortable: true, type: 'boolean' },
-    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' }
+    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -55,20 +47,20 @@ export class CatalogListPage implements OnInit {
       label: 'Ver',
       icon: 'pi pi-eye',
       severity: 'info',
-      command: (item: CatalogItem) => this.viewItem(item)
+      command: (item: CatalogItem) => this.viewItem(item),
     },
     {
       label: 'Editar',
       icon: 'pi pi-pencil',
       severity: 'primary',
-      command: (item: CatalogItem) => this.editItem(item)
+      command: (item: CatalogItem) => this.editItem(item),
     },
     {
       label: 'Eliminar',
       icon: 'pi pi-trash',
       severity: 'danger',
-      command: (item: CatalogItem) => this.deleteItem(item)
-    }
+      command: (item: CatalogItem) => this.deleteItem(item),
+    },
   ];
 
   ngOnInit(): void {
@@ -86,10 +78,10 @@ export class CatalogListPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los items del catálogo'
+          detail: 'No se pudieron cargar los items del catálogo',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -123,7 +115,7 @@ export class CatalogListPage implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Item eliminado correctamente'
+              detail: 'Item eliminado correctamente',
             });
             this.loadCatalogItems();
           },
@@ -131,11 +123,11 @@ export class CatalogListPage implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'No se pudo eliminar el item'
+              detail: 'No se pudo eliminar el item',
             });
-          }
+          },
         });
-      }
+      },
     });
   }
 }

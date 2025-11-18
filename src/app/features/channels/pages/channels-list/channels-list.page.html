@@ -1,29 +1,10 @@
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>
 
-<app-page-header
-  title="Canales"
-  subtitle="Gestión de canales de comunicación (Telegram, WhatsApp, etc.)"
-  icon="tower-broadcast">
-  <button
-    pButton
-    type="button"
-    label="Nuevo Canal"
-    icon="pi pi-plus"
-    (click)="createChannel()">
-  </button>
+<app-page-header title="Canales" subtitle="Gestión de canales de comunicación (Telegram, WhatsApp, etc.)" icon="tower-broadcast">
+  <button pButton type="button" label="Nuevo Canal" icon="pi pi-plus" (click)="createChannel()"></button>
 </app-page-header>
 
-<app-filter-panel
-  searchPlaceholder="Buscar canales..."
-  (search)="onSearch($event)">
-</app-filter-panel>
+<app-filter-panel searchPlaceholder="Buscar canales..." (search)="onSearch($event)"> </app-filter-panel>
 
-<app-custom-table
-  [data]="channels"
-  [columns]="columns"
-  [actions]="actions"
-  [loading]="loading"
-  [paginator]="true"
-  [rows]="10">
-</app-custom-table>
+<app-custom-table [data]="channels" [columns]="columns" [actions]="actions" [loading]="loading" [paginator]="true" [rows]="10"> </app-custom-table>

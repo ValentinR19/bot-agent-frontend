@@ -1,54 +1,181 @@
-<app-page-header
-  title="Dashboard"
-  subtitle="Vista general de la plataforma"
-  icon="home">
-</app-page-header>
-
-<div class="dashboard-grid">
-  <p-card styleClass="stat-card">
-    <div class="stat-content">
-      <i class="pi pi-comments stat-icon"></i>
-      <div class="stat-info">
-        <span class="stat-value">{{ stats.totalConversations }}</span>
-        <span class="stat-label">Conversaciones</span>
+<div class="dashboard-page">
+  <!-- Header con acciones rápidas -->
+  <div class="page-header">
+    <div class="header-content">
+      <div class="header-title">
+        <h1>Dashboard</h1>
+        <p class="subtitle">Vista general de tu plataforma Bot Agent</p>
+      </div>
+      <div class="header-actions">
+        <p-button label="Nueva Conversación" icon="pi pi-plus" severity="primary" />
+        <p-button label="Ver Reportes" icon="pi pi-chart-bar" severity="secondary" outlined="true" />
       </div>
     </div>
-  </p-card>
+  </div>
 
-  <p-card styleClass="stat-card">
-    <div class="stat-content">
-      <i class="pi pi-slack stat-icon"></i>
-      <div class="stat-info">
+  <!-- Grid de estadísticas -->
+  <div class="stats-grid">
+    <!-- Conversaciones -->
+    <div class="stat-card stat-card-primary">
+      <div class="stat-icon-wrapper">
+        <i class="pi pi-comments"></i>
+      </div>
+      <div class="stat-content">
+        <span class="stat-value">{{ stats.totalConversations | number }}</span>
+        <span class="stat-label">Conversaciones Totales</span>
+        <div class="stat-trend stat-trend-up">
+          <i class="pi pi-arrow-up"></i>
+          <span>+12% vs mes anterior</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Canales Activos -->
+    <div class="stat-card stat-card-success">
+      <div class="stat-icon-wrapper">
+        <i class="pi pi-slack"></i>
+      </div>
+      <div class="stat-content">
         <span class="stat-value">{{ stats.activeChannels }}</span>
         <span class="stat-label">Canales Activos</span>
+        <div class="stat-trend stat-trend-neutral">
+          <i class="pi pi-minus"></i>
+          <span>Sin cambios</span>
+        </div>
       </div>
     </div>
-  </p-card>
 
-  <p-card styleClass="stat-card">
-    <div class="stat-content">
-      <i class="pi pi-sitemap stat-icon"></i>
-      <div class="stat-info">
+    <!-- Flujos -->
+    <div class="stat-card stat-card-info">
+      <div class="stat-icon-wrapper">
+        <i class="pi pi-sitemap"></i>
+      </div>
+      <div class="stat-content">
         <span class="stat-value">{{ stats.totalFlows }}</span>
-        <span class="stat-label">Flujos</span>
+        <span class="stat-label">Flujos Configurados</span>
+        <div class="stat-trend stat-trend-up">
+          <i class="pi pi-arrow-up"></i>
+          <span>+3 nuevos</span>
+        </div>
       </div>
     </div>
-  </p-card>
 
-  <p-card styleClass="stat-card">
-    <div class="stat-content">
-      <i class="pi pi-database stat-icon"></i>
-      <div class="stat-info">
-        <span class="stat-value">{{ stats.documentsProcessed }}</span>
-        <span class="stat-label">Documentos</span>
+    <!-- Documentos -->
+    <div class="stat-card stat-card-warning">
+      <div class="stat-icon-wrapper">
+        <i class="pi pi-database"></i>
+      </div>
+      <div class="stat-content">
+        <span class="stat-value">{{ stats.documentsProcessed | number }}</span>
+        <span class="stat-label">Documentos Procesados</span>
+        <div class="stat-trend stat-trend-up">
+          <i class="pi pi-arrow-up"></i>
+          <span>+45% este mes</span>
+        </div>
       </div>
     </div>
-  </p-card>
-</div>
+  </div>
 
-<div class="charts-section">
-  <p-card>
-    <h3>Conversaciones por Mes</h3>
-    <p-chart type="line" [data]="conversationsData" height="300px"></p-chart>
-  </p-card>
+  <!-- Grid de contenido principal -->
+  <div class="content-grid">
+    <!-- Gráfico de conversaciones -->
+    <p-card styleClass="chart-card">
+      <ng-template pTemplate="header">
+        <div class="card-header-content">
+          <div>
+            <h3>Conversaciones en el Tiempo</h3>
+            <p>Últimos 6 meses</p>
+          </div>
+          <p-button icon="pi pi-download" severity="secondary" text="true" rounded="true" />
+        </div>
+      </ng-template>
+      <p-chart type="line" [data]="conversationsData" [options]="chartOptions" height="300px"></p-chart>
+    </p-card>
+
+    <!-- Actividad reciente -->
+    <p-card styleClass="activity-card">
+      <ng-template pTemplate="header">
+        <div class="card-header-content">
+          <div>
+            <h3>Actividad Reciente</h3>
+            <p>Últimas acciones en la plataforma</p>
+          </div>
+          <p-button label="Ver todo" text="true" size="small" />
+        </div>
+      </ng-template>
+
+      <div class="activity-timeline">
+        <div class="activity-item">
+          <div class="activity-icon activity-icon-success">
+            <i class="pi pi-check"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-title">Flujo "Atención al Cliente" activado</div>
+            <div class="activity-meta">Hace 2 horas • por Juan Pérez</div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon activity-icon-info">
+            <i class="pi pi-upload"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-title">15 documentos nuevos procesados</div>
+            <div class="activity-meta">Hace 4 horas • Base de conocimiento</div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon activity-icon-warning">
+            <i class="pi pi-exclamation-triangle"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-title">Canal Telegram requiere configuración</div>
+            <div class="activity-meta">Hace 6 horas • Sistema</div>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-icon activity-icon-primary">
+            <i class="pi pi-users"></i>
+          </div>
+          <div class="activity-content">
+            <div class="activity-title">3 nuevos usuarios agregados al equipo</div>
+            <div class="activity-meta">Ayer • por María González</div>
+          </div>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Sección de acceso rápido -->
+  <div class="quick-access-section">
+    <h3>Acceso Rápido</h3>
+    <div class="quick-access-grid">
+      <a routerLink="/channels" class="quick-access-card">
+        <i class="pi pi-slack"></i>
+        <span>Gestionar Canales</span>
+      </a>
+      <a routerLink="/flows" class="quick-access-card">
+        <i class="pi pi-share-alt"></i>
+        <span>Configurar Flujos</span>
+      </a>
+      <a routerLink="/knowledge" class="quick-access-card">
+        <i class="pi pi-book"></i>
+        <span>Base de Conocimiento</span>
+      </a>
+      <a routerLink="/conversations" class="quick-access-card">
+        <i class="pi pi-comments"></i>
+        <span>Ver Conversaciones</span>
+      </a>
+      <a routerLink="/users" class="quick-access-card">
+        <i class="pi pi-users"></i>
+        <span>Gestionar Usuarios</span>
+      </a>
+      <a routerLink="/llm-usage" class="quick-access-card">
+        <i class="pi pi-dollar"></i>
+        <span>Uso de LLM</span>
+      </a>
+    </div>
+  </div>
 </div>

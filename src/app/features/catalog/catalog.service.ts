@@ -1,23 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  CatalogItem,
-  CreateCatalogItemDto,
-  UpdateCatalogItemDto,
-  CatalogItemResponseDto,
-  CatalogItemType,
-  CatalogSearchDto,
-  UpdateStockDto
-} from './catalog.model';
+import { CatalogItem, CatalogItemType, CatalogSearchParams, CreateCatalogItemDto, UpdateCatalogItemDto, UpdateStockDto } from './catalog.model';
 
 /**
  * Servicio para gestión de Catalog (productos/servicios)
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CatalogService {
   private readonly http = inject(HttpService);
@@ -34,10 +26,10 @@ export class CatalogService {
    * GET /api/v1/catalog
    * Listar todos los items del catálogo
    */
-  findAll(): Observable<CatalogItemResponseDto[]> {
+  findAll(): Observable<CatalogItem[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<CatalogItemResponseDto[]>(this.baseUrl).pipe(
+    return this.http.get<CatalogItem[]>(this.baseUrl).pipe(
       tap({
         next: (items) => {
           this.catalogItemsSubject.next(items);
@@ -45,61 +37,87 @@ export class CatalogService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
+  private toRecord(paramsObj: any): Record<string, string> {
+    const record: Record<string, string> = {};
 
+    Object.entries(paramsObj).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        record[key] = String(value);
+      }
+    });
+
+    return record;
+  }
   /**
-   * POST /api/v1/catalog/search
+   * GET /api/v1/catalog/search
    * Buscar items del catálogo
    */
-  search(dto: CatalogSearchDto): Observable<CatalogItemResponseDto[]> {
-    return this.http.post<CatalogItemResponseDto[]>(`${this.baseUrl}/search`, dto);
+  search(params: CatalogSearchParams): Observable<any> {
+    const queryObj: any = {
+      q: params.q,
+      type: params.type,
+      tags: params.tags?.length ? params.tags.join(',') : undefined,
+      isActive: params.isActive,
+      isFeatured: params.isFeatured,
+      minPrice: params.minPrice,
+      maxPrice: params.maxPrice,
+      page: params.page,
+      limit: params.limit,
+    };
+
+    const finalParams = this.toRecord(queryObj);
+
+    return this.http.get<any>(`${this.baseUrl}/search`, {
+      params: finalParams,
+    });
   }
 
   /**
    * GET /api/v1/catalog/featured
    * Obtener items destacados
    */
-  findFeatured(): Observable<CatalogItemResponseDto[]> {
-    return this.http.get<CatalogItemResponseDto[]>(`${this.baseUrl}/featured`);
+  findFeatured(): Observable<CatalogItem[]> {
+    return this.http.get<CatalogItem[]>(`${this.baseUrl}/featured`);
   }
 
   /**
    * GET /api/v1/catalog/type/{type}
    * Listar items por tipo
    */
-  findByType(type: CatalogItemType): Observable<CatalogItemResponseDto[]> {
-    return this.http.get<CatalogItemResponseDto[]>(`${this.baseUrl}/type/${type}`);
+  findByType(type: CatalogItemType): Observable<CatalogItem[]> {
+    return this.http.get<CatalogItem[]>(`${this.baseUrl}/type/${type}`);
   }
 
   /**
    * GET /api/v1/catalog/sku/{sku}
    * Obtener item por SKU
    */
-  findBySku(sku: string): Observable<CatalogItemResponseDto> {
-    return this.http.get<CatalogItemResponseDto>(`${this.baseUrl}/sku/${sku}`);
+  findBySku(sku: string): Observable<CatalogItem> {
+    return this.http.get<CatalogItem>(`${this.baseUrl}/sku/${sku}`);
   }
 
   /**
    * GET /api/v1/catalog/{id}
    * Obtener un item por ID
    */
-  findOne(id: string): Observable<CatalogItemResponseDto> {
-    return this.http.get<CatalogItemResponseDto>(`${this.baseUrl}/${id}`);
+  findOne(id: string): Observable<CatalogItem> {
+    return this.http.get<CatalogItem>(`${this.baseUrl}/${id}`);
   }
 
   /**
    * POST /api/v1/catalog
    * Crear un nuevo item
    */
-  create(dto: CreateCatalogItemDto): Observable<CatalogItemResponseDto> {
-    return this.http.post<CatalogItemResponseDto>(this.baseUrl, dto).pipe(
+  create(dto: CreateCatalogItemDto): Observable<CatalogItem> {
+    return this.http.post<CatalogItem>(this.baseUrl, dto).pipe(
       tap((newItem) => {
         const currentItems = this.catalogItemsSubject.value;
         this.catalogItemsSubject.next([...currentItems, newItem]);
-      })
+      }),
     );
   }
 
@@ -107,16 +125,16 @@ export class CatalogService {
    * PUT /api/v1/catalog/{id}
    * Actualizar un item
    */
-  update(id: string, dto: UpdateCatalogItemDto): Observable<CatalogItemResponseDto> {
-    return this.http.put<CatalogItemResponseDto>(`${this.baseUrl}/${id}`, dto).pipe(
+  update(id: string, dto: UpdateCatalogItemDto): Observable<CatalogItem> {
+    return this.http.put<CatalogItem>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedItem) => {
         const currentItems = this.catalogItemsSubject.value;
-        const index = currentItems.findIndex(i => i.id === id);
+        const index = currentItems.findIndex((i) => i.id === id);
         if (index !== -1) {
           currentItems[index] = updatedItem;
           this.catalogItemsSubject.next([...currentItems]);
         }
-      })
+      }),
     );
   }
 
@@ -128,8 +146,8 @@ export class CatalogService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentItems = this.catalogItemsSubject.value;
-        this.catalogItemsSubject.next(currentItems.filter(i => i.id !== id));
-      })
+        this.catalogItemsSubject.next(currentItems.filter((i) => i.id !== id));
+      }),
     );
   }
 
@@ -137,8 +155,8 @@ export class CatalogService {
    * PUT /api/v1/catalog/{id}/stock
    * Actualizar stock de un item
    */
-  updateStock(id: string, dto: UpdateStockDto): Observable<CatalogItemResponseDto> {
-    return this.http.put<CatalogItemResponseDto>(`${this.baseUrl}/${id}/stock`, dto);
+  updateStock(id: string, dto: UpdateStockDto): Observable<CatalogItem> {
+    return this.http.put<CatalogItem>(`${this.baseUrl}/${id}/stock`, dto);
   }
 
   /**

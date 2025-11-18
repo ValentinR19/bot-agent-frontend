@@ -1,23 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  KnowledgeDocument,
-  CreateKnowledgeDocumentDto,
-  UpdateKnowledgeDocumentDto,
-  KnowledgeDocumentResponseDto,
-  DocumentType,
-  DocumentStatus,
-  DocumentSearchDto
-} from './knowledge.model';
+import { CreateKnowledgeDocumentDto, DocumentStatus, DocumentType, KnowledgeDocument, KnowledgeDocumentSearchParams, UpdateKnowledgeDocumentDto } from './knowledge.model';
 
 /**
  * Servicio para gestión de Knowledge (Documentos RAG)
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class KnowledgeService {
   private readonly http = inject(HttpService);
@@ -34,10 +26,10 @@ export class KnowledgeService {
    * GET /api/v1/knowledge/documents
    * Listar todos los documentos
    */
-  findAll(): Observable<KnowledgeDocumentResponseDto[]> {
+  findAll(): Observable<KnowledgeDocument[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<KnowledgeDocumentResponseDto[]>(this.baseUrl).pipe(
+    return this.http.get<KnowledgeDocument[]>(this.baseUrl).pipe(
       tap({
         next: (documents) => {
           this.documentsSubject.next(documents);
@@ -45,8 +37,8 @@ export class KnowledgeService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -54,52 +46,73 @@ export class KnowledgeService {
    * GET /api/v1/knowledge/documents/type/{type}
    * Listar documentos por tipo
    */
-  findByType(type: DocumentType): Observable<KnowledgeDocumentResponseDto[]> {
-    return this.http.get<KnowledgeDocumentResponseDto[]>(`${this.baseUrl}/type/${type}`);
+  findByType(type: DocumentType): Observable<KnowledgeDocument[]> {
+    return this.http.get<KnowledgeDocument[]>(`${this.baseUrl}/type/${type}`);
   }
 
   /**
    * GET /api/v1/knowledge/documents/status/{status}
    * Listar documentos por estado
    */
-  findByStatus(status: DocumentStatus): Observable<KnowledgeDocumentResponseDto[]> {
-    return this.http.get<KnowledgeDocumentResponseDto[]>(`${this.baseUrl}/status/${status}`);
+  findByStatus(status: DocumentStatus): Observable<KnowledgeDocument[]> {
+    return this.http.get<KnowledgeDocument[]>(`${this.baseUrl}/status/${status}`);
   }
+  private toRecord(obj: any): Record<string, string> {
+    const record: Record<string, string> = {};
+    if (!obj) return record;
 
+    Object.entries(obj).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        record[key] = String(value);
+      }
+    });
+
+    return record;
+  }
   /**
    * POST /api/v1/knowledge/documents/search
    * Buscar documentos
    */
-  search(dto: DocumentSearchDto): Observable<KnowledgeDocumentResponseDto[]> {
-    return this.http.post<KnowledgeDocumentResponseDto[]>(`${this.baseUrl}/search`, dto);
+  search(params: KnowledgeDocumentSearchParams): Observable<KnowledgeDocument[]> {
+    const queryObj: any = {
+      tags: params.tags?.length ? params.tags.join(',') : undefined,
+      type: params.type,
+      status: params.status,
+    };
+
+    const finalParams = this.toRecord(queryObj);
+
+    return this.http.get<KnowledgeDocument[]>(`${this.baseUrl}/search`, {
+      params: finalParams,
+    });
   }
 
   /**
    * GET /api/v1/knowledge/documents/{id}
    * Obtener un documento por ID
    */
-  findOne(id: string): Observable<KnowledgeDocumentResponseDto> {
-    return this.http.get<KnowledgeDocumentResponseDto>(`${this.baseUrl}/${id}`);
+  findOne(id: string): Observable<KnowledgeDocument> {
+    return this.http.get<KnowledgeDocument>(`${this.baseUrl}/${id}`);
   }
 
   /**
    * GET /api/v1/knowledge/documents/{id}/with-chunks
    * Obtener documento con sus chunks
    */
-  findOneWithChunks(id: string): Observable<KnowledgeDocumentResponseDto> {
-    return this.http.get<KnowledgeDocumentResponseDto>(`${this.baseUrl}/${id}/with-chunks`);
+  findOneWithChunks(id: string): Observable<KnowledgeDocument> {
+    return this.http.get<KnowledgeDocument>(`${this.baseUrl}/${id}/with-chunks`);
   }
 
   /**
    * POST /api/v1/knowledge/documents
    * Crear un nuevo documento
    */
-  create(dto: CreateKnowledgeDocumentDto): Observable<KnowledgeDocumentResponseDto> {
-    return this.http.post<KnowledgeDocumentResponseDto>(this.baseUrl, dto).pipe(
+  create(dto: CreateKnowledgeDocumentDto): Observable<KnowledgeDocument> {
+    return this.http.post<KnowledgeDocument>(this.baseUrl, dto).pipe(
       tap((newDocument) => {
         const currentDocuments = this.documentsSubject.value;
         this.documentsSubject.next([...currentDocuments, newDocument]);
-      })
+      }),
     );
   }
 
@@ -107,16 +120,16 @@ export class KnowledgeService {
    * PUT /api/v1/knowledge/documents/{id}
    * Actualizar un documento
    */
-  update(id: string, dto: UpdateKnowledgeDocumentDto): Observable<KnowledgeDocumentResponseDto> {
-    return this.http.put<KnowledgeDocumentResponseDto>(`${this.baseUrl}/${id}`, dto).pipe(
+  update(id: string, dto: UpdateKnowledgeDocumentDto): Observable<KnowledgeDocument> {
+    return this.http.put<KnowledgeDocument>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedDocument) => {
         const currentDocuments = this.documentsSubject.value;
-        const index = currentDocuments.findIndex(d => d.id === id);
+        const index = currentDocuments.findIndex((d) => d.id === id);
         if (index !== -1) {
           currentDocuments[index] = updatedDocument;
           this.documentsSubject.next([...currentDocuments]);
         }
-      })
+      }),
     );
   }
 
@@ -128,8 +141,8 @@ export class KnowledgeService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentDocuments = this.documentsSubject.value;
-        this.documentsSubject.next(currentDocuments.filter(d => d.id !== id));
-      })
+        this.documentsSubject.next(currentDocuments.filter((d) => d.id !== id));
+      }),
     );
   }
 
@@ -137,12 +150,12 @@ export class KnowledgeService {
    * POST /api/v1/knowledge/documents/upload
    * Subir un archivo de documento
    */
-  upload(formData: FormData): Observable<KnowledgeDocumentResponseDto> {
-    return this.http.post<KnowledgeDocumentResponseDto>(`${this.baseUrl}/upload`, formData).pipe(
+  upload(formData: FormData): Observable<KnowledgeDocument> {
+    return this.http.post<KnowledgeDocument>(`${this.baseUrl}/upload`, formData).pipe(
       tap((newDocument) => {
         const currentDocuments = this.documentsSubject.value;
         this.documentsSubject.next([...currentDocuments, newDocument]);
-      })
+      }),
     );
   }
 
@@ -150,7 +163,7 @@ export class KnowledgeService {
    * POST /api/v1/knowledge/documents/{id}/process
    * Procesar un documento (generar embeddings)
    */
-  process(id: string): Observable<KnowledgeDocumentResponseDto> {
-    return this.http.post<KnowledgeDocumentResponseDto>(`${this.baseUrl}/${id}/process`, {});
+  process(id: string): Observable<KnowledgeDocument> {
+    return this.http.post<KnowledgeDocument>(`${this.baseUrl}/${id}/process`, {});
   }
 }

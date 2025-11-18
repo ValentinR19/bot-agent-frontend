@@ -1,24 +1,16 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  Channel,
-  CreateChannelDto,
-  UpdateChannelDto,
-  ChannelResponseDto,
-  ChannelType,
-  TelegramSetupDto,
-  TelegramConfigDto,
-  WebhookInfo
-} from './channels.model';
+import { Channel, ChannelType, CreateChannelDto, UpdateChannelDto } from './channel.model';
+import { TelegramConfigDto, TelegramSetupDto, WebhookInfo } from './models/dtos/telegram-setup.dto';
 
 /**
  * Servicio para gestión de Channels (Telegram, WhatsApp, etc)
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChannelsService {
   private readonly http = inject(HttpService);
@@ -35,10 +27,10 @@ export class ChannelsService {
    * GET /api/v1/channels
    * Listar todos los canales
    */
-  findAll(): Observable<ChannelResponseDto[]> {
+  findAll(): Observable<Channel[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<ChannelResponseDto[]>(this.baseUrl).pipe(
+    return this.http.get<Channel[]>(this.baseUrl).pipe(
       tap({
         next: (channels) => {
           this.channelsSubject.next(channels);
@@ -46,8 +38,8 @@ export class ChannelsService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -55,36 +47,36 @@ export class ChannelsService {
    * GET /api/v1/channels/active
    * Listar canales activos
    */
-  findActive(): Observable<ChannelResponseDto[]> {
-    return this.http.get<ChannelResponseDto[]>(`${this.baseUrl}/active`);
+  findActive(): Observable<Channel[]> {
+    return this.http.get<Channel[]>(`${this.baseUrl}/active`);
   }
 
   /**
    * GET /api/v1/channels/type/{type}
    * Listar canales por tipo
    */
-  findByType(type: ChannelType): Observable<ChannelResponseDto[]> {
-    return this.http.get<ChannelResponseDto[]>(`${this.baseUrl}/type/${type}`);
+  findByType(type: ChannelType): Observable<Channel[]> {
+    return this.http.get<Channel[]>(`${this.baseUrl}/type/${type}`);
   }
 
   /**
    * GET /api/v1/channels/{id}
    * Obtener un canal por ID
    */
-  findOne(id: string): Observable<ChannelResponseDto> {
-    return this.http.get<ChannelResponseDto>(`${this.baseUrl}/${id}`);
+  findOne(id: string): Observable<Channel> {
+    return this.http.get<Channel>(`${this.baseUrl}/${id}`);
   }
 
   /**
    * POST /api/v1/channels
    * Crear un nuevo canal
    */
-  create(dto: CreateChannelDto): Observable<ChannelResponseDto> {
-    return this.http.post<ChannelResponseDto>(this.baseUrl, dto).pipe(
+  create(dto: CreateChannelDto): Observable<Channel> {
+    return this.http.post<Channel>(this.baseUrl, dto).pipe(
       tap((newChannel) => {
         const currentChannels = this.channelsSubject.value;
         this.channelsSubject.next([...currentChannels, newChannel]);
-      })
+      }),
     );
   }
 
@@ -92,16 +84,16 @@ export class ChannelsService {
    * PUT /api/v1/channels/{id}
    * Actualizar un canal
    */
-  update(id: string, dto: UpdateChannelDto): Observable<ChannelResponseDto> {
-    return this.http.put<ChannelResponseDto>(`${this.baseUrl}/${id}`, dto).pipe(
+  update(id: string, dto: UpdateChannelDto): Observable<Channel> {
+    return this.http.put<Channel>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedChannel) => {
         const currentChannels = this.channelsSubject.value;
-        const index = currentChannels.findIndex(c => c.id === id);
+        const index = currentChannels.findIndex((c) => c.id === id);
         if (index !== -1) {
           currentChannels[index] = updatedChannel;
           this.channelsSubject.next([...currentChannels]);
         }
-      })
+      }),
     );
   }
 
@@ -113,8 +105,8 @@ export class ChannelsService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentChannels = this.channelsSubject.value;
-        this.channelsSubject.next(currentChannels.filter(c => c.id !== id));
-      })
+        this.channelsSubject.next(currentChannels.filter((c) => c.id !== id));
+      }),
     );
   }
 
