@@ -167,9 +167,12 @@ export class UsersFormPage implements OnInit {
   showPasswordField = false;
 
   ngOnInit(): void {
-    this.initForm();
+    // Determinar modo de edición ANTES de inicializar el formulario
     this.userId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.userId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
+
+    // Inicializar formulario con validaciones correctas según el modo
+    this.initForm();
 
     if (this.isEditMode && this.userId) {
       this.loadUser(this.userId);
