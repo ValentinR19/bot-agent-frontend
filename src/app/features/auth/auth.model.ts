@@ -23,6 +23,7 @@ export interface AuthUser {
   fullName?: string;
   avatarUrl?: string;
   tenantId: string;
+  isSuperAdmin?: boolean; // Para identificar si puede cambiar de tenant
   roles?: string[];
   permissions?: string[];
 }

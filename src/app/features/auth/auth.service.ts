@@ -1,6 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { HttpService } from '../../core/http/http.service';
+import { TenantService } from '../../core/services/tenant.service';
 import {
   LoginCredentials,
   LoginResponse,
@@ -17,12 +19,17 @@ import {
 /**
  * Servicio para autenticación y gestión de usuarios
  * Endpoints generados desde swagger-export.json
+ *
+ * IMPORTANTE: Al hacer login, guarda el tenantId del usuario
+ * en el TenantService para que el interceptor lo use
  */
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly http = inject(HttpService);
+  private readonly router = inject(Router);
+  private readonly tenantService = inject(TenantService);
   private readonly baseUrl = '/api/v1/auth';
 
   // Estado interno
@@ -131,35 +138,46 @@ export class AuthService {
 
   // Métodos auxiliares para gestión de tokens
   private setAuthData(response: LoginResponse): void {
-    localStorage.setItem('accessToken', response.accessToken);
-    localStorage.setItem('refreshToken', response.refreshToken);
+    localStorage.setItem('access_token', response.accessToken);
+    localStorage.setItem('refresh_token', response.refreshToken);
     localStorage.setItem('user', JSON.stringify(response.user));
     this.currentUserSubject.next(response.user);
     this.isAuthenticatedSubject.next(true);
+
+    // IMPORTANTE: Guardar tenantId del usuario en TenantService
+    if (response.user.tenantId) {
+      this.tenantService.setCurrentTenantId(response.user.tenantId);
+    }
   }
 
   private updateTokens(response: RefreshTokenResponse): void {
-    localStorage.setItem('accessToken', response.accessToken);
-    localStorage.setItem('refreshToken', response.refreshToken);
+    localStorage.setItem('access_token', response.accessToken);
+    localStorage.setItem('refresh_token', response.refreshToken);
   }
 
-  private clearAuthData(): void {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
+  clearAuthData(): void {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
     localStorage.removeItem('user');
+    this.tenantService.clearCurrentTenantId();
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
   }
 
   private loadUserFromStorage(): void {
     const userJson = localStorage.getItem('user');
-    const token = localStorage.getItem('accessToken');
+    const token = localStorage.getItem('access_token');
 
     if (userJson && token) {
       try {
         const user = JSON.parse(userJson);
         this.currentUserSubject.next(user);
         this.isAuthenticatedSubject.next(true);
+
+        // Restaurar tenantId en TenantService
+        if (user.tenantId) {
+          this.tenantService.setCurrentTenantId(user.tenantId);
+        }
       } catch (error) {
         this.clearAuthData();
       }
@@ -167,11 +185,11 @@ export class AuthService {
   }
 
   getAccessToken(): string | null {
-    return localStorage.getItem('accessToken');
+    return localStorage.getItem('access_token');
   }
 
   getRefreshToken(): string | null {
-    return localStorage.getItem('refreshToken');
+    return localStorage.getItem('refresh_token');
   }
 
   isAuthenticated(): boolean {

@@ -12,7 +12,11 @@ export interface HttpOptions {
 
 /**
  * Servicio HTTP centralizado que encapsula HttpClient
- * Agrega automáticamente headers necesarios (X-Tenant-Id, Authorization)
+ * Agrega automáticamente headers necesarios (Authorization)
+ *
+ * NOTA: El header X-Tenant-Id se agrega automáticamente vía TenantInterceptor
+ * NO se debe agregar manualmente aquí
+ *
  * Maneja la construcción de URLs con el baseURL del environment
  */
 @Injectable({
@@ -23,15 +27,11 @@ export class HttpService {
   private readonly baseUrl = environment.apiUrl;
 
   /**
-   * Construye headers con X-Tenant-Id y Authorization
+   * Construye headers con Authorization
+   * X-Tenant-Id se agrega automáticamente vía interceptor
    */
   private buildHeaders(customHeaders?: HttpHeaders | { [header: string]: string | string[] }): HttpHeaders {
     let headers = new HttpHeaders(customHeaders || {});
-
-    // Agregar X-Tenant-Id desde environment
-    if (environment.tenantId) {
-      headers = headers.set('X-Tenant-Id', environment.tenantId);
-    }
 
     // Agregar Authorization si existe JWT en localStorage
     const token = localStorage.getItem('access_token');

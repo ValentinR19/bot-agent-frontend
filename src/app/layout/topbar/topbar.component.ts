@@ -1,19 +1,36 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
+import { DropdownModule } from 'primeng/dropdown';
 import { MenuItem } from 'primeng/api';
+
+import { AuthService } from '../../features/auth/auth.service';
+import { AuthUser } from '../../features/auth/auth.model';
+import { TenantsService } from '../../features/tenants/tenants.service';
+import { TenantService } from '../../core/services/tenant.service';
+import { Tenant } from '../../features/tenants/tenants.model';
 
 @Component({
   selector: 'app-topbar',
   standalone: true,
-  imports: [CommonModule, ButtonModule, MenuModule],
+  imports: [CommonModule, FormsModule, ButtonModule, MenuModule, DropdownModule],
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss'
 })
-export class TopbarComponent {
+export class TopbarComponent implements OnInit {
   @Output() toggleSidebar = new EventEmitter<void>();
+
+  private readonly authService = inject(AuthService);
+  private readonly tenantsService = inject(TenantsService);
+  private readonly tenantService = inject(TenantService);
+  private readonly router = inject(Router);
+
+  currentUser: AuthUser | null = null;
+  availableTenants: Tenant[] = [];
+  selectedTenantId: string | null = null;
 
   userMenuItems: MenuItem[] = [
     {
@@ -36,7 +53,45 @@ export class TopbarComponent {
     }
   ];
 
-  constructor(private router: Router) {}
+  ngOnInit(): void {
+    // Suscribirse al usuario actual
+    this.authService.currentUser$.subscribe((user) => {
+      this.currentUser = user;
+
+      // Si es super admin, cargar lista de tenants
+      if (user?.isSuperAdmin) {
+        this.loadTenants();
+      }
+    });
+
+    // Suscribirse al tenant actual
+    this.tenantService.currentTenantId$.subscribe((tenantId) => {
+      this.selectedTenantId = tenantId;
+    });
+  }
+
+  loadTenants(): void {
+    this.tenantsService.findAll().subscribe({
+      next: (tenants) => {
+        this.availableTenants = tenants;
+      },
+      error: (error) => {
+        console.error('Error loading tenants:', error);
+      }
+    });
+  }
+
+  onTenantChange(event: any): void {
+    const newTenantId = event.value;
+
+    if (newTenantId) {
+      // Cambiar el tenant actual
+      this.tenantService.setCurrentTenantId(newTenantId);
+
+      // Recargar la página para refrescar datos con el nuevo tenant
+      window.location.reload();
+    }
+  }
 
   onToggleSidebar(): void {
     this.toggleSidebar.emit();
@@ -51,17 +106,26 @@ export class TopbarComponent {
   }
 
   logout(): void {
-    localStorage.removeItem('access_token');
+    this.authService.clearAuthData();
     this.router.navigate(['/auth/login']);
   }
 
   get userName(): string {
-    // TODO: Obtener nombre de usuario del servicio de autenticación
-    return 'Usuario';
+    return this.currentUser?.fullName || this.currentUser?.email || 'Usuario';
   }
 
   get userEmail(): string {
-    // TODO: Obtener email del servicio de autenticación
-    return 'usuario@ejemplo.com';
+    return this.currentUser?.email || 'usuario@ejemplo.com';
+  }
+
+  get isSuperAdmin(): boolean {
+    return this.currentUser?.isSuperAdmin || false;
+  }
+
+  get currentTenantName(): string {
+    if (!this.selectedTenantId) return 'Sin tenant';
+
+    const tenant = this.availableTenants.find(t => t.id === this.selectedTenantId);
+    return tenant?.name || 'Tenant';
   }
 }

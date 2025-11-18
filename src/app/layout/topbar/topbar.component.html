@@ -12,6 +12,32 @@
   </div>
 
   <div class="topbar-right">
+    <!-- Selector de Tenant (solo para super admins) -->
+    <div class="tenant-selector" *ngIf="isSuperAdmin">
+      <p-dropdown
+        [options]="availableTenants"
+        [(ngModel)]="selectedTenantId"
+        optionLabel="name"
+        optionValue="id"
+        [placeholder]="currentTenantName"
+        (onChange)="onTenantChange($event)"
+        styleClass="tenant-dropdown"
+        appendTo="body">
+        <ng-template pTemplate="selectedItem">
+          <div class="tenant-item" *ngIf="selectedTenantId">
+            <i class="pi pi-building"></i>
+            <span>{{ currentTenantName }}</span>
+          </div>
+        </ng-template>
+        <ng-template let-tenant pTemplate="item">
+          <div class="tenant-item">
+            <i class="pi pi-building"></i>
+            <span>{{ tenant.name }}</span>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
     <!-- Notificaciones -->
     <button
       pButton
