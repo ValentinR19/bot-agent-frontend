@@ -1,18 +1,27 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputTextModule } from 'primeng/inputtext';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { SelectModule } from 'primeng/select';
+import { ToastModule } from 'primeng/toast';
+import {
+  CreateDestinationDto,
+  DestinationType,
+  UpdateDestinationDto,
+} from '../destination.model';
 import { DestinationsService } from '../destinations.service';
-import { CreateDestinationDto, UpdateDestinationDto, DestinationType } from '../destination.model';
 
 @Component({
   selector: 'app-destinations-form',
@@ -23,7 +32,7 @@ import { CreateDestinationDto, UpdateDestinationDto, DestinationType } from '../
     CardModule,
     ButtonModule,
     InputTextModule,
-    DropdownModule,
+    SelectModule,
     InputTextareaModule,
     InputSwitchModule,
     InputNumberModule,
@@ -131,7 +140,10 @@ import { CreateDestinationDto, UpdateDestinationDto, DestinationType } from '../
                 destinationForm.get('configJson')?.touched
               "
             ></textarea>
-            <small class="p-hint">Formato JSON válido con la configuración específica del tipo de destino</small>
+            <small class="p-hint"
+              >Formato JSON válido con la configuración específica del tipo de
+              destino</small
+            >
             <small
               class="p-error"
               *ngIf="
@@ -262,81 +274,83 @@ import { CreateDestinationDto, UpdateDestinationDto, DestinationType } from '../
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .destinations-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .destinations-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .form-field-full {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
+      .form-field-full {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
 
-    .form-section {
-      margin-bottom: 2rem;
-      padding: 1.5rem;
-      background: #f8f9fa;
-      border-radius: 8px;
-    }
+      .form-section {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+      }
 
-    .form-section h4 {
-      margin: 0 0 1rem 0;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #495057;
-    }
+      .form-section h4 {
+        margin: 0 0 1rem 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #495057;
+      }
 
-    .form-field label,
-    .form-field-full label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label,
+      .form-field-full label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after,
-    .form-field-full label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after,
+      .form-field-full label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input,
-    .form-field p-dropdown,
-    .form-field-full textarea {
-      width: 100%;
-    }
+      .form-field input,
+      .form-field p-dropdown,
+      .form-field-full textarea {
+        width: 100%;
+      }
 
-    .p-hint {
-      font-size: 0.75rem;
-      color: #6c757d;
-    }
+      .p-hint {
+        font-size: 0.75rem;
+        color: #6c757d;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class DestinationsFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -366,7 +380,9 @@ export class DestinationsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.destinationId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.destinationId && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode =
+      !!this.destinationId &&
+      this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.destinationId) {
       this.loadDestination(this.destinationId);
@@ -375,7 +391,14 @@ export class DestinationsFormPage implements OnInit {
 
   initForm(): void {
     this.destinationForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(255),
+        ],
+      ],
       type: ['', [Validators.required]],
       description: [''],
       isActive: [true],
@@ -447,20 +470,29 @@ export class DestinationsFormPage implements OnInit {
       }
 
       // Build retry config
-      const retryConfig = (formValue.maxRetries || formValue.retryDelay || formValue.backoffMultiplier) ? {
-        maxRetries: formValue.maxRetries || undefined,
-        retryDelay: formValue.retryDelay || undefined,
-        backoffMultiplier: formValue.backoffMultiplier || undefined,
-      } : undefined;
+      const retryConfig =
+        formValue.maxRetries ||
+        formValue.retryDelay ||
+        formValue.backoffMultiplier
+          ? {
+              maxRetries: formValue.maxRetries || undefined,
+              retryDelay: formValue.retryDelay || undefined,
+              backoffMultiplier: formValue.backoffMultiplier || undefined,
+            }
+          : undefined;
 
       // Build rate limit
-      const rateLimit = (formValue.maxRequests || formValue.windowMs) ? {
-        maxRequests: formValue.maxRequests || undefined,
-        windowMs: formValue.windowMs || undefined,
-      } : undefined;
+      const rateLimit =
+        formValue.maxRequests || formValue.windowMs
+          ? {
+              maxRequests: formValue.maxRequests || undefined,
+              windowMs: formValue.windowMs || undefined,
+            }
+          : undefined;
 
       // Clean metadata
-      const cleanMetadata = Object.keys(metadata).length > 0 ? metadata : undefined;
+      const cleanMetadata =
+        Object.keys(metadata).length > 0 ? metadata : undefined;
 
       if (this.isEditMode && this.destinationId) {
         const updateDto: UpdateDestinationDto = {
@@ -474,25 +506,27 @@ export class DestinationsFormPage implements OnInit {
           metadata: cleanMetadata,
         };
 
-        this.destinationsService.updateDestination(this.destinationId, updateDto).subscribe({
-          next: () => {
-            this.messageService.add({
-              severity: 'success',
-              summary: 'Éxito',
-              detail: 'Destino actualizado correctamente',
-            });
-            this.saving = false;
-            this.goBack();
-          },
-          error: (error) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Error al actualizar el destino',
-            });
-            this.saving = false;
-          },
-        });
+        this.destinationsService
+          .updateDestination(this.destinationId, updateDto)
+          .subscribe({
+            next: () => {
+              this.messageService.add({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Destino actualizado correctamente',
+              });
+              this.saving = false;
+              this.goBack();
+            },
+            error: (error) => {
+              this.messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Error al actualizar el destino',
+              });
+              this.saving = false;
+            },
+          });
       } else {
         const createDto: CreateDestinationDto = {
           name: formValue.name,
