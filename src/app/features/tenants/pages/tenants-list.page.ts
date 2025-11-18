@@ -110,7 +110,7 @@ import { Tenant } from '../tenant.model';
                     icon="pi pi-pencil"
                     [rounded]="true"
                     [text]="true"
-                    severity="warning"
+                    severity="warn"
                     (onClick)="goToEdit(tenant.id)"
                     pTooltip="Editar"
                   ></p-button>

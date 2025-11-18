@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
+import { Textarea } from 'primeng/textarea';
+import { Select } from 'primeng/select';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -22,8 +22,8 @@ import { CreateChannelDto, UpdateChannelDto, ChannelType } from '../channel.mode
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
+    Textarea,
+    Select,
     InputSwitchModule,
     ToastModule,
   ],
@@ -73,7 +73,7 @@ import { CreateChannelDto, UpdateChannelDto, ChannelType } from '../channel.mode
             <!-- Tipo -->
             <div class="form-field">
               <label for="type" class="required">Tipo</label>
-              <p-dropdown
+              <p-select
                 id="type"
                 formControlName="type"
                 [options]="channelTypes"
@@ -81,7 +81,7 @@ import { CreateChannelDto, UpdateChannelDto, ChannelType } from '../channel.mode
                 optionValue="value"
                 placeholder="Seleccionar tipo"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
               <small
                 class="p-error"
                 *ngIf="

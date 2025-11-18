@@ -5,9 +5,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { Textarea } from 'primeng/textarea';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { DropdownModule } from 'primeng/dropdown';
+import { Select } from 'primeng/select';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ChipsModule } from 'primeng/chips';
 import { ToastModule } from 'primeng/toast';
@@ -24,9 +24,9 @@ import { CreateCatalogItemDto, UpdateCatalogItemDto } from '../catalog.model';
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule,
+    Textarea,
     InputNumberModule,
-    DropdownModule,
+    Select,
     InputSwitchModule,
     ChipsModule,
     ToastModule,
@@ -89,7 +89,7 @@ import { CreateCatalogItemDto, UpdateCatalogItemDto } from '../catalog.model';
             <!-- Tipo -->
             <div class="form-field">
               <label for="type" class="required">Tipo</label>
-              <p-dropdown
+              <p-select
                 id="type"
                 formControlName="type"
                 [options]="itemTypes"
@@ -97,7 +97,7 @@ import { CreateCatalogItemDto, UpdateCatalogItemDto } from '../catalog.model';
                 optionValue="value"
                 placeholder="Seleccionar tipo"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
             </div>
 
             <!-- SKU -->
@@ -129,7 +129,7 @@ import { CreateCatalogItemDto, UpdateCatalogItemDto } from '../catalog.model';
             <!-- Moneda -->
             <div class="form-field">
               <label for="currency">Moneda</label>
-              <p-dropdown
+              <p-select
                 id="currency"
                 formControlName="currency"
                 [options]="currencies"
@@ -137,7 +137,7 @@ import { CreateCatalogItemDto, UpdateCatalogItemDto } from '../catalog.model';
                 optionValue="value"
                 placeholder="Seleccionar moneda"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
             </div>
 
             <!-- Stock -->

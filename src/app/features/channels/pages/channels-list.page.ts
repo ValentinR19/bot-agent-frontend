@@ -109,7 +109,7 @@ import { Channel } from '../channel.model';
                     icon="pi pi-pencil"
                     [rounded]="true"
                     [text]="true"
-                    severity="warning"
+                    severity="warn"
                     (onClick)="goToEdit(channel.id)"
                     pTooltip="Editar"
                   ></p-button>

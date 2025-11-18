@@ -13,8 +13,8 @@ import { CardModule } from 'primeng/card';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { SelectModule } from 'primeng/select';
+import { Select } from 'primeng/select';
+import { Textarea } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import {
   CreateDestinationDto,
@@ -32,8 +32,8 @@ import { DestinationsService } from '../destinations.service';
     CardModule,
     ButtonModule,
     InputTextModule,
-    SelectModule,
-    InputTextareaModule,
+    Select,
+    Textarea,
     InputSwitchModule,
     InputNumberModule,
     ToastModule,
@@ -84,7 +84,7 @@ import { DestinationsService } from '../destinations.service';
             <!-- Tipo -->
             <div class="form-field">
               <label for="type" class="required">Tipo</label>
-              <p-dropdown
+              <p-select
                 id="type"
                 formControlName="type"
                 [options]="typeOptions"
@@ -92,7 +92,7 @@ import { DestinationsService } from '../destinations.service';
                 optionValue="value"
                 placeholder="Seleccionar tipo"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
               <small
                 class="p-error"
                 *ngIf="
@@ -327,7 +327,7 @@ import { DestinationsService } from '../destinations.service';
       }
 
       .form-field input,
-      .form-field p-dropdown,
+      .form-field p-select,
       .form-field-full textarea {
         width: 100%;
       }

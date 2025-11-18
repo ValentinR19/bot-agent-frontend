@@ -138,7 +138,7 @@ import { Flow } from '../flows.model';
                     icon="pi pi-pencil"
                     [rounded]="true"
                     [text]="true"
-                    severity="warning"
+                    severity="warn"
                     (onClick)="goToEdit(flow.id)"
                     pTooltip="Editar"
                   ></p-button>

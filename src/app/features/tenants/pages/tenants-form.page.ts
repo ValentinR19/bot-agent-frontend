@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
+import { Select } from 'primeng/select';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -21,7 +21,7 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
     CardModule,
     ButtonModule,
     InputTextModule,
-    DropdownModule,
+    Select,
     InputSwitchModule,
     ToastModule,
   ],
@@ -134,7 +134,7 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
             <!-- Idioma -->
             <div class="form-field">
               <label for="language">Idioma</label>
-              <p-dropdown
+              <p-select
                 id="language"
                 formControlName="language"
                 [options]="languages"
@@ -142,13 +142,13 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
                 optionValue="value"
                 placeholder="Seleccionar idioma"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
             </div>
 
             <!-- Zona Horaria -->
             <div class="form-field">
               <label for="timezone">Zona Horaria</label>
-              <p-dropdown
+              <p-select
                 id="timezone"
                 formControlName="timezone"
                 [options]="timezones"
@@ -156,13 +156,13 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
                 optionValue="value"
                 placeholder="Seleccionar zona horaria"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
             </div>
 
             <!-- Proveedor LLM -->
             <div class="form-field">
               <label for="llmProvider">Proveedor LLM</label>
-              <p-dropdown
+              <p-select
                 id="llmProvider"
                 formControlName="llmProvider"
                 [options]="llmProviders"
@@ -170,7 +170,7 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
                 optionValue="value"
                 placeholder="Seleccionar proveedor"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
             </div>
 
             <!-- LLM API Key -->
@@ -260,7 +260,7 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
     }
 
     .form-field input,
-    .form-field p-dropdown {
+    .form-field p-select {
       width: 100%;
     }
 

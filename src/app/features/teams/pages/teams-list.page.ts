@@ -103,7 +103,7 @@ import { Team } from '../team.model';
                     icon="pi pi-pencil"
                     [rounded]="true"
                     [text]="true"
-                    severity="warning"
+                    severity="warn"
                     (onClick)="goToEdit(team.id)"
                     pTooltip="Editar"
                   ></p-button>

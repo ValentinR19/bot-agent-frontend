@@ -6,11 +6,11 @@ import {
   Conversation,
   CreateConversationDto,
   UpdateConversationDto,
-  ConversationResponseDto,
+  Conversation,
   ConversationStatus,
   Message,
   CreateMessageDto,
-  MessageResponseDto
+  Message
 } from './conversations.model';
 
 /**
@@ -35,10 +35,10 @@ export class ConversationsService {
    * GET /api/v1/conversations
    * Listar todas las conversaciones
    */
-  findAll(): Observable<ConversationResponseDto[]> {
+  findAll(): Observable<Conversation[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<ConversationResponseDto[]>(this.baseUrl).pipe(
+    return this.http.get<Conversation[]>(this.baseUrl).pipe(
       tap({
         next: (conversations) => {
           this.conversationsSubject.next(conversations);
@@ -55,32 +55,32 @@ export class ConversationsService {
    * GET /api/v1/conversations/status/{status}
    * Listar conversaciones por estado
    */
-  findByStatus(status: ConversationStatus): Observable<ConversationResponseDto[]> {
-    return this.http.get<ConversationResponseDto[]>(`${this.baseUrl}/status/${status}`);
+  findByStatus(status: ConversationStatus): Observable<Conversation[]> {
+    return this.http.get<Conversation[]>(`${this.baseUrl}/status/${status}`);
   }
 
   /**
    * GET /api/v1/conversations/channel/{channelId}
    * Listar conversaciones por canal
    */
-  findByChannel(channelId: string): Observable<ConversationResponseDto[]> {
-    return this.http.get<ConversationResponseDto[]>(`${this.baseUrl}/channel/${channelId}`);
+  findByChannel(channelId: string): Observable<Conversation[]> {
+    return this.http.get<Conversation[]>(`${this.baseUrl}/channel/${channelId}`);
   }
 
   /**
    * GET /api/v1/conversations/{id}
    * Obtener una conversación por ID
    */
-  findOne(id: string): Observable<ConversationResponseDto> {
-    return this.http.get<ConversationResponseDto>(`${this.baseUrl}/${id}`);
+  findOne(id: string): Observable<Conversation> {
+    return this.http.get<Conversation>(`${this.baseUrl}/${id}`);
   }
 
   /**
    * POST /api/v1/conversations
    * Crear una nueva conversación
    */
-  create(dto: CreateConversationDto): Observable<ConversationResponseDto> {
-    return this.http.post<ConversationResponseDto>(this.baseUrl, dto).pipe(
+  create(dto: CreateConversationDto): Observable<Conversation> {
+    return this.http.post<Conversation>(this.baseUrl, dto).pipe(
       tap((newConversation) => {
         const currentConversations = this.conversationsSubject.value;
         this.conversationsSubject.next([...currentConversations, newConversation]);
@@ -92,8 +92,8 @@ export class ConversationsService {
    * PUT /api/v1/conversations/{id}
    * Actualizar una conversación
    */
-  update(id: string, dto: UpdateConversationDto): Observable<ConversationResponseDto> {
-    return this.http.put<ConversationResponseDto>(`${this.baseUrl}/${id}`, dto).pipe(
+  update(id: string, dto: UpdateConversationDto): Observable<Conversation> {
+    return this.http.put<Conversation>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedConversation) => {
         const currentConversations = this.conversationsSubject.value;
         const index = currentConversations.findIndex(c => c.id === id);
@@ -154,39 +154,39 @@ export class ConversationsService {
    * POST /api/v1/conversations/{id}/complete
    * Completar una conversación
    */
-  complete(id: string): Observable<ConversationResponseDto> {
-    return this.http.post<ConversationResponseDto>(`${this.baseUrl}/${id}/complete`, {});
+  complete(id: string): Observable<Conversation> {
+    return this.http.post<Conversation>(`${this.baseUrl}/${id}/complete`, {});
   }
 
   /**
    * POST /api/v1/conversations/{id}/abandon
    * Abandonar una conversación
    */
-  abandon(id: string): Observable<ConversationResponseDto> {
-    return this.http.post<ConversationResponseDto>(`${this.baseUrl}/${id}/abandon`, {});
+  abandon(id: string): Observable<Conversation> {
+    return this.http.post<Conversation>(`${this.baseUrl}/${id}/abandon`, {});
   }
 
   /**
    * GET /api/v1/conversations/{conversationId}/messages
    * Obtener mensajes de una conversación
    */
-  getMessages(conversationId: string): Observable<MessageResponseDto[]> {
-    return this.http.get<MessageResponseDto[]>(`${this.baseUrl}/${conversationId}/messages`);
+  getMessages(conversationId: string): Observable<Message[]> {
+    return this.http.get<Message[]>(`${this.baseUrl}/${conversationId}/messages`);
   }
 
   /**
    * POST /api/v1/conversations/{conversationId}/messages
    * Crear un mensaje en una conversación
    */
-  createMessage(conversationId: string, dto: CreateMessageDto): Observable<MessageResponseDto> {
-    return this.http.post<MessageResponseDto>(`${this.baseUrl}/${conversationId}/messages`, dto);
+  createMessage(conversationId: string, dto: CreateMessageDto): Observable<Message> {
+    return this.http.post<Message>(`${this.baseUrl}/${conversationId}/messages`, dto);
   }
 
   /**
    * GET /api/v1/conversations/{conversationId}/messages/{id}
    * Obtener un mensaje específico
    */
-  getMessage(conversationId: string, messageId: string): Observable<MessageResponseDto> {
-    return this.http.get<MessageResponseDto>(`${this.baseUrl}/${conversationId}/messages/${messageId}`);
+  getMessage(conversationId: string, messageId: string): Observable<Message> {
+    return this.http.get<Message>(`${this.baseUrl}/${conversationId}/messages/${messageId}`);
   }
 }

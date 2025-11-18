@@ -6,11 +6,10 @@ import {
   Team,
   CreateTeamDto,
   UpdateTeamDto,
-  TeamResponseDto,
   TeamMember,
-  AddTeamMemberDto,
+  AddUserToTeamDto,
   UpdateTeamMemberRoleDto
-} from './teams.model';
+} from './team.model';
 
 /**
  * Servicio para gestión de Teams
@@ -34,10 +33,10 @@ export class TeamsService {
    * GET /api/v1/teams
    * Listar todos los equipos
    */
-  findAll(): Observable<TeamResponseDto[]> {
+  findAll(): Observable<Team[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<TeamResponseDto[]>(this.baseUrl).pipe(
+    return this.http.get<Team[]>(this.baseUrl).pipe(
       tap({
         next: (teams) => {
           this.teamsSubject.next(teams);
@@ -54,16 +53,16 @@ export class TeamsService {
    * GET /api/v1/teams/{id}
    * Obtener un equipo por ID
    */
-  findOne(id: string): Observable<TeamResponseDto> {
-    return this.http.get<TeamResponseDto>(`${this.baseUrl}/${id}`);
+  findOne(id: string): Observable<Team> {
+    return this.http.get<Team>(`${this.baseUrl}/${id}`);
   }
 
   /**
    * POST /api/v1/teams
    * Crear un nuevo equipo
    */
-  create(dto: CreateTeamDto): Observable<TeamResponseDto> {
-    return this.http.post<TeamResponseDto>(this.baseUrl, dto).pipe(
+  create(dto: CreateTeamDto): Observable<Team> {
+    return this.http.post<Team>(this.baseUrl, dto).pipe(
       tap((newTeam) => {
         const currentTeams = this.teamsSubject.value;
         this.teamsSubject.next([...currentTeams, newTeam]);
@@ -75,8 +74,8 @@ export class TeamsService {
    * PUT /api/v1/teams/{id}
    * Actualizar un equipo
    */
-  update(id: string, dto: UpdateTeamDto): Observable<TeamResponseDto> {
-    return this.http.put<TeamResponseDto>(`${this.baseUrl}/${id}`, dto).pipe(
+  update(id: string, dto: UpdateTeamDto): Observable<Team> {
+    return this.http.put<Team>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedTeam) => {
         const currentTeams = this.teamsSubject.value;
         const index = currentTeams.findIndex(t => t.id === id);
@@ -113,7 +112,7 @@ export class TeamsService {
    * POST /api/v1/teams/{id}/members
    * Agregar miembro a un equipo
    */
-  addTeamMember(teamId: string, dto: AddTeamMemberDto): Observable<TeamMember> {
+  addTeamMember(teamId: string, dto: AddUserToTeamDto): Observable<TeamMember> {
     return this.http.post<TeamMember>(`${this.baseUrl}/${teamId}/members`, dto);
   }
 

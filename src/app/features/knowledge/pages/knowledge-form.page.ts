@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { DropdownModule } from 'primeng/dropdown';
+import { Textarea } from 'primeng/textarea';
+import { Select } from 'primeng/select';
 import { ChipsModule } from 'primeng/chips';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -22,8 +22,8 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
+    Textarea,
+    Select,
     ChipsModule,
     ToastModule,
   ],
@@ -73,7 +73,7 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
             <!-- Tipo -->
             <div class="form-field">
               <label for="type" class="required">Tipo</label>
-              <p-dropdown
+              <p-select
                 id="type"
                 formControlName="type"
                 [options]="documentTypes"
@@ -81,13 +81,13 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
                 optionValue="value"
                 placeholder="Seleccionar tipo"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
             </div>
 
             <!-- Tipo de Origen -->
             <div class="form-field">
               <label for="sourceType">Tipo de Origen</label>
-              <p-dropdown
+              <p-select
                 id="sourceType"
                 formControlName="sourceType"
                 [options]="sourceTypes"
@@ -95,7 +95,7 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
                 optionValue="value"
                 placeholder="Seleccionar origen"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
             </div>
 
             <!-- URL de Origen -->

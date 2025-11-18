@@ -117,7 +117,7 @@ import { User } from '../user.model';
                     icon="pi pi-pencil"
                     [rounded]="true"
                     [text]="true"
-                    severity="warning"
+                    severity="warn"
                     (onClick)="goToEdit(user.id)"
                     pTooltip="Editar"
                   ></p-button>

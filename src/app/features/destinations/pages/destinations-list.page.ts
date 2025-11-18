@@ -130,7 +130,7 @@ import { Destination } from '../destination.model';
                     icon="pi pi-pencil"
                     [rounded]="true"
                     [text]="true"
-                    severity="warning"
+                    severity="warn"
                     (onClick)="goToEdit(destination.id)"
                     pTooltip="Editar"
                   ></p-button>

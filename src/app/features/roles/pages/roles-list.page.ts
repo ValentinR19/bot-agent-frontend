@@ -113,7 +113,7 @@ import { Role } from '../role.model';
                     icon="pi pi-pencil"
                     [rounded]="true"
                     [text]="true"
-                    severity="warning"
+                    severity="warn"
                     (onClick)="goToEdit(role.id)"
                     pTooltip="Editar"
                     [disabled]="role.isSystem"

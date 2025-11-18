@@ -5,8 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { DropdownModule } from 'primeng/dropdown';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { Select } from 'primeng/select';
+import { Textarea } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { ConversationsService } from '../conversations.service';
@@ -21,8 +21,8 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
     CardModule,
     ButtonModule,
     InputTextModule,
-    DropdownModule,
-    InputTextareaModule,
+    Select,
+    Textarea,
     ToastModule,
   ],
   providers: [MessageService],
@@ -96,7 +96,7 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
             <!-- Status (only for edit mode) -->
             <div class="form-field" *ngIf="isEditMode">
               <label for="status">Estado</label>
-              <p-dropdown
+              <p-select
                 id="status"
                 formControlName="status"
                 [options]="statusOptions"
@@ -104,7 +104,7 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
                 optionValue="value"
                 placeholder="Seleccionar estado"
                 [style]="{ width: '100%' }"
-              ></p-dropdown>
+              ></p-select>
             </div>
 
             <!-- Current Flow ID (only for edit mode) -->
@@ -243,7 +243,7 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
     }
 
     .form-field input,
-    .form-field p-dropdown,
+    .form-field p-select,
     .form-field-full textarea {
       width: 100%;
     }

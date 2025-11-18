@@ -5,9 +5,8 @@ import { HttpService } from '../../core/http/http.service';
 import {
   Tenant,
   CreateTenantDto,
-  UpdateTenantDto,
-  TenantResponseDto
-} from './tenants.model';
+  UpdateTenantDto
+} from './tenant.model';
 
 /**
  * Servicio para gestión de Tenants
@@ -31,10 +30,10 @@ export class TenantsService {
    * GET /api/v1/tenants
    * Listar todos los tenants
    */
-  findAll(): Observable<TenantResponseDto[]> {
+  findAll(): Observable<Tenant[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<TenantResponseDto[]>(this.baseUrl).pipe(
+    return this.http.get<Tenant[]>(this.baseUrl).pipe(
       tap({
         next: (tenants) => {
           this.tenantsSubject.next(tenants);
@@ -51,24 +50,24 @@ export class TenantsService {
    * GET /api/v1/tenants/{id}
    * Obtener un tenant por ID
    */
-  findOne(id: string): Observable<TenantResponseDto> {
-    return this.http.get<TenantResponseDto>(`${this.baseUrl}/${id}`);
+  findOne(id: string): Observable<Tenant> {
+    return this.http.get<Tenant>(`${this.baseUrl}/${id}`);
   }
 
   /**
    * GET /api/v1/tenants/slug/{slug}
    * Obtener un tenant por slug
    */
-  findBySlug(slug: string): Observable<TenantResponseDto> {
-    return this.http.get<TenantResponseDto>(`${this.baseUrl}/slug/${slug}`);
+  findBySlug(slug: string): Observable<Tenant> {
+    return this.http.get<Tenant>(`${this.baseUrl}/slug/${slug}`);
   }
 
   /**
    * POST /api/v1/tenants
    * Crear un nuevo tenant
    */
-  create(dto: CreateTenantDto): Observable<TenantResponseDto> {
-    return this.http.post<TenantResponseDto>(this.baseUrl, dto).pipe(
+  create(dto: CreateTenantDto): Observable<Tenant> {
+    return this.http.post<Tenant>(this.baseUrl, dto).pipe(
       tap((newTenant) => {
         const currentTenants = this.tenantsSubject.value;
         this.tenantsSubject.next([...currentTenants, newTenant]);
@@ -80,8 +79,8 @@ export class TenantsService {
    * PUT /api/v1/tenants/{id}
    * Actualizar un tenant
    */
-  update(id: string, dto: UpdateTenantDto): Observable<TenantResponseDto> {
-    return this.http.put<TenantResponseDto>(`${this.baseUrl}/${id}`, dto).pipe(
+  update(id: string, dto: UpdateTenantDto): Observable<Tenant> {
+    return this.http.put<Tenant>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedTenant) => {
         const currentTenants = this.tenantsSubject.value;
         const index = currentTenants.findIndex(t => t.id === id);
