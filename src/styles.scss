@@ -4,15 +4,14 @@
 
 /* PrimeNG 19: El tema se configura via providePrimeNG() en app.config.ts
    Los estilos se generan dinámicamente, NO se importan CSS files */
+/* Toastr - Notificaciones */
+@use 'ngx-toastr/toastr';
 
 /* PrimeFlex - Utilidades CSS */
 @import 'primeflex/primeflex.css';
 
 /* PrimeIcons - Iconos */
 @import 'primeicons/primeicons.css';
-
-/* Toastr - Notificaciones */
-@import 'ngx-toastr/toastr';
 
 /* Quill - Editor de texto rico */
 @import 'quill/dist/quill.snow.css';
