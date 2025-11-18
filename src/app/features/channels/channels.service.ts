@@ -1,23 +1,16 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  Channel,
-  CreateChannelDto,
-  UpdateChannelDto,
-  ChannelType,
-  SetupTelegramDto,
-  UpdateTelegramConfigDto,
-  TelegramConfig
-} from './channel.model';
+import { Channel, ChannelType, CreateChannelDto, UpdateChannelDto } from './channel.model';
+import { TelegramConfigDto, TelegramSetupDto, WebhookInfo } from './models/dtos/telegram-setup.dto';
 
 /**
  * Servicio para gestión de Channels (Telegram, WhatsApp, etc)
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChannelsService {
   private readonly http = inject(HttpService);
@@ -45,8 +38,8 @@ export class ChannelsService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -83,7 +76,7 @@ export class ChannelsService {
       tap((newChannel) => {
         const currentChannels = this.channelsSubject.value;
         this.channelsSubject.next([...currentChannels, newChannel]);
-      })
+      }),
     );
   }
 
@@ -95,12 +88,12 @@ export class ChannelsService {
     return this.http.put<Channel>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedChannel) => {
         const currentChannels = this.channelsSubject.value;
-        const index = currentChannels.findIndex(c => c.id === id);
+        const index = currentChannels.findIndex((c) => c.id === id);
         if (index !== -1) {
           currentChannels[index] = updatedChannel;
           this.channelsSubject.next([...currentChannels]);
         }
-      })
+      }),
     );
   }
 
@@ -112,8 +105,8 @@ export class ChannelsService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentChannels = this.channelsSubject.value;
-        this.channelsSubject.next(currentChannels.filter(c => c.id !== id));
-      })
+        this.channelsSubject.next(currentChannels.filter((c) => c.id !== id));
+      }),
     );
   }
 

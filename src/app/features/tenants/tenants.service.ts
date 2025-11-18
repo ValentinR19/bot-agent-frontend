@@ -2,18 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  Tenant,
-  CreateTenantDto,
-  UpdateTenantDto
-} from './tenant.model';
+import { Tenant, CreateTenantDto, UpdateTenantDto } from './tenant.model';
 
 /**
  * Servicio para gestión de Tenants
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TenantsService {
   private readonly http = inject(HttpService);
@@ -41,8 +37,8 @@ export class TenantsService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -71,7 +67,7 @@ export class TenantsService {
       tap((newTenant) => {
         const currentTenants = this.tenantsSubject.value;
         this.tenantsSubject.next([...currentTenants, newTenant]);
-      })
+      }),
     );
   }
 
@@ -83,12 +79,12 @@ export class TenantsService {
     return this.http.put<Tenant>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedTenant) => {
         const currentTenants = this.tenantsSubject.value;
-        const index = currentTenants.findIndex(t => t.id === id);
+        const index = currentTenants.findIndex((t) => t.id === id);
         if (index !== -1) {
           currentTenants[index] = updatedTenant;
           this.tenantsSubject.next([...currentTenants]);
         }
-      })
+      }),
     );
   }
 
@@ -100,8 +96,8 @@ export class TenantsService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentTenants = this.tenantsSubject.value;
-        this.tenantsSubject.next(currentTenants.filter(t => t.id !== id));
-      })
+        this.tenantsSubject.next(currentTenants.filter((t) => t.id !== id));
+      }),
     );
   }
 }

@@ -13,7 +13,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   if (!token) {
     // No hay token, redirigir a login
     router.navigate(['/auth/login'], {
-      queryParams: { returnUrl: state.url }
+      queryParams: { returnUrl: state.url },
     });
     return false;
   }

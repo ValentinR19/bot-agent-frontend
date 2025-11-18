@@ -14,17 +14,10 @@ import { CustomFormComponent, FormField } from '../../../../shared/components/cu
 @Component({
   selector: 'app-tenants-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    PageHeaderComponent,
-    CustomFormComponent,
-    CardModule,
-    ToastModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, CustomFormComponent, CardModule, ToastModule],
   providers: [MessageService],
   templateUrl: './tenants-form.page.html',
-  styleUrl: './tenants-form.page.scss'
+  styleUrl: './tenants-form.page.scss',
 })
 export class TenantsFormPage implements OnInit {
   private readonly fb = inject(FormBuilder);
@@ -44,27 +37,27 @@ export class TenantsFormPage implements OnInit {
       label: 'Nombre',
       type: 'text',
       placeholder: 'Ej: Acme Corporation',
-      required: true
+      required: true,
     },
     {
       name: 'slug',
       label: 'Slug',
       type: 'text',
       placeholder: 'Ej: acme-corp',
-      required: true
+      required: true,
     },
     {
       name: 'contactEmail',
       label: 'Email de Contacto',
       type: 'email',
       placeholder: 'contact@acme.com',
-      required: true
+      required: true,
     },
     {
       name: 'isActive',
       label: 'Activo',
-      type: 'checkbox'
-    }
+      type: 'checkbox',
+    },
   ];
 
   ngOnInit(): void {
@@ -83,7 +76,7 @@ export class TenantsFormPage implements OnInit {
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       slug: ['', [Validators.required, Validators.pattern(/^[a-z0-9-]+$/)]],
       contactEmail: ['', [Validators.required, Validators.email]],
-      isActive: [true]
+      isActive: [true],
     });
   }
 
@@ -95,7 +88,7 @@ export class TenantsFormPage implements OnInit {
           name: tenant.name,
           slug: tenant.slug,
           contactEmail: tenant.contactEmail,
-          isActive: tenant.isActive
+          isActive: tenant.isActive,
         });
         this.loading = false;
       },
@@ -103,11 +96,11 @@ export class TenantsFormPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudo cargar el tenant'
+          detail: 'No se pudo cargar el tenant',
         });
         this.loading = false;
         this.goBack();
-      }
+      },
     });
   }
 
@@ -126,7 +119,7 @@ export class TenantsFormPage implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Éxito',
-          detail: 'Tenant creado correctamente'
+          detail: 'Tenant creado correctamente',
         });
         this.loading = false;
         this.router.navigate(['/tenants', tenant.id]);
@@ -135,10 +128,10 @@ export class TenantsFormPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: error.message || 'No se pudo crear el tenant'
+          detail: error.message || 'No se pudo crear el tenant',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -149,7 +142,7 @@ export class TenantsFormPage implements OnInit {
         this.messageService.add({
           severity: 'success',
           summary: 'Éxito',
-          detail: 'Tenant actualizado correctamente'
+          detail: 'Tenant actualizado correctamente',
         });
         this.loading = false;
         this.router.navigate(['/tenants', tenant.id]);
@@ -158,10 +151,10 @@ export class TenantsFormPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: error.message || 'No se pudo actualizar el tenant'
+          detail: error.message || 'No se pudo actualizar el tenant',
         });
         this.loading = false;
-      }
+      },
     });
   }
 

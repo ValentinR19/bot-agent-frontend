@@ -1,22 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  CatalogItem,
-  CreateCatalogItemDto,
-  UpdateCatalogItemDto,
-  CatalogItemType,
-  CatalogSearchParams,
-  UpdateStockDto
-} from './catalog.model';
+import { CatalogItem, CatalogItemType, CatalogSearchParams, CreateCatalogItemDto, UpdateCatalogItemDto, UpdateStockDto } from './catalog.model';
 
 /**
  * Servicio para gestión de Catalog (productos/servicios)
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CatalogService {
   private readonly http = inject(HttpService);
@@ -44,28 +37,43 @@ export class CatalogService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
+  private toRecord(paramsObj: any): Record<string, string> {
+    const record: Record<string, string> = {};
 
+    Object.entries(paramsObj).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        record[key] = String(value);
+      }
+    });
+
+    return record;
+  }
   /**
    * GET /api/v1/catalog/search
    * Buscar items del catálogo
    */
   search(params: CatalogSearchParams): Observable<any> {
-    let httpParams = new HttpParams();
-    if (params.q) httpParams = httpParams.set('q', params.q);
-    if (params.type) httpParams = httpParams.set('type', params.type);
-    if (params.tags?.length) httpParams = httpParams.set('tags', params.tags.join(','));
-    if (params.isActive !== undefined) httpParams = httpParams.set('isActive', params.isActive.toString());
-    if (params.isFeatured !== undefined) httpParams = httpParams.set('isFeatured', params.isFeatured.toString());
-    if (params.minPrice !== undefined) httpParams = httpParams.set('minPrice', params.minPrice.toString());
-    if (params.maxPrice !== undefined) httpParams = httpParams.set('maxPrice', params.maxPrice.toString());
-    if (params.page) httpParams = httpParams.set('page', params.page.toString());
-    if (params.limit) httpParams = httpParams.set('limit', params.limit.toString());
+    const queryObj: any = {
+      q: params.q,
+      type: params.type,
+      tags: params.tags?.length ? params.tags.join(',') : undefined,
+      isActive: params.isActive,
+      isFeatured: params.isFeatured,
+      minPrice: params.minPrice,
+      maxPrice: params.maxPrice,
+      page: params.page,
+      limit: params.limit,
+    };
 
-    return this.http.get<any>(`${this.baseUrl}/search`, { params: httpParams });
+    const finalParams = this.toRecord(queryObj);
+
+    return this.http.get<any>(`${this.baseUrl}/search`, {
+      params: finalParams,
+    });
   }
 
   /**
@@ -109,7 +117,7 @@ export class CatalogService {
       tap((newItem) => {
         const currentItems = this.catalogItemsSubject.value;
         this.catalogItemsSubject.next([...currentItems, newItem]);
-      })
+      }),
     );
   }
 
@@ -121,12 +129,12 @@ export class CatalogService {
     return this.http.put<CatalogItem>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedItem) => {
         const currentItems = this.catalogItemsSubject.value;
-        const index = currentItems.findIndex(i => i.id === id);
+        const index = currentItems.findIndex((i) => i.id === id);
         if (index !== -1) {
           currentItems[index] = updatedItem;
           this.catalogItemsSubject.next([...currentItems]);
         }
-      })
+      }),
     );
   }
 
@@ -138,8 +146,8 @@ export class CatalogService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentItems = this.catalogItemsSubject.value;
-        this.catalogItemsSubject.next(currentItems.filter(i => i.id !== id));
-      })
+        this.catalogItemsSubject.next(currentItems.filter((i) => i.id !== id));
+      }),
     );
   }
 

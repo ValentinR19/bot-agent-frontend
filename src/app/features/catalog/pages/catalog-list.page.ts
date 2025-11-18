@@ -14,15 +14,7 @@ import { CatalogItem } from '../catalog.model';
 @Component({
   selector: 'app-catalog-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule],
   providers: [ConfirmationService, MessageService],
   template: `
     <div class="catalog-list-page">
@@ -30,11 +22,7 @@ import { CatalogItem } from '../catalog.model';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Gestión de Catálogo</h2>
-            <p-button
-              label="Nuevo Item"
-              icon="pi pi-plus"
-              (onClick)="goToCreate()"
-            ></p-button>
+            <p-button label="Nuevo Item" icon="pi pi-plus" (onClick)="goToCreate()"></p-button>
           </div>
         </ng-template>
 
@@ -53,28 +41,17 @@ import { CatalogItem } from '../catalog.model';
             <div class="flex">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Buscar..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
               </span>
             </div>
           </ng-template>
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="title">
-                Título <p-sortIcon field="title"></p-sortIcon>
-              </th>
+              <th pSortableColumn="title">Título <p-sortIcon field="title"></p-sortIcon></th>
               <th>SKU</th>
-              <th pSortableColumn="type">
-                Tipo <p-sortIcon field="type"></p-sortIcon>
-              </th>
-              <th pSortableColumn="price">
-                Precio <p-sortIcon field="price"></p-sortIcon>
-              </th>
+              <th pSortableColumn="type">Tipo <p-sortIcon field="type"></p-sortIcon></th>
+              <th pSortableColumn="price">Precio <p-sortIcon field="price"></p-sortIcon></th>
               <th>Stock</th>
               <th>Destacado</th>
               <th>Estado</th>
@@ -94,49 +71,20 @@ import { CatalogItem } from '../catalog.model';
               <td>{{ item.price ? (item.price | number: '1.2-2') + ' ' + item.currency : '-' }}</td>
               <td>{{ item.stock !== undefined ? item.stock : '-' }}</td>
               <td>
-                <span
-                  [class]="
-                    'badge ' + (item.isFeatured ? 'badge-warning' : 'badge-secondary')
-                  "
-                >
+                <span [class]="'badge ' + (item.isFeatured ? 'badge-warning' : 'badge-secondary')">
                   {{ item.isFeatured ? 'Sí' : 'No' }}
                 </span>
               </td>
               <td>
-                <span
-                  [class]="
-                    'badge ' + (item.isActive ? 'badge-success' : 'badge-danger')
-                  "
-                >
+                <span [class]="'badge ' + (item.isActive ? 'badge-success' : 'badge-danger')">
                   {{ item.isActive ? 'Activo' : 'Inactivo' }}
                 </span>
               </td>
               <td>
                 <div class="flex gap-2">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="info"
-                    (onClick)="goToDetail(item.id)"
-                    pTooltip="Ver detalle"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="warn"
-                    (onClick)="goToEdit(item.id)"
-                    pTooltip="Editar"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-trash"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="danger"
-                    (onClick)="confirmDelete(item)"
-                    pTooltip="Eliminar"
-                  ></p-button>
+                  <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" (onClick)="goToDetail(item.id)" pTooltip="Ver detalle"></p-button>
+                  <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="warn" (onClick)="goToEdit(item.id)" pTooltip="Editar"></p-button>
+                  <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (onClick)="confirmDelete(item)" pTooltip="Eliminar"></p-button>
                 </div>
               </td>
             </tr>
@@ -154,43 +102,45 @@ import { CatalogItem } from '../catalog.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .catalog-list-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .catalog-list-page {
+        padding: 1.5rem;
+      }
 
-    .badge {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
 
-    .badge-success {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      .badge-success {
+        background-color: #d4edda;
+        color: #155724;
+      }
 
-    .badge-danger {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
+      .badge-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
 
-    .badge-warning {
-      background-color: #fff3cd;
-      color: #856404;
-    }
+      .badge-warning {
+        background-color: #fff3cd;
+        color: #856404;
+      }
 
-    .badge-secondary {
-      background-color: #e2e3e5;
-      color: #383d41;
-    }
+      .badge-secondary {
+        background-color: #e2e3e5;
+        color: #383d41;
+      }
 
-    .badge-type {
-      background-color: #d1ecf1;
-      color: #0c5460;
-    }
-  `],
+      .badge-type {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
+    `,
+  ],
 })
 export class CatalogListPage implements OnInit {
   private catalogService = inject(CatalogService);

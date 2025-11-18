@@ -7,7 +7,7 @@ import { ButtonModule } from 'primeng/button';
   standalone: true,
   imports: [CommonModule, ButtonModule],
   templateUrl: './page-header.component.html',
-  styleUrl: './page-header.component.scss'
+  styleUrl: './page-header.component.scss',
 })
 export class PageHeaderComponent {
   @Input() title = '';

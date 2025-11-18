@@ -8,23 +8,19 @@ export const TENANTS_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./pages/tenants-list.page').then((m) => m.TenantsListPage),
+        loadComponent: () => import('./pages/tenants-list.page').then((m) => m.TenantsListPage),
       },
       {
         path: 'new',
-        loadComponent: () =>
-          import('./pages/tenants-form.page').then((m) => m.TenantsFormPage),
+        loadComponent: () => import('./pages/tenants-form.page').then((m) => m.TenantsFormPage),
       },
       {
         path: ':id',
-        loadComponent: () =>
-          import('./pages/tenants-detail.page').then((m) => m.TenantsDetailPage),
+        loadComponent: () => import('./pages/tenants-detail.page').then((m) => m.TenantsDetailPage),
       },
       {
         path: ':id/edit',
-        loadComponent: () =>
-          import('./pages/tenants-form.page').then((m) => m.TenantsFormPage),
+        loadComponent: () => import('./pages/tenants-form.page').then((m) => m.TenantsFormPage),
       },
     ],
   },

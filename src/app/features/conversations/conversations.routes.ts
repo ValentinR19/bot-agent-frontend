@@ -8,24 +8,20 @@ export const CONVERSATIONS_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./pages/conversations-list.page').then((m) => m.ConversationsListPage),
+        loadComponent: () => import('./pages/conversations-list.page').then((m) => m.ConversationsListPage),
       },
       {
         path: 'new',
-        loadComponent: () =>
-          import('./pages/conversations-form.page').then((m) => m.ConversationsFormPage),
+        loadComponent: () => import('./pages/conversations-form.page').then((m) => m.ConversationsFormPage),
       },
       {
         path: ':id',
-        loadComponent: () =>
-          import('./pages/conversations-detail.page').then((m) => m.ConversationsDetailPage),
+        loadComponent: () => import('./pages/conversations-detail.page').then((m) => m.ConversationsDetailPage),
       },
       {
         path: ':id/edit',
-        loadComponent: () =>
-          import('./pages/conversations-form.page').then((m) => m.ConversationsFormPage),
-      }
-    ]
-  }
+        loadComponent: () => import('./pages/conversations-form.page').then((m) => m.ConversationsFormPage),
+      },
+    ],
+  },
 ];

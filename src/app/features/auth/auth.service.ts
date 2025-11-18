@@ -13,7 +13,7 @@ import {
   ForgotPasswordDto,
   ResetPasswordDto,
   VerifyEmailDto,
-  AuthUser
+  AuthUser,
 } from './auth.model';
 
 /**
@@ -24,7 +24,7 @@ import {
  * en el TenantService para que el interceptor lo use
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly http = inject(HttpService);
@@ -52,7 +52,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials).pipe(
       tap((response) => {
         this.setAuthData(response);
-      })
+      }),
     );
   }
 
@@ -64,7 +64,7 @@ export class AuthService {
     return this.http.post<LoginResponse>(`${this.baseUrl}/register`, dto).pipe(
       tap((response) => {
         this.setAuthData(response);
-      })
+      }),
     );
   }
 
@@ -76,7 +76,7 @@ export class AuthService {
     return this.http.post<void>(`${this.baseUrl}/logout`, {}).pipe(
       tap(() => {
         this.clearAuthData();
-      })
+      }),
     );
   }
 
@@ -88,7 +88,7 @@ export class AuthService {
     return this.http.post<RefreshTokenResponse>(`${this.baseUrl}/refresh`, dto).pipe(
       tap((response) => {
         this.updateTokens(response);
-      })
+      }),
     );
   }
 
@@ -132,7 +132,7 @@ export class AuthService {
     return this.http.get<AuthUser>(`${this.baseUrl}/me`).pipe(
       tap((user) => {
         this.currentUserSubject.next(user);
-      })
+      }),
     );
   }
 

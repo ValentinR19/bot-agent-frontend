@@ -16,17 +16,7 @@ import { Flow } from '../flows.model';
 @Component({
   selector: 'app-flows-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-    TagModule,
-    ChipModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule, TagModule, ChipModule],
   providers: [ConfirmationService, MessageService],
   template: `
     <div class="flows-list-page">
@@ -34,11 +24,7 @@ import { Flow } from '../flows.model';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Gestión de Flujos</h2>
-            <p-button
-              label="Nuevo Flujo"
-              icon="pi pi-plus"
-              (onClick)="goToCreate()"
-            ></p-button>
+            <p-button label="Nuevo Flujo" icon="pi pi-plus" (onClick)="goToCreate()"></p-button>
           </div>
         </ng-template>
 
@@ -57,30 +43,19 @@ import { Flow } from '../flows.model';
             <div class="flex">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Buscar..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
               </span>
             </div>
           </ng-template>
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="name">
-                Nombre <p-sortIcon field="name"></p-sortIcon>
-              </th>
-              <th pSortableColumn="slug">
-                Slug <p-sortIcon field="slug"></p-sortIcon>
-              </th>
+              <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="slug">Slug <p-sortIcon field="slug"></p-sortIcon></th>
               <th>Descripción</th>
               <th>Keywords</th>
               <th>Nodos</th>
-              <th pSortableColumn="isActive">
-                Estado <p-sortIcon field="isActive"></p-sortIcon>
-              </th>
+              <th pSortableColumn="isActive">Estado <p-sortIcon field="isActive"></p-sortIcon></th>
               <th>Versión</th>
               <th>Acciones</th>
             </tr>
@@ -97,16 +72,8 @@ import { Flow } from '../flows.model';
               </td>
               <td>
                 <div class="flex gap-1 flex-wrap" *ngIf="flow.nodes && flow.nodes.length > 0; else noKeywords">
-                  <p-chip
-                    *ngFor="let node of getDisplayKeywords(flow.nodes)"
-                    [label]="node.label"
-                    styleClass="text-xs"
-                  ></p-chip>
-                  <p-chip
-                    *ngIf="flow.nodes.length > 3"
-                    [label]="'+' + (flow.nodes.length - 3)"
-                    styleClass="text-xs"
-                  ></p-chip>
+                  <p-chip *ngFor="let node of getDisplayKeywords(flow.nodes)" [label]="node.label" styleClass="text-xs"></p-chip>
+                  <p-chip *ngIf="flow.nodes.length > 3" [label]="'+' + (flow.nodes.length - 3)" styleClass="text-xs"></p-chip>
                 </div>
                 <ng-template #noKeywords>-</ng-template>
               </td>
@@ -116,40 +83,16 @@ import { Flow } from '../flows.model';
                 </span>
               </td>
               <td>
-                <p-tag
-                  [value]="flow.isActive ? 'Activo' : 'Inactivo'"
-                  [severity]="flow.isActive ? 'success' : 'danger'"
-                ></p-tag>
+                <p-tag [value]="flow.isActive ? 'Activo' : 'Inactivo'" [severity]="flow.isActive ? 'success' : 'danger'"></p-tag>
               </td>
               <td>
                 <span class="text-sm">v{{ flow.version }}</span>
               </td>
               <td>
                 <div class="flex gap-2">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="info"
-                    (onClick)="goToDetail(flow.id)"
-                    pTooltip="Ver detalle"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="warn"
-                    (onClick)="goToEdit(flow.id)"
-                    pTooltip="Editar"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-trash"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="danger"
-                    (onClick)="confirmDelete(flow)"
-                    pTooltip="Eliminar"
-                  ></p-button>
+                  <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" (onClick)="goToDetail(flow.id)" pTooltip="Ver detalle"></p-button>
+                  <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="warn" (onClick)="goToEdit(flow.id)" pTooltip="Editar"></p-button>
+                  <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (onClick)="confirmDelete(flow)" pTooltip="Eliminar"></p-button>
                 </div>
               </td>
             </tr>
@@ -167,23 +110,25 @@ import { Flow } from '../flows.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .flows-list-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .flows-list-page {
+        padding: 1.5rem;
+      }
 
-    .badge {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
 
-    .badge-info {
-      background-color: #d1ecf1;
-      color: #0c5460;
-    }
-  `],
+      .badge-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
+    `,
+  ],
 })
 export class FlowsListPage implements OnInit {
   private flowsService = inject(FlowsService);

@@ -2,21 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  Role,
-  CreateRoleDto,
-  UpdateRoleDto,
-  Permission,
-  AssignRoleToUserDto,
-  AssignPermissionDto
-} from './role.model';
+import { Role, CreateRoleDto, UpdateRoleDto, Permission, AssignRoleToUserDto, AssignPermissionDto } from './role.model';
 
 /**
  * Servicio para gestión de Roles (RBAC)
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RolesService {
   private readonly http = inject(HttpService);
@@ -44,8 +37,8 @@ export class RolesService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -66,7 +59,7 @@ export class RolesService {
       tap((newRole) => {
         const currentRoles = this.rolesSubject.value;
         this.rolesSubject.next([...currentRoles, newRole]);
-      })
+      }),
     );
   }
 
@@ -78,12 +71,12 @@ export class RolesService {
     return this.http.put<Role>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedRole) => {
         const currentRoles = this.rolesSubject.value;
-        const index = currentRoles.findIndex(r => r.id === id);
+        const index = currentRoles.findIndex((r) => r.id === id);
         if (index !== -1) {
           currentRoles[index] = updatedRole;
           this.rolesSubject.next([...currentRoles]);
         }
-      })
+      }),
     );
   }
 
@@ -95,8 +88,8 @@ export class RolesService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentRoles = this.rolesSubject.value;
-        this.rolesSubject.next(currentRoles.filter(r => r.id !== id));
-      })
+        this.rolesSubject.next(currentRoles.filter((r) => r.id !== id));
+      }),
     );
   }
 

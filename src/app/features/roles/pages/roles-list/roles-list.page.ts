@@ -16,18 +16,10 @@ import { FilterPanelComponent } from '../../../../shared/components/filter-panel
 @Component({
   selector: 'app-roles-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    CustomTableComponent,
-    FilterPanelComponent,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, CustomTableComponent, FilterPanelComponent, ButtonModule, ToastModule, ConfirmDialogModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './roles-list.page.html',
-  styleUrl: './roles-list.page.scss'
+  styleUrl: './roles-list.page.scss',
 })
 export class RolesListPage implements OnInit {
   private readonly rolesService = inject(RolesService);
@@ -45,7 +37,7 @@ export class RolesListPage implements OnInit {
     { field: 'description', header: 'Descripción', sortable: true },
     { field: 'isSystem', header: 'Sistema', sortable: true, type: 'boolean' },
     { field: 'isActive', header: 'Activo', sortable: true, type: 'boolean' },
-    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' }
+    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -53,20 +45,20 @@ export class RolesListPage implements OnInit {
       label: 'Ver',
       icon: 'pi pi-eye',
       severity: 'info',
-      command: (role: Role) => this.viewRole(role)
+      command: (role: Role) => this.viewRole(role),
     },
     {
       label: 'Editar',
       icon: 'pi pi-pencil',
       severity: 'primary',
-      command: (role: Role) => this.editRole(role)
+      command: (role: Role) => this.editRole(role),
     },
     {
       label: 'Eliminar',
       icon: 'pi pi-trash',
       severity: 'danger',
-      command: (role: Role) => this.deleteRole(role)
-    }
+      command: (role: Role) => this.deleteRole(role),
+    },
   ];
 
   ngOnInit(): void {
@@ -84,10 +76,10 @@ export class RolesListPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los roles'
+          detail: 'No se pudieron cargar los roles',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -121,7 +113,7 @@ export class RolesListPage implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Rol eliminado correctamente'
+              detail: 'Rol eliminado correctamente',
             });
             this.loadRoles();
           },
@@ -129,11 +121,11 @@ export class RolesListPage implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'No se pudo eliminar el rol'
+              detail: 'No se pudo eliminar el rol',
             });
-          }
+          },
         });
-      }
+      },
     });
   }
 }

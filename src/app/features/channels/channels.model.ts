@@ -23,14 +23,14 @@ export enum ChannelType {
   WHATSAPP = 'whatsapp',
   WEB = 'web',
   VOICE = 'voice',
-  SMS = 'sms'
+  SMS = 'sms',
 }
 
 export enum ChannelStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
   ERROR = 'error',
-  CONFIGURING = 'configuring'
+  CONFIGURING = 'configuring',
 }
 
 export interface ChannelConfig {

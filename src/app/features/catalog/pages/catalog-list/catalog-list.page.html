@@ -1,29 +1,10 @@
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>
 
-<app-page-header
-  title="Catálogo"
-  subtitle="Gestión de productos y servicios"
-  icon="box-open">
-  <button
-    pButton
-    type="button"
-    label="Nuevo Item"
-    icon="pi pi-plus"
-    (click)="createItem()">
-  </button>
+<app-page-header title="Catálogo" subtitle="Gestión de productos y servicios" icon="box-open">
+  <button pButton type="button" label="Nuevo Item" icon="pi pi-plus" (click)="createItem()"></button>
 </app-page-header>
 
-<app-filter-panel
-  searchPlaceholder="Buscar productos..."
-  (search)="onSearch($event)">
-</app-filter-panel>
+<app-filter-panel searchPlaceholder="Buscar productos..." (search)="onSearch($event)"> </app-filter-panel>
 
-<app-custom-table
-  [data]="catalogItems"
-  [columns]="columns"
-  [actions]="actions"
-  [loading]="loading"
-  [paginator]="true"
-  [rows]="10">
-</app-custom-table>
+<app-custom-table [data]="catalogItems" [columns]="columns" [actions]="actions" [loading]="loading" [paginator]="true" [rows]="10"> </app-custom-table>

@@ -15,16 +15,7 @@ import { Flow, FlowNode } from '../flows.model';
 @Component({
   selector: 'app-flows-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardModule,
-    ButtonModule,
-    DividerModule,
-    SkeletonModule,
-    ToastModule,
-    TagModule,
-    ChipModule,
-  ],
+  imports: [CommonModule, CardModule, ButtonModule, DividerModule, SkeletonModule, ToastModule, TagModule, ChipModule],
   providers: [MessageService],
   template: `
     <div class="flows-detail-page">
@@ -33,18 +24,8 @@ import { Flow, FlowNode } from '../flows.model';
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Detalle del Flujo</h2>
             <div class="flex gap-2">
-              <p-button
-                label="Editar"
-                icon="pi pi-pencil"
-                (onClick)="goToEdit()"
-                [disabled]="!flow"
-              ></p-button>
-              <p-button
-                label="Volver"
-                icon="pi pi-arrow-left"
-                severity="secondary"
-                (onClick)="goBack()"
-              ></p-button>
+              <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!flow"></p-button>
+              <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
             </div>
           </div>
         </ng-template>
@@ -79,18 +60,12 @@ import { Flow, FlowNode } from '../flows.model';
 
               <div class="detail-item">
                 <label>Estado:</label>
-                <p-tag
-                  [value]="flow.isActive ? 'Activo' : 'Inactivo'"
-                  [severity]="flow.isActive ? 'success' : 'danger'"
-                ></p-tag>
+                <p-tag [value]="flow.isActive ? 'Activo' : 'Inactivo'" [severity]="flow.isActive ? 'success' : 'danger'"></p-tag>
               </div>
 
               <div class="detail-item">
                 <label>Es Flujo por Defecto:</label>
-                <p-tag
-                  [value]="flow.isDefault ? 'Sí' : 'No'"
-                  [severity]="flow.isDefault ? 'info' : 'secondary'"
-                ></p-tag>
+                <p-tag [value]="flow.isDefault ? 'Sí' : 'No'" [severity]="flow.isDefault ? 'info' : 'secondary'"></p-tag>
               </div>
 
               <div class="detail-item">
@@ -111,9 +86,7 @@ import { Flow, FlowNode } from '../flows.model';
                   <p-tag [value]="node.type" severity="info"></p-tag>
                 </div>
                 <div class="node-config">
-                  <small class="text-gray-500">
-                    Pos: ({{ node.position.x }}, {{ node.position.y }})
-                  </small>
+                  <small class="text-gray-500"> Pos: ({{ node.position.x }}, {{ node.position.y }}) </small>
                 </div>
               </div>
             </div>
@@ -173,76 +146,78 @@ import { Flow, FlowNode } from '../flows.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .flows-detail-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .flows-detail-page {
+        padding: 1.5rem;
+      }
 
-    .detail-section {
-      margin-bottom: 2rem;
-    }
+      .detail-section {
+        margin-bottom: 2rem;
+      }
 
-    .detail-section h3 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
+      .detail-section h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
 
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
 
-    .detail-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .detail-item label {
-      font-weight: 600;
-      color: #6c757d;
-      font-size: 0.875rem;
-      text-transform: uppercase;
-    }
+      .detail-item label {
+        font-weight: 600;
+        color: #6c757d;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+      }
 
-    .detail-item .value {
-      font-size: 1rem;
-      color: #212529;
-    }
+      .detail-item .value {
+        font-size: 1rem;
+        color: #212529;
+      }
 
-    .nodes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 1rem;
-      margin-top: 1rem;
-    }
+      .nodes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+      }
 
-    .node-card {
-      background: #f8f9fa;
-      border: 1px solid #dee2e6;
-      border-radius: 8px;
-      padding: 1rem;
-    }
+      .node-card {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+      }
 
-    .node-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
+      .node-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
 
-    .node-name {
-      font-weight: 600;
-      font-size: 0.9rem;
-    }
+      .node-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+      }
 
-    .node-config {
-      margin-top: 0.5rem;
-    }
-  `],
+      .node-config {
+        margin-top: 0.5rem;
+      }
+    `,
+  ],
 })
 export class FlowsDetailPage implements OnInit {
   private flowsService = inject(FlowsService);

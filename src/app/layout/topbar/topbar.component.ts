@@ -125,9 +125,7 @@ export class TopbarComponent implements OnInit {
   get currentTenantName(): string {
     if (!this.selectedTenantId) return 'Sin tenant';
 
-    const tenant = this.availableTenants.find(
-      (t) => t.id === this.selectedTenantId
-    );
+    const tenant = this.availableTenants.find((t) => t.id === this.selectedTenantId);
     return tenant?.name || 'Tenant';
   }
 }

@@ -16,18 +16,10 @@ import { FilterPanelComponent } from '../../../../shared/components/filter-panel
 @Component({
   selector: 'app-teams-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    CustomTableComponent,
-    FilterPanelComponent,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, CustomTableComponent, FilterPanelComponent, ButtonModule, ToastModule, ConfirmDialogModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './teams-list.page.html',
-  styleUrl: './teams-list.page.scss'
+  styleUrl: './teams-list.page.scss',
 })
 export class TeamsListPage implements OnInit {
   private readonly teamsService = inject(TeamsService);
@@ -44,7 +36,7 @@ export class TeamsListPage implements OnInit {
     { field: 'slug', header: 'Slug', sortable: true, filterable: true },
     { field: 'description', header: 'Descripción', sortable: true },
     { field: 'isActive', header: 'Activo', sortable: true, type: 'boolean' },
-    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' }
+    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -52,20 +44,20 @@ export class TeamsListPage implements OnInit {
       label: 'Ver',
       icon: 'pi pi-eye',
       severity: 'info',
-      command: (team: Team) => this.viewTeam(team)
+      command: (team: Team) => this.viewTeam(team),
     },
     {
       label: 'Editar',
       icon: 'pi pi-pencil',
       severity: 'primary',
-      command: (team: Team) => this.editTeam(team)
+      command: (team: Team) => this.editTeam(team),
     },
     {
       label: 'Eliminar',
       icon: 'pi pi-trash',
       severity: 'danger',
-      command: (team: Team) => this.deleteTeam(team)
-    }
+      command: (team: Team) => this.deleteTeam(team),
+    },
   ];
 
   ngOnInit(): void {
@@ -83,10 +75,10 @@ export class TeamsListPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los equipos'
+          detail: 'No se pudieron cargar los equipos',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -120,7 +112,7 @@ export class TeamsListPage implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Equipo eliminado correctamente'
+              detail: 'Equipo eliminado correctamente',
             });
             this.loadTeams();
           },
@@ -128,11 +120,11 @@ export class TeamsListPage implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'No se pudo eliminar el equipo'
+              detail: 'No se pudo eliminar el equipo',
             });
-          }
+          },
         });
-      }
+      },
     });
   }
 }

@@ -1,25 +1,25 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
 import {
-  Flow,
   CreateFlowDto,
-  UpdateFlowDto,
-  FlowNode,
   CreateFlowNodeDto,
-  UpdateFlowNodeDto,
-  FlowTransition,
   CreateFlowTransitionDto,
-  UpdateFlowTransitionDto
-} from './flow.model';
+  Flow,
+  FlowNode,
+  FlowTransition,
+  UpdateFlowDto,
+  UpdateFlowNodeDto,
+  UpdateFlowTransitionDto,
+} from './flows.model';
 
 /**
  * Servicio para gestión de Flows (Flujos Conversacionales)
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FlowsService {
   private readonly http = inject(HttpService);
@@ -47,8 +47,8 @@ export class FlowsService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -109,7 +109,7 @@ export class FlowsService {
       tap((newFlow) => {
         const currentFlows = this.flowsSubject.value;
         this.flowsSubject.next([...currentFlows, newFlow]);
-      })
+      }),
     );
   }
 
@@ -121,12 +121,12 @@ export class FlowsService {
     return this.http.put<Flow>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedFlow) => {
         const currentFlows = this.flowsSubject.value;
-        const index = currentFlows.findIndex(f => f.id === id);
+        const index = currentFlows.findIndex((f) => f.id === id);
         if (index !== -1) {
           currentFlows[index] = updatedFlow;
           this.flowsSubject.next([...currentFlows]);
         }
-      })
+      }),
     );
   }
 
@@ -138,8 +138,8 @@ export class FlowsService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentFlows = this.flowsSubject.value;
-        this.flowsSubject.next(currentFlows.filter(f => f.id !== id));
-      })
+        this.flowsSubject.next(currentFlows.filter((f) => f.id !== id));
+      }),
     );
   }
 

@@ -2,33 +2,15 @@
   <div class="search-box">
     <span class="p-input-icon-left w-full">
       <i class="pi pi-search"></i>
-      <input
-        type="text"
-        pInputText
-        [(ngModel)]="searchText"
-        [placeholder]="searchPlaceholder"
-        (input)="onSearchChange()"
-        class="w-full" />
+      <input type="text" pInputText [(ngModel)]="searchText" [placeholder]="searchPlaceholder" (input)="onSearchChange()" class="w-full" />
     </span>
   </div>
 
   <div class="active-filters" *ngIf="filters.length > 0">
     <div class="filters-label">Filtros activos:</div>
     <div class="filters-chips">
-      <p-chip
-        *ngFor="let filter of filters"
-        [label]="filter.label + ': ' + filter.value"
-        [removable]="true"
-        (onRemove)="removeFilter(filter)">
-      </p-chip>
-      <button
-        pButton
-        type="button"
-        label="Limpiar todo"
-        icon="pi pi-times"
-        class="p-button-text p-button-sm"
-        (click)="onClearAll()">
-      </button>
+      <p-chip *ngFor="let filter of filters" [label]="filter.label + ': ' + filter.value" [removable]="true" (onRemove)="removeFilter(filter)"> </p-chip>
+      <button pButton type="button" label="Limpiar todo" icon="pi pi-times" class="p-button-text p-button-sm" (click)="onClearAll()"></button>
     </div>
   </div>
 

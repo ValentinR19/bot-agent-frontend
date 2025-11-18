@@ -16,18 +16,10 @@ import { FilterPanelComponent } from '../../../../shared/components/filter-panel
 @Component({
   selector: 'app-channels-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    CustomTableComponent,
-    FilterPanelComponent,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, CustomTableComponent, FilterPanelComponent, ButtonModule, ToastModule, ConfirmDialogModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './channels-list.page.html',
-  styleUrl: './channels-list.page.scss'
+  styleUrl: './channels-list.page.scss',
 })
 export class ChannelsListPage implements OnInit {
   private readonly channelsService = inject(ChannelsService);
@@ -45,7 +37,7 @@ export class ChannelsListPage implements OnInit {
     { field: 'status', header: 'Estado', sortable: true },
     { field: 'isActive', header: 'Activo', sortable: true, type: 'boolean' },
     { field: 'lastSyncAt', header: 'Última Sincronización', sortable: true, type: 'date' },
-    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' }
+    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -53,20 +45,20 @@ export class ChannelsListPage implements OnInit {
       label: 'Ver',
       icon: 'pi pi-eye',
       severity: 'info',
-      command: (channel: Channel) => this.viewChannel(channel)
+      command: (channel: Channel) => this.viewChannel(channel),
     },
     {
       label: 'Editar',
       icon: 'pi pi-pencil',
       severity: 'primary',
-      command: (channel: Channel) => this.editChannel(channel)
+      command: (channel: Channel) => this.editChannel(channel),
     },
     {
       label: 'Eliminar',
       icon: 'pi pi-trash',
       severity: 'danger',
-      command: (channel: Channel) => this.deleteChannel(channel)
-    }
+      command: (channel: Channel) => this.deleteChannel(channel),
+    },
   ];
 
   ngOnInit(): void {
@@ -84,10 +76,10 @@ export class ChannelsListPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los canales'
+          detail: 'No se pudieron cargar los canales',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -121,7 +113,7 @@ export class ChannelsListPage implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Canal eliminado correctamente'
+              detail: 'Canal eliminado correctamente',
             });
             this.loadChannels();
           },
@@ -129,11 +121,11 @@ export class ChannelsListPage implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'No se pudo eliminar el canal'
+              detail: 'No se pudo eliminar el canal',
             });
-          }
+          },
         });
-      }
+      },
     });
   }
 }

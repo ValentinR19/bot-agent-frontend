@@ -8,14 +8,12 @@ import { BehaviorSubject, Observable } from 'rxjs';
  * 2. El tenant seleccionado por un admin
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TenantService {
   private readonly STORAGE_KEY = 'current_tenant_id';
 
-  private currentTenantIdSubject = new BehaviorSubject<string | null>(
-    this.getTenantIdFromStorage()
-  );
+  private currentTenantIdSubject = new BehaviorSubject<string | null>(this.getTenantIdFromStorage());
 
   public currentTenantId$ = this.currentTenantIdSubject.asObservable();
 

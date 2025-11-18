@@ -9,7 +9,7 @@ import { MenuItem } from 'primeng/api';
   standalone: true,
   imports: [CommonModule, RouterModule, MenuModule],
   templateUrl: './sidebar.component.html',
-  styleUrl: './sidebar.component.scss'
+  styleUrl: './sidebar.component.scss',
 })
 export class SidebarComponent {
   @Input() visible = true;
@@ -18,10 +18,10 @@ export class SidebarComponent {
     {
       label: 'Dashboard',
       icon: 'pi pi-home',
-      routerLink: ['/dashboard']
+      routerLink: ['/dashboard'],
     },
     {
-      separator: true
+      separator: true,
     },
     {
       label: 'Configuración',
@@ -30,27 +30,27 @@ export class SidebarComponent {
         {
           label: 'Tenants',
           icon: 'pi pi-building',
-          routerLink: ['/tenants']
+          routerLink: ['/tenants'],
         },
         {
           label: 'Usuarios',
           icon: 'pi pi-users',
-          routerLink: ['/users']
+          routerLink: ['/users'],
         },
         {
           label: 'Equipos',
           icon: 'pi pi-sitemap',
-          routerLink: ['/teams']
+          routerLink: ['/teams'],
         },
         {
           label: 'Roles',
           icon: 'pi pi-shield',
-          routerLink: ['/roles']
-        }
-      ]
+          routerLink: ['/roles'],
+        },
+      ],
     },
     {
-      separator: true
+      separator: true,
     },
     {
       label: 'Canales',
@@ -59,17 +59,17 @@ export class SidebarComponent {
         {
           label: 'Gestión de Canales',
           icon: 'pi pi-slack',
-          routerLink: ['/channels']
+          routerLink: ['/channels'],
         },
         {
           label: 'Conversaciones',
           icon: 'pi pi-comments',
-          routerLink: ['/conversations']
-        }
-      ]
+          routerLink: ['/conversations'],
+        },
+      ],
     },
     {
-      separator: true
+      separator: true,
     },
     {
       label: 'Flujos',
@@ -78,12 +78,12 @@ export class SidebarComponent {
         {
           label: 'Gestión de Flujos',
           icon: 'pi pi-share-alt',
-          routerLink: ['/flows']
-        }
-      ]
+          routerLink: ['/flows'],
+        },
+      ],
     },
     {
-      separator: true
+      separator: true,
     },
     {
       label: 'Conocimiento',
@@ -92,17 +92,17 @@ export class SidebarComponent {
         {
           label: 'Base de Conocimiento',
           icon: 'pi pi-database',
-          routerLink: ['/knowledge']
+          routerLink: ['/knowledge'],
         },
         {
           label: 'Catálogo',
           icon: 'pi pi-shopping-cart',
-          routerLink: ['/catalog']
-        }
-      ]
+          routerLink: ['/catalog'],
+        },
+      ],
     },
     {
-      separator: true
+      separator: true,
     },
     {
       label: 'Análisis',
@@ -111,9 +111,9 @@ export class SidebarComponent {
         {
           label: 'Uso de LLM',
           icon: 'pi pi-dollar',
-          routerLink: ['/llm-usage']
-        }
-      ]
-    }
+          routerLink: ['/llm-usage'],
+        },
+      ],
+    },
   ];
 }

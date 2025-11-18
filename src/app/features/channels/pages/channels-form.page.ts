@@ -16,17 +16,7 @@ import { CreateChannelDto, UpdateChannelDto, ChannelType } from '../channel.mode
 @Component({
   selector: 'app-channels-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    Textarea,
-    Select,
-    InputSwitchModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Textarea, Select, InputSwitchModule, ToastModule],
   providers: [MessageService],
   template: `
     <div class="channels-form-page">
@@ -34,12 +24,7 @@ import { CreateChannelDto, UpdateChannelDto, ChannelType } from '../channel.mode
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>{{ isEditMode ? 'Editar Canal' : 'Nuevo Canal' }}</h2>
-            <p-button
-              label="Volver"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              (onClick)="goBack()"
-            ></p-button>
+            <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
           </div>
         </ng-template>
 
@@ -54,20 +39,9 @@ import { CreateChannelDto, UpdateChannelDto, ChannelType } from '../channel.mode
                 pInputText
                 formControlName="name"
                 placeholder="Ej: Canal Principal"
-                [class.ng-invalid]="
-                  channelForm.get('name')?.invalid &&
-                  channelForm.get('name')?.touched
-                "
+                [class.ng-invalid]="channelForm.get('name')?.invalid && channelForm.get('name')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  channelForm.get('name')?.invalid &&
-                  channelForm.get('name')?.touched
-                "
-              >
-                El nombre es requerido
-              </small>
+              <small class="p-error" *ngIf="channelForm.get('name')?.invalid && channelForm.get('name')?.touched"> El nombre es requerido </small>
             </div>
 
             <!-- Tipo -->
@@ -82,53 +56,25 @@ import { CreateChannelDto, UpdateChannelDto, ChannelType } from '../channel.mode
                 placeholder="Seleccionar tipo"
                 [style]="{ width: '100%' }"
               ></p-select>
-              <small
-                class="p-error"
-                *ngIf="
-                  channelForm.get('type')?.invalid &&
-                  channelForm.get('type')?.touched
-                "
-              >
-                El tipo es requerido
-              </small>
+              <small class="p-error" *ngIf="channelForm.get('type')?.invalid && channelForm.get('type')?.touched"> El tipo es requerido </small>
             </div>
 
             <!-- Descripción -->
             <div class="form-field full-width">
               <label for="description">Descripción</label>
-              <textarea
-                id="description"
-                pInputTextarea
-                formControlName="description"
-                placeholder="Descripción del canal"
-                rows="3"
-              ></textarea>
+              <textarea id="description" pInputTextarea formControlName="description" placeholder="Descripción del canal" rows="3"></textarea>
             </div>
 
             <!-- Estado Activo -->
             <div class="form-field">
               <label for="isActive">Activo</label>
-              <p-inputSwitch
-                id="isActive"
-                formControlName="isActive"
-              ></p-inputSwitch>
+              <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
             </div>
           </div>
 
           <div class="form-actions">
-            <p-button
-              label="Cancelar"
-              severity="secondary"
-              (onClick)="goBack()"
-              type="button"
-            ></p-button>
-            <p-button
-              [label]="isEditMode ? 'Actualizar' : 'Crear'"
-              icon="pi pi-save"
-              type="submit"
-              [disabled]="channelForm.invalid || saving"
-              [loading]="saving"
-            ></p-button>
+            <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+            <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="channelForm.invalid || saving" [loading]="saving"></p-button>
           </div>
         </form>
       </p-card>
@@ -136,56 +82,58 @@ import { CreateChannelDto, UpdateChannelDto, ChannelType } from '../channel.mode
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .channels-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .channels-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .form-field.full-width {
-      grid-column: 1 / -1;
-    }
+      .form-field.full-width {
+        grid-column: 1 / -1;
+      }
 
-    .form-field label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input,
-    .form-field textarea {
-      width: 100%;
-    }
+      .form-field input,
+      .form-field textarea {
+        width: 100%;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class ChannelsFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -210,7 +158,7 @@ export class ChannelsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.channelId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.channelId && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode = !!this.channelId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.channelId) {
       this.loadChannel(this.channelId);
@@ -259,9 +207,8 @@ export class ChannelsFormPage implements OnInit {
         return acc;
       }, {} as any);
 
-      const operation = this.isEditMode && this.channelId
-        ? this.channelsService.update(this.channelId, payload as UpdateChannelDto)
-        : this.channelsService.create(payload as CreateChannelDto);
+      const operation =
+        this.isEditMode && this.channelId ? this.channelsService.update(this.channelId, payload as UpdateChannelDto) : this.channelsService.create(payload as CreateChannelDto);
 
       operation.subscribe({
         next: () => {

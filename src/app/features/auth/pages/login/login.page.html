@@ -12,18 +12,8 @@
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
         <div class="form-field">
           <label for="email">Email</label>
-          <input
-            pInputText
-            id="email"
-            formControlName="email"
-            type="email"
-            placeholder="tu@email.com"
-            [class.ng-invalid]="email?.invalid && email?.touched"
-          />
-          <small
-            *ngIf="email?.invalid && email?.touched"
-            class="p-error"
-          >
+          <input pInputText id="email" formControlName="email" type="email" placeholder="tu@email.com" [class.ng-invalid]="email?.invalid && email?.touched" />
+          <small *ngIf="email?.invalid && email?.touched" class="p-error">
             <span *ngIf="email?.errors?.['required']">El email es requerido</span>
             <span *ngIf="email?.errors?.['email']">Email inválido</span>
           </small>
@@ -41,24 +31,13 @@
             [inputStyle]="{'width': '100%'}"
             [class.ng-invalid]="password?.invalid && password?.touched"
           />
-          <small
-            *ngIf="password?.invalid && password?.touched"
-            class="p-error"
-          >
+          <small *ngIf="password?.invalid && password?.touched" class="p-error">
             <span *ngIf="password?.errors?.['required']">La contraseña es requerida</span>
             <span *ngIf="password?.errors?.['minlength']">Mínimo 6 caracteres</span>
           </small>
         </div>
 
-        <button
-          pButton
-          type="submit"
-          label="Iniciar Sesión"
-          icon="pi pi-sign-in"
-          [loading]="loading"
-          [disabled]="loading"
-          class="w-full">
-        </button>
+        <button pButton type="submit" label="Iniciar Sesión" icon="pi pi-sign-in" [loading]="loading" [disabled]="loading" class="w-full"></button>
       </form>
 
       <div class="login-footer">

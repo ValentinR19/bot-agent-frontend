@@ -2,11 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  User,
-  CreateUserDto,
-  UpdateUserDto
-} from './user.model';
+import { User, CreateUserDto, UpdateUserDto } from './user.model';
 import { Role } from '../roles/role.model';
 import { Team } from '../teams/team.model';
 
@@ -15,7 +11,7 @@ import { Team } from '../teams/team.model';
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
   private readonly http = inject(HttpService);
@@ -43,8 +39,8 @@ export class UsersService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -65,7 +61,7 @@ export class UsersService {
       tap((newUser) => {
         const currentUsers = this.usersSubject.value;
         this.usersSubject.next([...currentUsers, newUser]);
-      })
+      }),
     );
   }
 
@@ -77,12 +73,12 @@ export class UsersService {
     return this.http.put<User>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedUser) => {
         const currentUsers = this.usersSubject.value;
-        const index = currentUsers.findIndex(u => u.id === id);
+        const index = currentUsers.findIndex((u) => u.id === id);
         if (index !== -1) {
           currentUsers[index] = updatedUser;
           this.usersSubject.next([...currentUsers]);
         }
-      })
+      }),
     );
   }
 
@@ -94,8 +90,8 @@ export class UsersService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentUsers = this.usersSubject.value;
-        this.usersSubject.next(currentUsers.filter(u => u.id !== id));
-      })
+        this.usersSubject.next(currentUsers.filter((u) => u.id !== id));
+      }),
     );
   }
 

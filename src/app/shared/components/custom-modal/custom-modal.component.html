@@ -1,33 +1,10 @@
-<p-dialog
-  [(visible)]="visible"
-  [header]="header"
-  [modal]="modal"
-  [closable]="closable"
-  [style]="{ width: width }"
-  (onHide)="onHide()">
-
+<p-dialog [(visible)]="visible" [header]="header" [modal]="modal" [closable]="closable" [style]="{ width: width }" (onHide)="onHide()">
   <div class="modal-content">
     <ng-content></ng-content>
   </div>
 
   <ng-template pTemplate="footer" *ngIf="showFooter">
-    <button
-      pButton
-      type="button"
-      [label]="cancelLabel"
-      icon="pi pi-times"
-      class="p-button-text"
-      (click)="onCancel()"
-      [disabled]="loading">
-    </button>
-    <button
-      pButton
-      type="button"
-      [label]="confirmLabel"
-      icon="pi pi-check"
-      (click)="onConfirm()"
-      [disabled]="confirmDisabled"
-      [loading]="loading">
-    </button>
+    <button pButton type="button" [label]="cancelLabel" icon="pi pi-times" class="p-button-text" (click)="onCancel()" [disabled]="loading"></button>
+    <button pButton type="button" [label]="confirmLabel" icon="pi pi-check" (click)="onConfirm()" [disabled]="confirmDisabled" [loading]="loading"></button>
   </ng-template>
 </p-dialog>

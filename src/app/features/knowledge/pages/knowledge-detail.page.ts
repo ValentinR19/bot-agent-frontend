@@ -14,15 +14,7 @@ import { KnowledgeDocument } from '../knowledge.model';
 @Component({
   selector: 'app-knowledge-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardModule,
-    ButtonModule,
-    DividerModule,
-    SkeletonModule,
-    ToastModule,
-    ChipModule,
-  ],
+  imports: [CommonModule, CardModule, ButtonModule, DividerModule, SkeletonModule, ToastModule, ChipModule],
   providers: [MessageService],
   template: `
     <div class="knowledge-detail-page">
@@ -31,25 +23,9 @@ import { KnowledgeDocument } from '../knowledge.model';
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Detalle del Documento</h2>
             <div class="flex gap-2">
-              <p-button
-                label="Procesar"
-                icon="pi pi-refresh"
-                severity="help"
-                (onClick)="processDocument()"
-                [disabled]="!document || document.status === 'processing'"
-              ></p-button>
-              <p-button
-                label="Editar"
-                icon="pi pi-pencil"
-                (onClick)="goToEdit()"
-                [disabled]="!document"
-              ></p-button>
-              <p-button
-                label="Volver"
-                icon="pi pi-arrow-left"
-                severity="secondary"
-                (onClick)="goBack()"
-              ></p-button>
+              <p-button label="Procesar" icon="pi pi-refresh" severity="help" (onClick)="processDocument()" [disabled]="!document || document.status === 'processing'"></p-button>
+              <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!document"></p-button>
+              <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
             </div>
           </div>
         </ng-template>
@@ -185,117 +161,119 @@ import { KnowledgeDocument } from '../knowledge.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .knowledge-detail-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .knowledge-detail-page {
+        padding: 1.5rem;
+      }
 
-    .detail-section {
-      margin-bottom: 2rem;
-    }
+      .detail-section {
+        margin-bottom: 2rem;
+      }
 
-    .detail-section h3 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
+      .detail-section h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
 
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
 
-    .detail-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .detail-item.full-width {
-      grid-column: 1 / -1;
-    }
+      .detail-item.full-width {
+        grid-column: 1 / -1;
+      }
 
-    .detail-item label {
-      font-weight: 600;
-      color: #6c757d;
-      font-size: 0.875rem;
-      text-transform: uppercase;
-    }
+      .detail-item label {
+        font-weight: 600;
+        color: #6c757d;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+      }
 
-    .detail-item .value {
-      font-size: 1rem;
-      color: #212529;
-    }
+      .detail-item .value {
+        font-size: 1rem;
+        color: #212529;
+      }
 
-    .badge {
-      display: inline-block;
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
+      .badge {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
 
-    .badge-type {
-      background-color: #d1ecf1;
-      color: #0c5460;
-    }
+      .badge-type {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
 
-    .badge-status-pending {
-      background-color: #e2e3e5;
-      color: #383d41;
-    }
+      .badge-status-pending {
+        background-color: #e2e3e5;
+        color: #383d41;
+      }
 
-    .badge-status-processing {
-      background-color: #fff3cd;
-      color: #856404;
-    }
+      .badge-status-processing {
+        background-color: #fff3cd;
+        color: #856404;
+      }
 
-    .badge-status-completed {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      .badge-status-completed {
+        background-color: #d4edda;
+        color: #155724;
+      }
 
-    .badge-status-failed {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
+      .badge-status-failed {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
 
-    .content-box {
-      background-color: #f8f9fa;
-      border: 1px solid #dee2e6;
-      border-radius: 4px;
-      padding: 1rem;
-      margin-top: 1rem;
-      max-height: 400px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      font-family: monospace;
-      font-size: 0.875rem;
-    }
+      .content-box {
+        background-color: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        padding: 1rem;
+        margin-top: 1rem;
+        max-height: 400px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        font-family: monospace;
+        font-size: 0.875rem;
+      }
 
-    .tags-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
+      .tags-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
 
-    .link {
-      color: #007bff;
-      text-decoration: none;
-      word-break: break-all;
-    }
+      .link {
+        color: #007bff;
+        text-decoration: none;
+        word-break: break-all;
+      }
 
-    .link:hover {
-      text-decoration: underline;
-    }
+      .link:hover {
+        text-decoration: underline;
+      }
 
-    .text-danger {
-      color: #dc3545;
-    }
-  `],
+      .text-danger {
+        color: #dc3545;
+      }
+    `,
+  ],
 })
 export class KnowledgeDetailPage implements OnInit {
   private knowledgeService = inject(KnowledgeService);
@@ -368,7 +346,7 @@ export class KnowledgeDetailPage implements OnInit {
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
   }
 
   processDocument(): void {

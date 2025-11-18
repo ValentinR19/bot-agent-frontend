@@ -14,7 +14,7 @@ export interface ApiError {
  * Servicio para normalizar errores HTTP
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class HttpErrorHandler {
   /**
@@ -28,7 +28,7 @@ export class HttpErrorHandler {
       apiError = {
         message: error.error.message || 'Error de red',
         statusCode: 0,
-        error: 'CLIENT_ERROR'
+        error: 'CLIENT_ERROR',
       };
     } else {
       // Error del lado del servidor
@@ -37,7 +37,7 @@ export class HttpErrorHandler {
         statusCode: error.status,
         error: error.error?.error || error.statusText,
         timestamp: error.error?.timestamp,
-        path: error.error?.path || error.url || undefined
+        path: error.error?.path || error.url || undefined,
       };
     }
 

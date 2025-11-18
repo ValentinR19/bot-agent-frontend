@@ -16,18 +16,10 @@ import { FilterPanelComponent } from '../../../../shared/components/filter-panel
 @Component({
   selector: 'app-tenants-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    CustomTableComponent,
-    FilterPanelComponent,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, CustomTableComponent, FilterPanelComponent, ButtonModule, ToastModule, ConfirmDialogModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './tenants-list.page.html',
-  styleUrl: './tenants-list.page.scss'
+  styleUrl: './tenants-list.page.scss',
 })
 export class TenantsListPage implements OnInit {
   private readonly tenantsService = inject(TenantsService);
@@ -44,7 +36,7 @@ export class TenantsListPage implements OnInit {
     { field: 'slug', header: 'Slug', sortable: true, filterable: true },
     { field: 'contactEmail', header: 'Email de Contacto', sortable: true },
     { field: 'isActive', header: 'Activo', sortable: true, type: 'boolean' },
-    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' }
+    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -52,20 +44,20 @@ export class TenantsListPage implements OnInit {
       label: 'Ver',
       icon: 'pi pi-eye',
       severity: 'info',
-      command: (tenant: Tenant) => this.viewTenant(tenant)
+      command: (tenant: Tenant) => this.viewTenant(tenant),
     },
     {
       label: 'Editar',
       icon: 'pi pi-pencil',
       severity: 'primary',
-      command: (tenant: Tenant) => this.editTenant(tenant)
+      command: (tenant: Tenant) => this.editTenant(tenant),
     },
     {
       label: 'Eliminar',
       icon: 'pi pi-trash',
       severity: 'danger',
-      command: (tenant: Tenant) => this.deleteTenant(tenant)
-    }
+      command: (tenant: Tenant) => this.deleteTenant(tenant),
+    },
   ];
 
   ngOnInit(): void {
@@ -83,10 +75,10 @@ export class TenantsListPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los tenants'
+          detail: 'No se pudieron cargar los tenants',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -120,7 +112,7 @@ export class TenantsListPage implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Tenant eliminado correctamente'
+              detail: 'Tenant eliminado correctamente',
             });
             this.loadTenants();
           },
@@ -128,11 +120,11 @@ export class TenantsListPage implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'No se pudo eliminar el tenant'
+              detail: 'No se pudo eliminar el tenant',
             });
-          }
+          },
         });
-      }
+      },
     });
   }
 }

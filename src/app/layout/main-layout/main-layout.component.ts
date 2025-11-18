@@ -8,7 +8,7 @@ import { TopbarComponent } from '../topbar/topbar.component';
   standalone: true,
   imports: [RouterOutlet, SidebarComponent, TopbarComponent],
   templateUrl: './main-layout.component.html',
-  styleUrl: './main-layout.component.scss'
+  styleUrl: './main-layout.component.scss',
 })
 export class MainLayoutComponent {
   sidebarVisible = true;

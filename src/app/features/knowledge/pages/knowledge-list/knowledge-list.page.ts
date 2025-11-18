@@ -16,18 +16,10 @@ import { FilterPanelComponent } from '../../../../shared/components/filter-panel
 @Component({
   selector: 'app-knowledge-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    CustomTableComponent,
-    FilterPanelComponent,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, CustomTableComponent, FilterPanelComponent, ButtonModule, ToastModule, ConfirmDialogModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './knowledge-list.page.html',
-  styleUrl: './knowledge-list.page.scss'
+  styleUrl: './knowledge-list.page.scss',
 })
 export class KnowledgeListPage implements OnInit {
   private readonly knowledgeService = inject(KnowledgeService);
@@ -45,7 +37,7 @@ export class KnowledgeListPage implements OnInit {
     { field: 'status', header: 'Estado', sortable: true },
     { field: 'fileSize', header: 'Tamaño', sortable: true },
     { field: 'processingCompletedAt', header: 'Procesado', sortable: true, type: 'date' },
-    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' }
+    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -53,20 +45,20 @@ export class KnowledgeListPage implements OnInit {
       label: 'Ver',
       icon: 'pi pi-eye',
       severity: 'info',
-      command: (document: KnowledgeDocument) => this.viewDocument(document)
+      command: (document: KnowledgeDocument) => this.viewDocument(document),
     },
     {
       label: 'Editar',
       icon: 'pi pi-pencil',
       severity: 'primary',
-      command: (document: KnowledgeDocument) => this.editDocument(document)
+      command: (document: KnowledgeDocument) => this.editDocument(document),
     },
     {
       label: 'Eliminar',
       icon: 'pi pi-trash',
       severity: 'danger',
-      command: (document: KnowledgeDocument) => this.deleteDocument(document)
-    }
+      command: (document: KnowledgeDocument) => this.deleteDocument(document),
+    },
   ];
 
   ngOnInit(): void {
@@ -84,10 +76,10 @@ export class KnowledgeListPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los documentos'
+          detail: 'No se pudieron cargar los documentos',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -121,7 +113,7 @@ export class KnowledgeListPage implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Documento eliminado correctamente'
+              detail: 'Documento eliminado correctamente',
             });
             this.loadDocuments();
           },
@@ -129,11 +121,11 @@ export class KnowledgeListPage implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'No se pudo eliminar el documento'
+              detail: 'No se pudo eliminar el documento',
             });
-          }
+          },
         });
-      }
+      },
     });
   }
 }

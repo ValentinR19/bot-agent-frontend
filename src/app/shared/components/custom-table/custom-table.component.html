@@ -13,15 +13,12 @@
   (selectionChange)="onSelectionChange()"
   [globalFilterFields]="globalFilterFields"
   responsiveLayout="scroll"
-  styleClass="p-datatable-gridlines">
-
+  styleClass="p-datatable-gridlines"
+>
   <ng-template pTemplate="header">
     <tr>
       <th *ngIf="selectionMode" style="width: 3rem"></th>
-      <th
-        *ngFor="let col of columns"
-        [pSortableColumn]="col.sortable ? col.field : null"
-        [style.width]="col.width">
+      <th *ngFor="let col of columns" [pSortableColumn]="col.sortable ? col.field : null" [style.width]="col.width">
         {{ col.header }}
         <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
       </th>
@@ -57,8 +54,8 @@
             class="p-button-sm p-button-text"
             [pTooltip]="action.label"
             (click)="action.command(item)"
-            [style.display]="isActionVisible(action, item) ? 'inline-flex' : 'none'">
-          </button>
+            [style.display]="isActionVisible(action, item) ? 'inline-flex' : 'none'"
+          ></button>
         </div>
       </td>
     </tr>

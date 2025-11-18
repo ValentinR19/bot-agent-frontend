@@ -1,29 +1,10 @@
 <p-toast></p-toast>
 <p-confirmDialog></p-confirmDialog>
 
-<app-page-header
-  title="Base de Conocimiento"
-  subtitle="Gestión de documentos RAG para el bot"
-  icon="book">
-  <button
-    pButton
-    type="button"
-    label="Nuevo Documento"
-    icon="pi pi-plus"
-    (click)="createDocument()">
-  </button>
+<app-page-header title="Base de Conocimiento" subtitle="Gestión de documentos RAG para el bot" icon="book">
+  <button pButton type="button" label="Nuevo Documento" icon="pi pi-plus" (click)="createDocument()"></button>
 </app-page-header>
 
-<app-filter-panel
-  searchPlaceholder="Buscar documentos..."
-  (search)="onSearch($event)">
-</app-filter-panel>
+<app-filter-panel searchPlaceholder="Buscar documentos..." (search)="onSearch($event)"> </app-filter-panel>
 
-<app-custom-table
-  [data]="documents"
-  [columns]="columns"
-  [actions]="actions"
-  [loading]="loading"
-  [paginator]="true"
-  [rows]="10">
-</app-custom-table>
+<app-custom-table [data]="documents" [columns]="columns" [actions]="actions" [loading]="loading" [paginator]="true" [rows]="10"> </app-custom-table>

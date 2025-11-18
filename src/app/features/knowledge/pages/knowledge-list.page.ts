@@ -14,15 +14,7 @@ import { KnowledgeDocument } from '../knowledge.model';
 @Component({
   selector: 'app-knowledge-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule],
   providers: [ConfirmationService, MessageService],
   template: `
     <div class="knowledge-list-page">
@@ -30,11 +22,7 @@ import { KnowledgeDocument } from '../knowledge.model';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Gestión de Base de Conocimiento</h2>
-            <p-button
-              label="Nuevo Documento"
-              icon="pi pi-plus"
-              (onClick)="goToCreate()"
-            ></p-button>
+            <p-button label="Nuevo Documento" icon="pi pi-plus" (onClick)="goToCreate()"></p-button>
           </div>
         </ng-template>
 
@@ -53,29 +41,18 @@ import { KnowledgeDocument } from '../knowledge.model';
             <div class="flex">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Buscar..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
               </span>
             </div>
           </ng-template>
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="title">
-                Título <p-sortIcon field="title"></p-sortIcon>
-              </th>
-              <th pSortableColumn="type">
-                Tipo <p-sortIcon field="type"></p-sortIcon>
-              </th>
+              <th pSortableColumn="title">Título <p-sortIcon field="title"></p-sortIcon></th>
+              <th pSortableColumn="type">Tipo <p-sortIcon field="type"></p-sortIcon></th>
               <th>Archivo</th>
               <th>Chunks</th>
-              <th pSortableColumn="status">
-                Estado <p-sortIcon field="status"></p-sortIcon>
-              </th>
+              <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
               <th>Acciones</th>
             </tr>
           </ng-template>
@@ -95,22 +72,8 @@ import { KnowledgeDocument } from '../knowledge.model';
               </td>
               <td>
                 <div class="flex gap-2">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="info"
-                    (onClick)="goToDetail(document.id)"
-                    pTooltip="Ver detalle"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="warn"
-                    (onClick)="goToEdit(document.id)"
-                    pTooltip="Editar"
-                  ></p-button>
+                  <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" (onClick)="goToDetail(document.id)" pTooltip="Ver detalle"></p-button>
+                  <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="warn" (onClick)="goToEdit(document.id)" pTooltip="Editar"></p-button>
                   <p-button
                     icon="pi pi-refresh"
                     [rounded]="true"
@@ -120,14 +83,7 @@ import { KnowledgeDocument } from '../knowledge.model';
                     pTooltip="Procesar"
                     [disabled]="document.status === 'processing'"
                   ></p-button>
-                  <p-button
-                    icon="pi pi-trash"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="danger"
-                    (onClick)="confirmDelete(document)"
-                    pTooltip="Eliminar"
-                  ></p-button>
+                  <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (onClick)="confirmDelete(document)" pTooltip="Eliminar"></p-button>
                 </div>
               </td>
             </tr>
@@ -145,43 +101,45 @@ import { KnowledgeDocument } from '../knowledge.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .knowledge-list-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .knowledge-list-page {
+        padding: 1.5rem;
+      }
 
-    .badge {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
 
-    .badge-type {
-      background-color: #d1ecf1;
-      color: #0c5460;
-    }
+      .badge-type {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
 
-    .badge-status-pending {
-      background-color: #e2e3e5;
-      color: #383d41;
-    }
+      .badge-status-pending {
+        background-color: #e2e3e5;
+        color: #383d41;
+      }
 
-    .badge-status-processing {
-      background-color: #fff3cd;
-      color: #856404;
-    }
+      .badge-status-processing {
+        background-color: #fff3cd;
+        color: #856404;
+      }
 
-    .badge-status-completed {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      .badge-status-completed {
+        background-color: #d4edda;
+        color: #155724;
+      }
 
-    .badge-status-failed {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
-  `],
+      .badge-status-failed {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    `,
+  ],
 })
 export class KnowledgeListPage implements OnInit {
   private knowledgeService = inject(KnowledgeService);

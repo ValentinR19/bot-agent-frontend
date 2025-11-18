@@ -8,23 +8,19 @@ export const KNOWLEDGE_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./pages/knowledge-list.page').then((m) => m.KnowledgeListPage),
+        loadComponent: () => import('./pages/knowledge-list.page').then((m) => m.KnowledgeListPage),
       },
       {
         path: 'new',
-        loadComponent: () =>
-          import('./pages/knowledge-form.page').then((m) => m.KnowledgeFormPage),
+        loadComponent: () => import('./pages/knowledge-form.page').then((m) => m.KnowledgeFormPage),
       },
       {
         path: ':id',
-        loadComponent: () =>
-          import('./pages/knowledge-detail.page').then((m) => m.KnowledgeDetailPage),
+        loadComponent: () => import('./pages/knowledge-detail.page').then((m) => m.KnowledgeDetailPage),
       },
       {
         path: ':id/edit',
-        loadComponent: () =>
-          import('./pages/knowledge-form.page').then((m) => m.KnowledgeFormPage),
+        loadComponent: () => import('./pages/knowledge-form.page').then((m) => m.KnowledgeFormPage),
       },
     ],
   },

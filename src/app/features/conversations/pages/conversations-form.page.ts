@@ -15,16 +15,7 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
 @Component({
   selector: 'app-conversations-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    Select,
-    Textarea,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Select, Textarea, ToastModule],
   providers: [MessageService],
   template: `
     <div class="conversations-form-page">
@@ -32,12 +23,7 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>{{ isEditMode ? 'Editar Conversación' : 'Nueva Conversación' }}</h2>
-            <p-button
-              label="Volver"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              (onClick)="goBack()"
-            ></p-button>
+            <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
           </div>
         </ng-template>
 
@@ -52,20 +38,9 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
                 pInputText
                 formControlName="channelId"
                 placeholder="Ej: channel-123"
-                [class.ng-invalid]="
-                  conversationForm.get('channelId')?.invalid &&
-                  conversationForm.get('channelId')?.touched
-                "
+                [class.ng-invalid]="conversationForm.get('channelId')?.invalid && conversationForm.get('channelId')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  conversationForm.get('channelId')?.invalid &&
-                  conversationForm.get('channelId')?.touched
-                "
-              >
-                El ID del canal es requerido
-              </small>
+              <small class="p-error" *ngIf="conversationForm.get('channelId')?.invalid && conversationForm.get('channelId')?.touched"> El ID del canal es requerido </small>
             </div>
 
             <!-- External User ID -->
@@ -77,18 +52,9 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
                 pInputText
                 formControlName="externalUserId"
                 placeholder="Ej: user-456"
-                [class.ng-invalid]="
-                  conversationForm.get('externalUserId')?.invalid &&
-                  conversationForm.get('externalUserId')?.touched
-                "
+                [class.ng-invalid]="conversationForm.get('externalUserId')?.invalid && conversationForm.get('externalUserId')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  conversationForm.get('externalUserId')?.invalid &&
-                  conversationForm.get('externalUserId')?.touched
-                "
-              >
+              <small class="p-error" *ngIf="conversationForm.get('externalUserId')?.invalid && conversationForm.get('externalUserId')?.touched">
                 El ID de usuario externo es requerido
               </small>
             </div>
@@ -110,25 +76,13 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
             <!-- Current Flow ID (only for edit mode) -->
             <div class="form-field" *ngIf="isEditMode">
               <label for="currentFlowId">ID del Flujo Actual</label>
-              <input
-                id="currentFlowId"
-                type="text"
-                pInputText
-                formControlName="currentFlowId"
-                placeholder="Ej: flow-789"
-              />
+              <input id="currentFlowId" type="text" pInputText formControlName="currentFlowId" placeholder="Ej: flow-789" />
             </div>
 
             <!-- Current Node ID (only for edit mode) -->
             <div class="form-field" *ngIf="isEditMode">
               <label for="currentNodeId">ID del Nodo Actual</label>
-              <input
-                id="currentNodeId"
-                type="text"
-                pInputText
-                formControlName="currentNodeId"
-                placeholder="Ej: node-101"
-              />
+              <input id="currentNodeId" type="text" pInputText formControlName="currentNodeId" placeholder="Ej: node-101" />
             </div>
           </div>
 
@@ -141,21 +95,10 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
               formControlName="contextJson"
               placeholder='{"userName": "John", "userEmail": "john@example.com"}'
               rows="5"
-              [class.ng-invalid]="
-                conversationForm.get('contextJson')?.invalid &&
-                conversationForm.get('contextJson')?.touched
-              "
+              [class.ng-invalid]="conversationForm.get('contextJson')?.invalid && conversationForm.get('contextJson')?.touched"
             ></textarea>
             <small class="p-hint">Formato JSON válido</small>
-            <small
-              class="p-error"
-              *ngIf="
-                conversationForm.get('contextJson')?.invalid &&
-                conversationForm.get('contextJson')?.touched
-              "
-            >
-              JSON inválido
-            </small>
+            <small class="p-error" *ngIf="conversationForm.get('contextJson')?.invalid && conversationForm.get('contextJson')?.touched"> JSON inválido </small>
           </div>
 
           <!-- Metadata (as JSON textarea) -->
@@ -167,37 +110,15 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
               formControlName="metadataJson"
               placeholder='{"source": "web", "campaign": "summer2024"}'
               rows="5"
-              [class.ng-invalid]="
-                conversationForm.get('metadataJson')?.invalid &&
-                conversationForm.get('metadataJson')?.touched
-              "
+              [class.ng-invalid]="conversationForm.get('metadataJson')?.invalid && conversationForm.get('metadataJson')?.touched"
             ></textarea>
             <small class="p-hint">Formato JSON válido (opcional)</small>
-            <small
-              class="p-error"
-              *ngIf="
-                conversationForm.get('metadataJson')?.invalid &&
-                conversationForm.get('metadataJson')?.touched
-              "
-            >
-              JSON inválido
-            </small>
+            <small class="p-error" *ngIf="conversationForm.get('metadataJson')?.invalid && conversationForm.get('metadataJson')?.touched"> JSON inválido </small>
           </div>
 
           <div class="form-actions">
-            <p-button
-              label="Cancelar"
-              severity="secondary"
-              (onClick)="goBack()"
-              type="button"
-            ></p-button>
-            <p-button
-              [label]="isEditMode ? 'Actualizar' : 'Crear'"
-              icon="pi pi-save"
-              type="submit"
-              [disabled]="conversationForm.invalid || saving"
-              [loading]="saving"
-            ></p-button>
+            <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+            <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="conversationForm.invalid || saving" [loading]="saving"></p-button>
           </div>
         </form>
       </p-card>
@@ -205,67 +126,69 @@ import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .conversations-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .conversations-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .form-field-full {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
+      .form-field-full {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
 
-    .form-field label,
-    .form-field-full label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label,
+      .form-field-full label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after,
-    .form-field-full label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after,
+      .form-field-full label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input,
-    .form-field p-select,
-    .form-field-full textarea {
-      width: 100%;
-    }
+      .form-field input,
+      .form-field p-select,
+      .form-field-full textarea {
+        width: 100%;
+      }
 
-    .p-hint {
-      font-size: 0.75rem;
-      color: #6c757d;
-    }
+      .p-hint {
+        font-size: 0.75rem;
+        color: #6c757d;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class ConversationsFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -290,7 +213,7 @@ export class ConversationsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.conversationId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.conversationId && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode = !!this.conversationId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.conversationId) {
       this.loadConversation(this.conversationId);

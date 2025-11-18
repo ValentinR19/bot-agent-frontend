@@ -16,18 +16,10 @@ import { FilterPanelComponent } from '../../../../shared/components/filter-panel
 @Component({
   selector: 'app-flows-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    CustomTableComponent,
-    FilterPanelComponent,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, CustomTableComponent, FilterPanelComponent, ButtonModule, ToastModule, ConfirmDialogModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './flows-list.page.html',
-  styleUrl: './flows-list.page.scss'
+  styleUrl: './flows-list.page.scss',
 })
 export class FlowsListPage implements OnInit {
   private readonly flowsService = inject(FlowsService);
@@ -46,7 +38,7 @@ export class FlowsListPage implements OnInit {
     { field: 'version', header: 'Versión', sortable: true },
     { field: 'isActive', header: 'Activo', sortable: true, type: 'boolean' },
     { field: 'isDefault', header: 'Por Defecto', sortable: true, type: 'boolean' },
-    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' }
+    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -54,20 +46,20 @@ export class FlowsListPage implements OnInit {
       label: 'Ver',
       icon: 'pi pi-eye',
       severity: 'info',
-      command: (flow: Flow) => this.viewFlow(flow)
+      command: (flow: Flow) => this.viewFlow(flow),
     },
     {
       label: 'Editar',
       icon: 'pi pi-pencil',
       severity: 'primary',
-      command: (flow: Flow) => this.editFlow(flow)
+      command: (flow: Flow) => this.editFlow(flow),
     },
     {
       label: 'Eliminar',
       icon: 'pi pi-trash',
       severity: 'danger',
-      command: (flow: Flow) => this.deleteFlow(flow)
-    }
+      command: (flow: Flow) => this.deleteFlow(flow),
+    },
   ];
 
   ngOnInit(): void {
@@ -85,10 +77,10 @@ export class FlowsListPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar los flujos'
+          detail: 'No se pudieron cargar los flujos',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -122,7 +114,7 @@ export class FlowsListPage implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Flujo eliminado correctamente'
+              detail: 'Flujo eliminado correctamente',
             });
             this.loadFlows();
           },
@@ -130,11 +122,11 @@ export class FlowsListPage implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'No se pudo eliminar el flujo'
+              detail: 'No se pudo eliminar el flujo',
             });
-          }
+          },
         });
-      }
+      },
     });
   }
 }

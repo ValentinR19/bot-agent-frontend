@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ButtonModule } from 'primeng/button';
@@ -19,15 +13,7 @@ import { TextareaModule } from 'primeng/textarea';
 export interface FormField {
   name: string;
   label: string;
-  type:
-    | 'text'
-    | 'email'
-    | 'password'
-    | 'number'
-    | 'textarea'
-    | 'select'
-    | 'date'
-    | 'checkbox';
+  type: 'text' | 'email' | 'password' | 'number' | 'textarea' | 'select' | 'date' | 'checkbox';
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
@@ -39,18 +25,7 @@ export interface FormField {
 @Component({
   selector: 'app-custom-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    InputTextModule,
-    TextareaModule,
-    SelectModule,
-    InputNumberModule,
-    CheckboxModule,
-    DatePickerModule,
-    ButtonModule,
-  ],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, InputTextModule, TextareaModule, SelectModule, InputNumberModule, CheckboxModule, DatePickerModule, ButtonModule],
   templateUrl: './custom-form.component.html',
   styleUrl: './custom-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -92,10 +67,8 @@ export class CustomFormComponent {
     if (ctrl.errors['email']) return 'Email inválido';
     if (ctrl.errors['min']) return `Mínimo ${ctrl.errors['min'].min}`;
     if (ctrl.errors['max']) return `Máximo ${ctrl.errors['max'].max}`;
-    if (ctrl.errors['minlength'])
-      return `Mínimo ${ctrl.errors['minlength'].requiredLength} caracteres`;
-    if (ctrl.errors['maxlength'])
-      return `Máximo ${ctrl.errors['maxlength'].requiredLength} caracteres`;
+    if (ctrl.errors['minlength']) return `Mínimo ${ctrl.errors['minlength'].requiredLength} caracteres`;
+    if (ctrl.errors['maxlength']) return `Máximo ${ctrl.errors['maxlength'].requiredLength} caracteres`;
 
     return 'Campo inválido';
   }

@@ -16,18 +16,10 @@ import { FilterPanelComponent } from '../../../../shared/components/filter-panel
 @Component({
   selector: 'app-conversations-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    CustomTableComponent,
-    FilterPanelComponent,
-    ButtonModule,
-    ToastModule,
-    ConfirmDialogModule
-  ],
+  imports: [CommonModule, PageHeaderComponent, CustomTableComponent, FilterPanelComponent, ButtonModule, ToastModule, ConfirmDialogModule],
   providers: [MessageService, ConfirmationService],
   templateUrl: './conversations-list.page.html',
-  styleUrl: './conversations-list.page.scss'
+  styleUrl: './conversations-list.page.scss',
 })
 export class ConversationsListPage implements OnInit {
   private readonly conversationsService = inject(ConversationsService);
@@ -45,7 +37,7 @@ export class ConversationsListPage implements OnInit {
     { field: 'channel.name', header: 'Canal', sortable: true },
     { field: 'startedAt', header: 'Inicio', sortable: true, type: 'date' },
     { field: 'lastMessageAt', header: 'Último Mensaje', sortable: true, type: 'date' },
-    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' }
+    { field: 'createdAt', header: 'Fecha de Creación', sortable: true, type: 'date' },
   ];
 
   actions: TableAction[] = [
@@ -53,20 +45,20 @@ export class ConversationsListPage implements OnInit {
       label: 'Ver',
       icon: 'pi pi-eye',
       severity: 'info',
-      command: (conversation: Conversation) => this.viewConversation(conversation)
+      command: (conversation: Conversation) => this.viewConversation(conversation),
     },
     {
       label: 'Editar',
       icon: 'pi pi-pencil',
       severity: 'primary',
-      command: (conversation: Conversation) => this.editConversation(conversation)
+      command: (conversation: Conversation) => this.editConversation(conversation),
     },
     {
       label: 'Eliminar',
       icon: 'pi pi-trash',
       severity: 'danger',
-      command: (conversation: Conversation) => this.deleteConversation(conversation)
-    }
+      command: (conversation: Conversation) => this.deleteConversation(conversation),
+    },
   ];
 
   ngOnInit(): void {
@@ -84,10 +76,10 @@ export class ConversationsListPage implements OnInit {
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
-          detail: 'No se pudieron cargar las conversaciones'
+          detail: 'No se pudieron cargar las conversaciones',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -121,7 +113,7 @@ export class ConversationsListPage implements OnInit {
             this.messageService.add({
               severity: 'success',
               summary: 'Éxito',
-              detail: 'Conversación eliminada correctamente'
+              detail: 'Conversación eliminada correctamente',
             });
             this.loadConversations();
           },
@@ -129,11 +121,11 @@ export class ConversationsListPage implements OnInit {
             this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'No se pudo eliminar la conversación'
+              detail: 'No se pudo eliminar la conversación',
             });
-          }
+          },
         });
-      }
+      },
     });
   }
 }

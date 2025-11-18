@@ -12,13 +12,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(
-      withInterceptors([
-        tenantInterceptor,
-        authInterceptor,
-        httpErrorInterceptor
-      ])
-    ),
-    provideAnimations()
-  ]
+    provideHttpClient(withInterceptors([tenantInterceptor, authInterceptor, httpErrorInterceptor])),
+    provideAnimations(),
+  ],
 };

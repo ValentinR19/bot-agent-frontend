@@ -1,23 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpParams } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  KnowledgeDocument,
-  CreateKnowledgeDocumentDto,
-  UpdateKnowledgeDocumentDto,
-  DocumentType,
-  DocumentStatus,
-  KnowledgeDocumentSearchParams
-} from './knowledge.model';
+import { CreateKnowledgeDocumentDto, DocumentStatus, DocumentType, KnowledgeDocument, KnowledgeDocumentSearchParams, UpdateKnowledgeDocumentDto } from './knowledge.model';
 
 /**
  * Servicio para gestión de Knowledge (Documentos RAG)
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class KnowledgeService {
   private readonly http = inject(HttpService);
@@ -45,8 +37,8 @@ export class KnowledgeService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -65,18 +57,34 @@ export class KnowledgeService {
   findByStatus(status: DocumentStatus): Observable<KnowledgeDocument[]> {
     return this.http.get<KnowledgeDocument[]>(`${this.baseUrl}/status/${status}`);
   }
+  private toRecord(obj: any): Record<string, string> {
+    const record: Record<string, string> = {};
+    if (!obj) return record;
 
+    Object.entries(obj).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) {
+        record[key] = String(value);
+      }
+    });
+
+    return record;
+  }
   /**
    * POST /api/v1/knowledge/documents/search
    * Buscar documentos
    */
   search(params: KnowledgeDocumentSearchParams): Observable<KnowledgeDocument[]> {
-    let httpParams = new HttpParams();
-    if (params.tags?.length) httpParams = httpParams.set('tags', params.tags.join(','));
-    if (params.type) httpParams = httpParams.set('type', params.type);
-    if (params.status) httpParams = httpParams.set('status', params.status);
+    const queryObj: any = {
+      tags: params.tags?.length ? params.tags.join(',') : undefined,
+      type: params.type,
+      status: params.status,
+    };
 
-    return this.http.get<KnowledgeDocument[]>(`${this.baseUrl}/search`, { params: httpParams });
+    const finalParams = this.toRecord(queryObj);
+
+    return this.http.get<KnowledgeDocument[]>(`${this.baseUrl}/search`, {
+      params: finalParams,
+    });
   }
 
   /**
@@ -104,7 +112,7 @@ export class KnowledgeService {
       tap((newDocument) => {
         const currentDocuments = this.documentsSubject.value;
         this.documentsSubject.next([...currentDocuments, newDocument]);
-      })
+      }),
     );
   }
 
@@ -116,12 +124,12 @@ export class KnowledgeService {
     return this.http.put<KnowledgeDocument>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedDocument) => {
         const currentDocuments = this.documentsSubject.value;
-        const index = currentDocuments.findIndex(d => d.id === id);
+        const index = currentDocuments.findIndex((d) => d.id === id);
         if (index !== -1) {
           currentDocuments[index] = updatedDocument;
           this.documentsSubject.next([...currentDocuments]);
         }
-      })
+      }),
     );
   }
 
@@ -133,8 +141,8 @@ export class KnowledgeService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentDocuments = this.documentsSubject.value;
-        this.documentsSubject.next(currentDocuments.filter(d => d.id !== id));
-      })
+        this.documentsSubject.next(currentDocuments.filter((d) => d.id !== id));
+      }),
     );
   }
 
@@ -147,7 +155,7 @@ export class KnowledgeService {
       tap((newDocument) => {
         const currentDocuments = this.documentsSubject.value;
         this.documentsSubject.next([...currentDocuments, newDocument]);
-      })
+      }),
     );
   }
 

@@ -15,18 +15,10 @@ import { LoginCredentials } from '../../auth.model';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    ToastModule,
-    ButtonModule,
-    InputTextModule,
-    PasswordModule,
-    CardModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, ToastModule, ButtonModule, InputTextModule, PasswordModule, CardModule],
   providers: [MessageService],
   templateUrl: './login.page.html',
-  styleUrl: './login.page.scss'
+  styleUrl: './login.page.scss',
 })
 export class LoginPage {
   private readonly authService = inject(AuthService);
@@ -40,7 +32,7 @@ export class LoginPage {
   constructor() {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }
 
@@ -58,7 +50,7 @@ export class LoginPage {
         this.messageService.add({
           severity: 'success',
           summary: 'Bienvenido',
-          detail: `Hola ${response.user.fullName || response.user.email}`
+          detail: `Hola ${response.user.fullName || response.user.email}`,
         });
         this.loading = false;
         this.router.navigate(['/dashboard']);
@@ -67,15 +59,15 @@ export class LoginPage {
         this.messageService.add({
           severity: 'error',
           summary: 'Error de Autenticación',
-          detail: 'Email o contraseña incorrectos'
+          detail: 'Email o contraseña incorrectos',
         });
         this.loading = false;
-      }
+      },
     });
   }
 
   private markFormGroupTouched(formGroup: FormGroup): void {
-    Object.keys(formGroup.controls).forEach(key => {
+    Object.keys(formGroup.controls).forEach((key) => {
       const control = formGroup.get(key);
       control?.markAsTouched();
 

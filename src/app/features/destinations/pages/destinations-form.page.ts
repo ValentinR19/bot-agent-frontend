@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -16,28 +11,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { Textarea } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
-import {
-  CreateDestinationDto,
-  DestinationType,
-  UpdateDestinationDto,
-} from '../destination.model';
+import { CreateDestinationDto, DestinationType, UpdateDestinationDto } from '../destination.model';
 import { DestinationsService } from '../destinations.service';
 
 @Component({
   selector: 'app-destinations-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    Select,
-    Textarea,
-    InputSwitchModule,
-    InputNumberModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Select, Textarea, InputSwitchModule, InputNumberModule, ToastModule],
   providers: [MessageService],
   template: `
     <div class="destinations-form-page">
@@ -45,12 +25,7 @@ import { DestinationsService } from '../destinations.service';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>{{ isEditMode ? 'Editar Destino' : 'Nuevo Destino' }}</h2>
-            <p-button
-              label="Volver"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              (onClick)="goBack()"
-            ></p-button>
+            <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
           </div>
         </ng-template>
 
@@ -65,20 +40,9 @@ import { DestinationsService } from '../destinations.service';
                 pInputText
                 formControlName="name"
                 placeholder="Ej: API Principal"
-                [class.ng-invalid]="
-                  destinationForm.get('name')?.invalid &&
-                  destinationForm.get('name')?.touched
-                "
+                [class.ng-invalid]="destinationForm.get('name')?.invalid && destinationForm.get('name')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  destinationForm.get('name')?.invalid &&
-                  destinationForm.get('name')?.touched
-                "
-              >
-                El nombre es requerido (mínimo 3 caracteres)
-              </small>
+              <small class="p-error" *ngIf="destinationForm.get('name')?.invalid && destinationForm.get('name')?.touched"> El nombre es requerido (mínimo 3 caracteres) </small>
             </div>
 
             <!-- Tipo -->
@@ -93,37 +57,20 @@ import { DestinationsService } from '../destinations.service';
                 placeholder="Seleccionar tipo"
                 [style]="{ width: '100%' }"
               ></p-select>
-              <small
-                class="p-error"
-                *ngIf="
-                  destinationForm.get('type')?.invalid &&
-                  destinationForm.get('type')?.touched
-                "
-              >
-                El tipo es requerido
-              </small>
+              <small class="p-error" *ngIf="destinationForm.get('type')?.invalid && destinationForm.get('type')?.touched"> El tipo es requerido </small>
             </div>
 
             <!-- Estado Activo -->
             <div class="form-field">
               <label for="isActive">Estado Activo</label>
-              <p-inputSwitch
-                id="isActive"
-                formControlName="isActive"
-              ></p-inputSwitch>
+              <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
             </div>
           </div>
 
           <!-- Descripción -->
           <div class="form-field-full">
             <label for="description">Descripción</label>
-            <textarea
-              id="description"
-              pInputTextarea
-              formControlName="description"
-              placeholder="Describe el propósito de este destino..."
-              rows="3"
-            ></textarea>
+            <textarea id="description" pInputTextarea formControlName="description" placeholder="Describe el propósito de este destino..." rows="3"></textarea>
           </div>
 
           <!-- Configuración (JSON) -->
@@ -135,24 +82,10 @@ import { DestinationsService } from '../destinations.service';
               formControlName="configJson"
               placeholder='{"url": "https://api.example.com", "apiKey": "..."}'
               rows="6"
-              [class.ng-invalid]="
-                destinationForm.get('configJson')?.invalid &&
-                destinationForm.get('configJson')?.touched
-              "
+              [class.ng-invalid]="destinationForm.get('configJson')?.invalid && destinationForm.get('configJson')?.touched"
             ></textarea>
-            <small class="p-hint"
-              >Formato JSON válido con la configuración específica del tipo de
-              destino</small
-            >
-            <small
-              class="p-error"
-              *ngIf="
-                destinationForm.get('configJson')?.invalid &&
-                destinationForm.get('configJson')?.touched
-              "
-            >
-              JSON inválido o vacío
-            </small>
+            <small class="p-hint">Formato JSON válido con la configuración específica del tipo de destino</small>
+            <small class="p-error" *ngIf="destinationForm.get('configJson')?.invalid && destinationForm.get('configJson')?.touched"> JSON inválido o vacío </small>
           </div>
 
           <!-- Configuración de Reintentos -->
@@ -161,26 +94,12 @@ import { DestinationsService } from '../destinations.service';
             <div class="form-grid">
               <div class="form-field">
                 <label for="maxRetries">Reintentos Máximos</label>
-                <p-inputNumber
-                  id="maxRetries"
-                  formControlName="maxRetries"
-                  [min]="0"
-                  [max]="10"
-                  [showButtons]="true"
-                  [style]="{ width: '100%' }"
-                ></p-inputNumber>
+                <p-inputNumber id="maxRetries" formControlName="maxRetries" [min]="0" [max]="10" [showButtons]="true" [style]="{ width: '100%' }"></p-inputNumber>
               </div>
 
               <div class="form-field">
                 <label for="retryDelay">Retraso entre Reintentos (ms)</label>
-                <p-inputNumber
-                  id="retryDelay"
-                  formControlName="retryDelay"
-                  [min]="0"
-                  [step]="100"
-                  [showButtons]="true"
-                  [style]="{ width: '100%' }"
-                ></p-inputNumber>
+                <p-inputNumber id="retryDelay" formControlName="retryDelay" [min]="0" [step]="100" [showButtons]="true" [style]="{ width: '100%' }"></p-inputNumber>
               </div>
 
               <div class="form-field">
@@ -204,25 +123,12 @@ import { DestinationsService } from '../destinations.service';
             <div class="form-grid">
               <div class="form-field">
                 <label for="maxRequests">Solicitudes Máximas</label>
-                <p-inputNumber
-                  id="maxRequests"
-                  formControlName="maxRequests"
-                  [min]="0"
-                  [showButtons]="true"
-                  [style]="{ width: '100%' }"
-                ></p-inputNumber>
+                <p-inputNumber id="maxRequests" formControlName="maxRequests" [min]="0" [showButtons]="true" [style]="{ width: '100%' }"></p-inputNumber>
               </div>
 
               <div class="form-field">
                 <label for="windowMs">Ventana de Tiempo (ms)</label>
-                <p-inputNumber
-                  id="windowMs"
-                  formControlName="windowMs"
-                  [min]="0"
-                  [step]="1000"
-                  [showButtons]="true"
-                  [style]="{ width: '100%' }"
-                ></p-inputNumber>
+                <p-inputNumber id="windowMs" formControlName="windowMs" [min]="0" [step]="1000" [showButtons]="true" [style]="{ width: '100%' }"></p-inputNumber>
               </div>
             </div>
           </div>
@@ -236,37 +142,15 @@ import { DestinationsService } from '../destinations.service';
               formControlName="metadataJson"
               placeholder='{"region": "us-east-1", "environment": "production"}'
               rows="4"
-              [class.ng-invalid]="
-                destinationForm.get('metadataJson')?.invalid &&
-                destinationForm.get('metadataJson')?.touched
-              "
+              [class.ng-invalid]="destinationForm.get('metadataJson')?.invalid && destinationForm.get('metadataJson')?.touched"
             ></textarea>
             <small class="p-hint">Formato JSON válido (opcional)</small>
-            <small
-              class="p-error"
-              *ngIf="
-                destinationForm.get('metadataJson')?.invalid &&
-                destinationForm.get('metadataJson')?.touched
-              "
-            >
-              JSON inválido
-            </small>
+            <small class="p-error" *ngIf="destinationForm.get('metadataJson')?.invalid && destinationForm.get('metadataJson')?.touched"> JSON inválido </small>
           </div>
 
           <div class="form-actions">
-            <p-button
-              label="Cancelar"
-              severity="secondary"
-              (onClick)="goBack()"
-              type="button"
-            ></p-button>
-            <p-button
-              [label]="isEditMode ? 'Actualizar' : 'Crear'"
-              icon="pi pi-save"
-              type="submit"
-              [disabled]="destinationForm.invalid || saving"
-              [loading]="saving"
-            ></p-button>
+            <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+            <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="destinationForm.invalid || saving" [loading]="saving"></p-button>
           </div>
         </form>
       </p-card>
@@ -380,9 +264,7 @@ export class DestinationsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.destinationId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode =
-      !!this.destinationId &&
-      this.route.snapshot.url.some((segment) => segment.path === 'edit');
+    this.isEditMode = !!this.destinationId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.destinationId) {
       this.loadDestination(this.destinationId);
@@ -391,14 +273,7 @@ export class DestinationsFormPage implements OnInit {
 
   initForm(): void {
     this.destinationForm = this.fb.group({
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(255),
-        ],
-      ],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       type: ['', [Validators.required]],
       description: [''],
       isActive: [true],
@@ -471,9 +346,7 @@ export class DestinationsFormPage implements OnInit {
 
       // Build retry config
       const retryConfig =
-        formValue.maxRetries ||
-        formValue.retryDelay ||
-        formValue.backoffMultiplier
+        formValue.maxRetries || formValue.retryDelay || formValue.backoffMultiplier
           ? {
               maxRetries: formValue.maxRetries || undefined,
               retryDelay: formValue.retryDelay || undefined,
@@ -491,8 +364,7 @@ export class DestinationsFormPage implements OnInit {
           : undefined;
 
       // Clean metadata
-      const cleanMetadata =
-        Object.keys(metadata).length > 0 ? metadata : undefined;
+      const cleanMetadata = Object.keys(metadata).length > 0 ? metadata : undefined;
 
       if (this.isEditMode && this.destinationId) {
         const updateDto: UpdateDestinationDto = {
@@ -506,27 +378,25 @@ export class DestinationsFormPage implements OnInit {
           metadata: cleanMetadata,
         };
 
-        this.destinationsService
-          .updateDestination(this.destinationId, updateDto)
-          .subscribe({
-            next: () => {
-              this.messageService.add({
-                severity: 'success',
-                summary: 'Éxito',
-                detail: 'Destino actualizado correctamente',
-              });
-              this.saving = false;
-              this.goBack();
-            },
-            error: (error) => {
-              this.messageService.add({
-                severity: 'error',
-                summary: 'Error',
-                detail: 'Error al actualizar el destino',
-              });
-              this.saving = false;
-            },
-          });
+        this.destinationsService.updateDestination(this.destinationId, updateDto).subscribe({
+          next: () => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Éxito',
+              detail: 'Destino actualizado correctamente',
+            });
+            this.saving = false;
+            this.goBack();
+          },
+          error: (error) => {
+            this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Error al actualizar el destino',
+            });
+            this.saving = false;
+          },
+        });
       } else {
         const createDto: CreateDestinationDto = {
           name: formValue.name,

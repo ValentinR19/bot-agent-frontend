@@ -8,23 +8,19 @@ export const PERMISSIONS_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./pages/permissions-list.page').then((m) => m.PermissionsListPage),
+        loadComponent: () => import('./pages/permissions-list.page').then((m) => m.PermissionsListPage),
       },
       {
         path: 'new',
-        loadComponent: () =>
-          import('./pages/permissions-form.page').then((m) => m.PermissionsFormPage),
+        loadComponent: () => import('./pages/permissions-form.page').then((m) => m.PermissionsFormPage),
       },
       {
         path: ':key',
-        loadComponent: () =>
-          import('./pages/permissions-detail.page').then((m) => m.PermissionsDetailPage),
+        loadComponent: () => import('./pages/permissions-detail.page').then((m) => m.PermissionsDetailPage),
       },
       {
         path: ':key/edit',
-        loadComponent: () =>
-          import('./pages/permissions-form.page').then((m) => m.PermissionsFormPage),
+        loadComponent: () => import('./pages/permissions-form.page').then((m) => m.PermissionsFormPage),
       },
     ],
   },

@@ -1,12 +1,6 @@
 <header class="topbar">
   <div class="topbar-left">
-    <button
-      pButton
-      type="button"
-      icon="pi pi-bars"
-      class="p-button-text p-button-rounded"
-      (click)="onToggleSidebar()"
-    ></button>
+    <button pButton type="button" icon="pi pi-bars" class="p-button-text p-button-rounded" (click)="onToggleSidebar()"></button>
 
     <h2 class="topbar-title">Bot Agent Platform</h2>
   </div>
@@ -39,23 +33,11 @@
     </div>
 
     <!-- Notificaciones -->
-    <button
-      pButton
-      type="button"
-      icon="pi pi-bell"
-      class="p-button-text p-button-rounded"
-      badge="3"
-      badgeClass="p-badge-danger"
-    ></button>
+    <button pButton type="button" icon="pi pi-bell" class="p-button-text p-button-rounded" badge="3" badgeClass="p-badge-danger"></button>
 
     <!-- Usuario -->
     <div class="user-menu">
-      <button
-        pButton
-        type="button"
-        class="p-button-text user-button"
-        #userMenuButton
-      >
+      <button pButton type="button" class="p-button-text user-button" #userMenuButton>
         <div class="user-info">
           <span class="user-name">{{ userName }}</span>
           <span class="user-email">{{ userEmail }}</span>
@@ -65,13 +47,7 @@
 
       <p-menu #menu [model]="userMenuItems" [popup]="true"> </p-menu>
 
-      <button
-        pButton
-        type="button"
-        icon="pi pi-user"
-        class="p-button-text p-button-rounded"
-        (click)="menu.toggle($event)"
-      ></button>
+      <button pButton type="button" icon="pi pi-user" class="p-button-text p-button-rounded" (click)="menu.toggle($event)"></button>
     </div>
   </div>
 </header>

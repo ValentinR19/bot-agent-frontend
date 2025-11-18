@@ -1,16 +1,6 @@
 // Destination Models
 
-export type DestinationType =
-  | 'email'
-  | 'webhook'
-  | 'api'
-  | 'crm'
-  | 'erp'
-  | 'slack'
-  | 'whatsapp_business'
-  | 'zapier'
-  | 'make'
-  | 'custom';
+export type DestinationType = 'email' | 'webhook' | 'api' | 'crm' | 'erp' | 'slack' | 'whatsapp_business' | 'zapier' | 'make' | 'custom';
 
 export interface DestinationConfig {
   [key: string]: any;

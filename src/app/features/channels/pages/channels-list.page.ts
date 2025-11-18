@@ -14,15 +14,7 @@ import { Channel } from '../channel.model';
 @Component({
   selector: 'app-channels-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule],
   providers: [ConfirmationService, MessageService],
   template: `
     <div class="channels-list-page">
@@ -30,11 +22,7 @@ import { Channel } from '../channel.model';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Gestión de Canales</h2>
-            <p-button
-              label="Nuevo Canal"
-              icon="pi pi-plus"
-              (onClick)="goToCreate()"
-            ></p-button>
+            <p-button label="Nuevo Canal" icon="pi pi-plus" (onClick)="goToCreate()"></p-button>
           </div>
         </ng-template>
 
@@ -53,24 +41,15 @@ import { Channel } from '../channel.model';
             <div class="flex">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Buscar..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
               </span>
             </div>
           </ng-template>
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="name">
-                Nombre <p-sortIcon field="name"></p-sortIcon>
-              </th>
-              <th pSortableColumn="type">
-                Tipo <p-sortIcon field="type"></p-sortIcon>
-              </th>
+              <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="type">Tipo <p-sortIcon field="type"></p-sortIcon></th>
               <th>Descripción</th>
               <th>Estado</th>
               <th>Acciones</th>
@@ -87,40 +66,15 @@ import { Channel } from '../channel.model';
               </td>
               <td>{{ channel.description || '-' }}</td>
               <td>
-                <span
-                  [class]="
-                    'badge ' + (channel.isActive ? 'badge-success' : 'badge-danger')
-                  "
-                >
+                <span [class]="'badge ' + (channel.isActive ? 'badge-success' : 'badge-danger')">
                   {{ channel.isActive ? 'Activo' : 'Inactivo' }}
                 </span>
               </td>
               <td>
                 <div class="flex gap-2">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="info"
-                    (onClick)="goToDetail(channel.id)"
-                    pTooltip="Ver detalle"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="warn"
-                    (onClick)="goToEdit(channel.id)"
-                    pTooltip="Editar"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-trash"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="danger"
-                    (onClick)="confirmDelete(channel)"
-                    pTooltip="Eliminar"
-                  ></p-button>
+                  <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" (onClick)="goToDetail(channel.id)" pTooltip="Ver detalle"></p-button>
+                  <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="warn" (onClick)="goToEdit(channel.id)" pTooltip="Editar"></p-button>
+                  <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (onClick)="confirmDelete(channel)" pTooltip="Eliminar"></p-button>
                 </div>
               </td>
             </tr>
@@ -138,53 +92,55 @@ import { Channel } from '../channel.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .channels-list-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .channels-list-page {
+        padding: 1.5rem;
+      }
 
-    .badge {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
 
-    .badge-success {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      .badge-success {
+        background-color: #d4edda;
+        color: #155724;
+      }
 
-    .badge-danger {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
+      .badge-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
 
-    .badge-telegram {
-      background-color: #d1ecf1;
-      color: #0c5460;
-    }
+      .badge-telegram {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
 
-    .badge-whatsapp {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      .badge-whatsapp {
+        background-color: #d4edda;
+        color: #155724;
+      }
 
-    .badge-instagram {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
+      .badge-instagram {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
 
-    .badge-webchat {
-      background-color: #fff3cd;
-      color: #856404;
-    }
+      .badge-webchat {
+        background-color: #fff3cd;
+        color: #856404;
+      }
 
-    .badge-api {
-      background-color: #e2e3e5;
-      color: #383d41;
-    }
-  `],
+      .badge-api {
+        background-color: #e2e3e5;
+        color: #383d41;
+      }
+    `,
+  ],
 })
 export class ChannelsListPage implements OnInit {
   private channelsService = inject(ChannelsService);

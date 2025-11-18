@@ -15,16 +15,7 @@ import { PermissionCatalog } from '../permission.model';
 @Component({
   selector: 'app-permissions-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-    TagModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule, TagModule],
   providers: [ConfirmationService, MessageService],
   template: `
     <div class="permissions-list-page">
@@ -33,17 +24,8 @@ import { PermissionCatalog } from '../permission.model';
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Catálogo de Permisos</h2>
             <div class="flex gap-2">
-              <p-button
-                label="Seed Permisos"
-                icon="pi pi-database"
-                severity="help"
-                (onClick)="seedPermissions()"
-              ></p-button>
-              <p-button
-                label="Nuevo Permiso"
-                icon="pi pi-plus"
-                (onClick)="goToCreate()"
-              ></p-button>
+              <p-button label="Seed Permisos" icon="pi pi-database" severity="help" (onClick)="seedPermissions()"></p-button>
+              <p-button label="Nuevo Permiso" icon="pi pi-plus" (onClick)="goToCreate()"></p-button>
             </div>
           </div>
         </ng-template>
@@ -63,28 +45,17 @@ import { PermissionCatalog } from '../permission.model';
             <div class="flex">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Buscar..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
               </span>
             </div>
           </ng-template>
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="key">
-                Clave <p-sortIcon field="key"></p-sortIcon>
-              </th>
+              <th pSortableColumn="key">Clave <p-sortIcon field="key"></p-sortIcon></th>
               <th>Descripción</th>
-              <th pSortableColumn="module">
-                Módulo <p-sortIcon field="module"></p-sortIcon>
-              </th>
-              <th pSortableColumn="isActive">
-                Estado <p-sortIcon field="isActive"></p-sortIcon>
-              </th>
+              <th pSortableColumn="module">Módulo <p-sortIcon field="module"></p-sortIcon></th>
+              <th pSortableColumn="isActive">Estado <p-sortIcon field="isActive"></p-sortIcon></th>
               <th>Acciones</th>
             </tr>
           </ng-template>
@@ -99,37 +70,13 @@ import { PermissionCatalog } from '../permission.model';
                 <p-tag [value]="permission.module" severity="info"></p-tag>
               </td>
               <td>
-                <p-tag
-                  [value]="permission.isActive ? 'Activo' : 'Inactivo'"
-                  [severity]="permission.isActive ? 'success' : 'danger'"
-                ></p-tag>
+                <p-tag [value]="permission.isActive ? 'Activo' : 'Inactivo'" [severity]="permission.isActive ? 'success' : 'danger'"></p-tag>
               </td>
               <td>
                 <div class="flex gap-2">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="info"
-                    (onClick)="goToDetail(permission.key)"
-                    pTooltip="Ver detalle"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="warn"
-                    (onClick)="goToEdit(permission.key)"
-                    pTooltip="Editar"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-trash"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="danger"
-                    (onClick)="confirmDelete(permission)"
-                    pTooltip="Eliminar"
-                  ></p-button>
+                  <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" (onClick)="goToDetail(permission.key)" pTooltip="Ver detalle"></p-button>
+                  <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="warn" (onClick)="goToEdit(permission.key)" pTooltip="Editar"></p-button>
+                  <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (onClick)="confirmDelete(permission)" pTooltip="Eliminar"></p-button>
                 </div>
               </td>
             </tr>
@@ -147,15 +94,17 @@ import { PermissionCatalog } from '../permission.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .permissions-list-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .permissions-list-page {
+        padding: 1.5rem;
+      }
 
-    .font-mono {
-      font-family: 'Courier New', monospace;
-    }
-  `],
+      .font-mono {
+        font-family: 'Courier New', monospace;
+      }
+    `,
+  ],
 })
 export class PermissionsListPage implements OnInit {
   private permissionsService = inject(PermissionsService);

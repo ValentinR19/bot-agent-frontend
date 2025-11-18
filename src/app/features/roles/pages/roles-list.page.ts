@@ -14,15 +14,7 @@ import { Role } from '../role.model';
 @Component({
   selector: 'app-roles-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule],
   providers: [ConfirmationService, MessageService],
   template: `
     <div class="roles-list-page">
@@ -30,11 +22,7 @@ import { Role } from '../role.model';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Gestión de Roles</h2>
-            <p-button
-              label="Nuevo Rol"
-              icon="pi pi-plus"
-              (onClick)="goToCreate()"
-            ></p-button>
+            <p-button label="Nuevo Rol" icon="pi pi-plus" (onClick)="goToCreate()"></p-button>
           </div>
         </ng-template>
 
@@ -53,21 +41,14 @@ import { Role } from '../role.model';
             <div class="flex">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Buscar..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
               </span>
             </div>
           </ng-template>
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="name">
-                Nombre <p-sortIcon field="name"></p-sortIcon>
-              </th>
+              <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
               <th>Descripción</th>
               <th>Permisos</th>
               <th>Sistema</th>
@@ -82,33 +63,18 @@ import { Role } from '../role.model';
               <td>{{ role.description || '-' }}</td>
               <td>{{ role.permissions?.length || 0 }}</td>
               <td>
-                <span
-                  [class]="
-                    'badge ' + (role.isSystem ? 'badge-info' : 'badge-secondary')
-                  "
-                >
+                <span [class]="'badge ' + (role.isSystem ? 'badge-info' : 'badge-secondary')">
                   {{ role.isSystem ? 'Sistema' : 'Personalizado' }}
                 </span>
               </td>
               <td>
-                <span
-                  [class]="
-                    'badge ' + (role.isActive ? 'badge-success' : 'badge-danger')
-                  "
-                >
+                <span [class]="'badge ' + (role.isActive ? 'badge-success' : 'badge-danger')">
                   {{ role.isActive ? 'Activo' : 'Inactivo' }}
                 </span>
               </td>
               <td>
                 <div class="flex gap-2">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="info"
-                    (onClick)="goToDetail(role.id)"
-                    pTooltip="Ver detalle"
-                  ></p-button>
+                  <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" (onClick)="goToDetail(role.id)" pTooltip="Ver detalle"></p-button>
                   <p-button
                     icon="pi pi-pencil"
                     [rounded]="true"
@@ -144,38 +110,40 @@ import { Role } from '../role.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .roles-list-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .roles-list-page {
+        padding: 1.5rem;
+      }
 
-    .badge {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
 
-    .badge-success {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      .badge-success {
+        background-color: #d4edda;
+        color: #155724;
+      }
 
-    .badge-danger {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
+      .badge-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
 
-    .badge-info {
-      background-color: #d1ecf1;
-      color: #0c5460;
-    }
+      .badge-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
 
-    .badge-secondary {
-      background-color: #e2e3e5;
-      color: #383d41;
-    }
-  `],
+      .badge-secondary {
+        background-color: #e2e3e5;
+        color: #383d41;
+      }
+    `,
+  ],
 })
 export class RolesListPage implements OnInit {
   private rolesService = inject(RolesService);

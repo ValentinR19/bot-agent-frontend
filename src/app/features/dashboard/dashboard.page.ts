@@ -9,7 +9,7 @@ import { PageHeaderComponent } from '../../shared/components/page-header/page-he
   standalone: true,
   imports: [CommonModule, CardModule, ChartModule, PageHeaderComponent],
   templateUrl: './dashboard.page.html',
-  styleUrl: './dashboard.page.scss'
+  styleUrl: './dashboard.page.scss',
 })
 export class DashboardPage {
   // Datos de ejemplo para el dashboard
@@ -21,15 +21,15 @@ export class DashboardPage {
         data: [65, 59, 80, 81, 56, 55],
         fill: false,
         borderColor: '#42A5F5',
-        tension: 0.4
-      }
-    ]
+        tension: 0.4,
+      },
+    ],
   };
 
   stats = {
     totalConversations: 1234,
     activeChannels: 5,
     totalFlows: 12,
-    documentsProcessed: 89
+    documentsProcessed: 89,
   };
 }

@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -20,16 +15,7 @@ import { RolesService } from '../roles.service';
 @Component({
   selector: 'app-roles-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    TextareaModule,
-    ToggleSwitchModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, TextareaModule, ToggleSwitchModule, ToastModule],
   providers: [MessageService],
   template: `
     <div class="roles-form-page">
@@ -37,12 +23,7 @@ import { RolesService } from '../roles.service';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>{{ isEditMode ? 'Editar Rol' : 'Nuevo Rol' }}</h2>
-            <p-button
-              label="Volver"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              (onClick)="goBack()"
-            ></p-button>
+            <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
           </div>
         </ng-template>
 
@@ -57,56 +38,27 @@ import { RolesService } from '../roles.service';
                 pInputText
                 formControlName="name"
                 placeholder="Ej: Administrador"
-                [class.ng-invalid]="
-                  roleForm.get('name')?.invalid && roleForm.get('name')?.touched
-                "
+                [class.ng-invalid]="roleForm.get('name')?.invalid && roleForm.get('name')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  roleForm.get('name')?.invalid && roleForm.get('name')?.touched
-                "
-              >
-                El nombre es requerido
-              </small>
+              <small class="p-error" *ngIf="roleForm.get('name')?.invalid && roleForm.get('name')?.touched"> El nombre es requerido </small>
             </div>
 
             <!-- Descripción -->
             <div class="form-field full-width">
               <label for="description">Descripción</label>
-              <textarea
-                id="description"
-                pInputTextarea
-                formControlName="description"
-                placeholder="Descripción del rol"
-                rows="3"
-              ></textarea>
+              <textarea id="description" pInputTextarea formControlName="description" placeholder="Descripción del rol" rows="3"></textarea>
             </div>
 
             <!-- Estado Activo -->
             <div class="form-field">
               <label for="isActive">Activo</label>
-              <p-toggleswitch
-                id="isActive"
-                formControlName="isActive"
-              ></p-toggleswitch>
+              <p-toggleswitch id="isActive" formControlName="isActive"></p-toggleswitch>
             </div>
           </div>
 
           <div class="form-actions">
-            <p-button
-              label="Cancelar"
-              severity="secondary"
-              (onClick)="goBack()"
-              type="button"
-            ></p-button>
-            <p-button
-              [label]="isEditMode ? 'Actualizar' : 'Crear'"
-              icon="pi pi-save"
-              type="submit"
-              [disabled]="roleForm.invalid || saving"
-              [loading]="saving"
-            ></p-button>
+            <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+            <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="roleForm.invalid || saving" [loading]="saving"></p-button>
           </div>
         </form>
       </p-card>
@@ -182,9 +134,7 @@ export class RolesFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.roleId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode =
-      !!this.roleId &&
-      this.route.snapshot.url.some((segment) => segment.path === 'edit');
+    this.isEditMode = !!this.roleId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.roleId) {
       this.loadRole(this.roleId);
@@ -241,19 +191,14 @@ export class RolesFormPage implements OnInit {
         return acc;
       }, {} as any);
 
-      const operation =
-        this.isEditMode && this.roleId
-          ? this.rolesService.update(this.roleId, payload as UpdateRoleDto)
-          : this.rolesService.create(payload as CreateRoleDto);
+      const operation = this.isEditMode && this.roleId ? this.rolesService.update(this.roleId, payload as UpdateRoleDto) : this.rolesService.create(payload as CreateRoleDto);
 
       operation.subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
             summary: 'Éxito',
-            detail: `Rol ${
-              this.isEditMode ? 'actualizado' : 'creado'
-            } correctamente`,
+            detail: `Rol ${this.isEditMode ? 'actualizado' : 'creado'} correctamente`,
           });
           this.saving = false;
           this.goBack();
@@ -262,9 +207,7 @@ export class RolesFormPage implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Error al ${
-              this.isEditMode ? 'actualizar' : 'crear'
-            } el rol`,
+            detail: `Error al ${this.isEditMode ? 'actualizar' : 'crear'} el rol`,
           });
           this.saving = false;
         },

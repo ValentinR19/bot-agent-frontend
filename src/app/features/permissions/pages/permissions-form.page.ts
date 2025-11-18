@@ -14,15 +14,7 @@ import { PermissionsService } from '../permissions.service';
 @Component({
   selector: 'app-permissions-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    TextareaModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, TextareaModule, ToastModule],
   providers: [MessageService],
   template: `
     <div class="permissions-form-page">
@@ -30,12 +22,7 @@ import { PermissionsService } from '../permissions.service';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>{{ isEditMode ? 'Editar Permiso' : 'Nuevo Permiso' }}</h2>
-            <p-button
-              label="Volver"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              (onClick)="goBack()"
-            ></p-button>
+            <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
           </div>
         </ng-template>
 
@@ -49,19 +36,10 @@ import { PermissionsService } from '../permissions.service';
               pInputText
               formControlName="key"
               placeholder="Ej: users.create"
-              [class.ng-invalid]="
-                permissionForm.get('key')?.invalid &&
-                permissionForm.get('key')?.touched
-              "
+              [class.ng-invalid]="permissionForm.get('key')?.invalid && permissionForm.get('key')?.touched"
             />
             <small class="p-hint">Formato: modulo.accion (ej: users.create, flows.update)</small>
-            <small
-              class="p-error"
-              *ngIf="
-                permissionForm.get('key')?.invalid &&
-                permissionForm.get('key')?.touched
-              "
-            >
+            <small class="p-error" *ngIf="permissionForm.get('key')?.invalid && permissionForm.get('key')?.touched">
               La clave es requerida y debe seguir el formato modulo.accion
             </small>
           </div>
@@ -69,14 +47,7 @@ import { PermissionsService } from '../permissions.service';
           <!-- Key (modo edición - solo lectura) -->
           <div class="form-field" *ngIf="isEditMode">
             <label for="keyReadonly">Clave (Key)</label>
-            <input
-              id="keyReadonly"
-              type="text"
-              pInputText
-              [value]="permissionKey"
-              [readonly]="true"
-              [disabled]="true"
-            />
+            <input id="keyReadonly" type="text" pInputText [value]="permissionKey" [readonly]="true" [disabled]="true" />
             <small class="p-hint">La clave no puede ser modificada</small>
           </div>
 
@@ -89,21 +60,10 @@ import { PermissionsService } from '../permissions.service';
               pInputText
               formControlName="module"
               placeholder="Ej: users, flows, tenants"
-              [class.ng-invalid]="
-                permissionForm.get('module')?.invalid &&
-                permissionForm.get('module')?.touched
-              "
+              [class.ng-invalid]="permissionForm.get('module')?.invalid && permissionForm.get('module')?.touched"
             />
             <small class="p-hint">Nombre del módulo al que pertenece este permiso</small>
-            <small
-              class="p-error"
-              *ngIf="
-                permissionForm.get('module')?.invalid &&
-                permissionForm.get('module')?.touched
-              "
-            >
-              El módulo es requerido
-            </small>
+            <small class="p-error" *ngIf="permissionForm.get('module')?.invalid && permissionForm.get('module')?.touched"> El módulo es requerido </small>
           </div>
 
           <!-- Description -->
@@ -115,19 +75,10 @@ import { PermissionsService } from '../permissions.service';
               formControlName="description"
               placeholder="Describe qué permite hacer este permiso..."
               rows="4"
-              [class.ng-invalid]="
-                permissionForm.get('description')?.invalid &&
-                permissionForm.get('description')?.touched
-              "
+              [class.ng-invalid]="permissionForm.get('description')?.invalid && permissionForm.get('description')?.touched"
             ></textarea>
             <small class="p-hint">Descripción clara de la acción que permite este permiso</small>
-            <small
-              class="p-error"
-              *ngIf="
-                permissionForm.get('description')?.invalid &&
-                permissionForm.get('description')?.touched
-              "
-            >
+            <small class="p-error" *ngIf="permissionForm.get('description')?.invalid && permissionForm.get('description')?.touched">
               La descripción es requerida (mínimo 10 caracteres)
             </small>
           </div>
@@ -157,19 +108,8 @@ import { PermissionsService } from '../permissions.service';
           </div>
 
           <div class="form-actions">
-            <p-button
-              label="Cancelar"
-              severity="secondary"
-              (onClick)="goBack()"
-              type="button"
-            ></p-button>
-            <p-button
-              [label]="isEditMode ? 'Actualizar' : 'Crear'"
-              icon="pi pi-save"
-              type="submit"
-              [disabled]="permissionForm.invalid || saving"
-              [loading]="saving"
-            ></p-button>
+            <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+            <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="permissionForm.invalid || saving" [loading]="saving"></p-button>
           </div>
         </form>
       </p-card>
@@ -177,111 +117,113 @@ import { PermissionsService } from '../permissions.service';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .permissions-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .permissions-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
 
-    .form-field-full {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
+      .form-field-full {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
 
-    .form-field label,
-    .form-field-full label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label,
+      .form-field-full label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after,
-    .form-field-full label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after,
+      .form-field-full label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input,
-    .form-field-full textarea {
-      width: 100%;
-    }
+      .form-field input,
+      .form-field-full textarea {
+        width: 100%;
+      }
 
-    .p-hint {
-      font-size: 0.75rem;
-      color: #6c757d;
-    }
+      .p-hint {
+        font-size: 0.75rem;
+        color: #6c757d;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .examples-section {
-      background: #f8f9fa;
-      border: 1px solid #dee2e6;
-      border-radius: 8px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .examples-section {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .examples-section h4 {
-      margin: 0 0 1rem 0;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #495057;
-    }
+      .examples-section h4 {
+        margin: 0 0 1rem 0;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #495057;
+      }
 
-    .examples-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-    }
+      .examples-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 0.5rem;
+      }
 
-    .example-item {
-      background: #ffffff;
-      border: 1px solid #dee2e6;
-      border-radius: 6px;
-      padding: 0.75rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
+      .example-item {
+        background: #ffffff;
+        border: 1px solid #dee2e6;
+        border-radius: 6px;
+        padding: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
 
-    .example-item:hover {
-      border-color: #007bff;
-      background: #e7f3ff;
-      transform: translateY(-2px);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+      .example-item:hover {
+        border-color: #007bff;
+        background: #e7f3ff;
+        transform: translateY(-2px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
 
-    .example-item strong {
-      display: block;
-      color: #007bff;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
-      margin-bottom: 0.25rem;
-    }
+      .example-item strong {
+        display: block;
+        color: #007bff;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        margin-bottom: 0.25rem;
+      }
 
-    .example-item small {
-      color: #6c757d;
-      font-size: 0.8rem;
-    }
+      .example-item small {
+        color: #6c757d;
+        font-size: 0.8rem;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class PermissionsFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -298,7 +240,7 @@ export class PermissionsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.permissionKey = this.route.snapshot.paramMap.get('key');
-    this.isEditMode = !!this.permissionKey && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode = !!this.permissionKey && this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.permissionKey) {
       this.loadPermission(this.permissionKey);

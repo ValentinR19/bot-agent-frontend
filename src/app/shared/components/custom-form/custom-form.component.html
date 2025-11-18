@@ -1,106 +1,65 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="custom-form">
   <div class="form-fields">
     @for (field of fields; track field.name) {
+      <div class="form-field">
+        <label [for]="field.name" class="form-label">
+          {{ field.label }}
+          @if (field.required) {
+            <span class="required">*</span>
+          }
+        </label>
 
-    <div class="form-field">
-      <label [for]="field.name" class="form-label">
-        {{ field.label }}
-        @if (field.required) {
-        <span class="required">*</span>
+        <!-- TEXT / EMAIL / PASSWORD -->
+        @if (['text', 'email', 'password'].includes(field.type)) {
+          <input
+            pInputText
+            [id]="field.name"
+            [type]="field.type"
+            [placeholder]="field.placeholder || ''"
+            [formControlName]="field.name"
+            class="w-full"
+            [class.ng-invalid]="isFieldInvalid(field.name)"
+          />
         }
-      </label>
 
-      <!-- TEXT / EMAIL / PASSWORD -->
-      @if (['text', 'email', 'password'].includes(field.type)) {
-      <input
-        pInputText
-        [id]="field.name"
-        [type]="field.type"
-        [placeholder]="field.placeholder || ''"
-        [formControlName]="field.name"
-        class="w-full"
-        [class.ng-invalid]="isFieldInvalid(field.name)"
-      />
-      }
+        <!-- NUMBER -->
+        @if (field.type === 'number') {
+          <p-inputnumber pInputNumber [formControlName]="field.name" [placeholder]="field.placeholder || ''" class="w-full"></p-inputnumber>
+        }
 
-      <!-- NUMBER -->
-      @if (field.type === 'number') {
-      <p-inputnumber
-        pInputNumber
-        [formControlName]="field.name"
-        [placeholder]="field.placeholder || ''"
-        class="w-full"
-      ></p-inputnumber>
-      }
+        <!-- TEXTAREA -->
+        @if (field.type === 'textarea') {
+          <p-textarea pTextarea [id]="field.name" autoResize="true" [formControlName]="field.name" class="w-full"></p-textarea>
+        }
 
-      <!-- TEXTAREA -->
-      @if (field.type === 'textarea') {
-      <p-textarea
-        pTextarea
-        [id]="field.name"
-        autoResize="true"
-        [formControlName]="field.name"
-        class="w-full"
-      ></p-textarea>
-      }
+        <!-- SELECT -->
+        @if (field.type === 'select') {
+          <p-select [formControlName]="field.name" [options]="field.options ?? []" optionLabel="label" [placeholder]="field.placeholder || 'Seleccionar'" class="w-full"></p-select>
+        }
 
-      <!-- SELECT -->
-      @if (field.type === 'select') {
-      <p-select
-        [formControlName]="field.name"
-        [options]="field.options ?? []"
-        optionLabel="label"
-        [placeholder]="field.placeholder || 'Seleccionar'"
-        class="w-full"
-      ></p-select>
-      }
+        <!-- DATEPICKER -->
+        @if (field.type === 'date') {
+          <p-datepicker [formControlName]="field.name" [showIcon]="true" [showButtonBar]="true" [dateFormat]="'dd/mm/yy'" [inputId]="field.name" class="w-full"></p-datepicker>
+        }
 
-      <!-- DATEPICKER -->
-      @if (field.type === 'date') {
-      <p-datepicker
-        [formControlName]="field.name"
-        [showIcon]="true"
-        [showButtonBar]="true"
-        [dateFormat]="'dd/mm/yy'"
-        [inputId]="field.name"
-        class="w-full"
-      ></p-datepicker>
-      }
+        <!-- CHECKBOX -->
+        @if (field.type === 'checkbox') {
+          <p-checkbox [binary]="true" [formControlName]="field.name"></p-checkbox>
+        }
 
-      <!-- CHECKBOX -->
-      @if (field.type === 'checkbox') {
-      <p-checkbox [binary]="true" [formControlName]="field.name"></p-checkbox>
-      }
-
-      <!-- ERROR MESSAGE -->
-      @if (isFieldInvalid(field.name)) {
-      <small class="p-error">{{ getErrorMessage(field.name) }}</small>
-      }
-    </div>
-
+        <!-- ERROR MESSAGE -->
+        @if (isFieldInvalid(field.name)) {
+          <small class="p-error">{{ getErrorMessage(field.name) }}</small>
+        }
+      </div>
     }
   </div>
 
   <div class="form-actions">
     @if (showCancel) {
-    <button
-      pButton
-      type="button"
-      class="p-button-text"
-      [label]="cancelLabel"
-      icon="pi pi-times"
-      (click)="onCancel()"
-      [disabled]="loading"
-    ></button>
+      <button pButton type="button" class="p-button-text" [label]="cancelLabel" icon="pi pi-times" (click)="onCancel()" [disabled]="loading"></button>
     }
 
-    <button
-      pButton
-      type="submit"
-      [label]="submitLabel"
-      icon="pi pi-check"
-      [loading]="loading"
-      [disabled]="formGroup.invalid || loading"
-    ></button>
+    <button pButton type="submit" [label]="submitLabel" icon="pi pi-check" [loading]="loading" [disabled]="formGroup.invalid || loading"></button>
   </div>
 </form>

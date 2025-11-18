@@ -15,16 +15,7 @@ import { Conversation, ConversationStatus, Message } from '../conversations.mode
 @Component({
   selector: 'app-conversations-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardModule,
-    ButtonModule,
-    DividerModule,
-    SkeletonModule,
-    ToastModule,
-    TagModule,
-    TimelineModule,
-  ],
+  imports: [CommonModule, CardModule, ButtonModule, DividerModule, SkeletonModule, ToastModule, TagModule, TimelineModule],
   providers: [MessageService],
   template: `
     <div class="conversations-detail-page">
@@ -33,18 +24,8 @@ import { Conversation, ConversationStatus, Message } from '../conversations.mode
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Detalle de la Conversación</h2>
             <div class="flex gap-2">
-              <p-button
-                label="Editar"
-                icon="pi pi-pencil"
-                (onClick)="goToEdit()"
-                [disabled]="!conversation"
-              ></p-button>
-              <p-button
-                label="Volver"
-                icon="pi pi-arrow-left"
-                severity="secondary"
-                (onClick)="goBack()"
-              ></p-button>
+              <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!conversation"></p-button>
+              <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
             </div>
           </div>
         </ng-template>
@@ -78,10 +59,7 @@ import { Conversation, ConversationStatus, Message } from '../conversations.mode
 
               <div class="detail-item">
                 <label>Estado:</label>
-                <p-tag
-                  [value]="getStatusLabel(conversation.status)"
-                  [severity]="getStatusSeverity(conversation.status)"
-                ></p-tag>
+                <p-tag [value]="getStatusLabel(conversation.status)" [severity]="getStatusSeverity(conversation.status)"></p-tag>
               </div>
 
               <div class="detail-item">
@@ -184,87 +162,89 @@ import { Conversation, ConversationStatus, Message } from '../conversations.mode
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .conversations-detail-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .conversations-detail-page {
+        padding: 1.5rem;
+      }
 
-    .detail-section {
-      margin-bottom: 2rem;
-    }
+      .detail-section {
+        margin-bottom: 2rem;
+      }
 
-    .detail-section h3 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
+      .detail-section h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
 
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
 
-    .detail-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .detail-item label {
-      font-weight: 600;
-      color: #6c757d;
-      font-size: 0.875rem;
-      text-transform: uppercase;
-    }
+      .detail-item label {
+        font-weight: 600;
+        color: #6c757d;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+      }
 
-    .detail-item .value {
-      font-size: 1rem;
-      color: #212529;
-    }
+      .detail-item .value {
+        font-size: 1rem;
+        color: #212529;
+      }
 
-    .message-card {
-      background: #f8f9fa;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
+      .message-card {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+      }
 
-    .message-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.5rem;
-    }
+      .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+      }
 
-    .message-direction {
-      font-weight: 600;
-      padding: 0.25rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.875rem;
-    }
+      .message-direction {
+        font-weight: 600;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.875rem;
+      }
 
-    .message-direction.inbound {
-      background-color: #d1ecf1;
-      color: #0c5460;
-    }
+      .message-direction.inbound {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
 
-    .message-direction.outbound {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      .message-direction.outbound {
+        background-color: #d4edda;
+        color: #155724;
+      }
 
-    .message-time {
-      font-size: 0.875rem;
-      color: #6c757d;
-    }
+      .message-time {
+        font-size: 0.875rem;
+        color: #6c757d;
+      }
 
-    .message-content p {
-      margin: 0.5rem 0;
-      line-height: 1.5;
-    }
-  `],
+      .message-content p {
+        margin: 0.5rem 0;
+        line-height: 1.5;
+      }
+    `,
+  ],
 })
 export class ConversationsDetailPage implements OnInit {
   private conversationsService = inject(ConversationsService);

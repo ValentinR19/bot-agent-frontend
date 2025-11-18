@@ -29,12 +29,12 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         statusCode: error.status || 0,
         error: error.error?.error || error.statusText || 'UNKNOWN_ERROR',
         timestamp: error.error?.timestamp || new Date().toISOString(),
-        path: error.error?.path || error.url || 'unknown'
+        path: error.error?.path || error.url || 'unknown',
       };
 
       console.error('[HTTP Error]', normalizedError);
 
       return throwError(() => normalizedError);
-    })
+    }),
   );
 };

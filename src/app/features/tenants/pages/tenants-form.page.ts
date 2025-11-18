@@ -15,16 +15,7 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
 @Component({
   selector: 'app-tenants-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    Select,
-    InputSwitchModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Select, InputSwitchModule, ToastModule],
   providers: [MessageService],
   template: `
     <div class="tenants-form-page">
@@ -32,12 +23,7 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>{{ isEditMode ? 'Editar Tenant' : 'Nuevo Tenant' }}</h2>
-            <p-button
-              label="Volver"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              (onClick)="goBack()"
-            ></p-button>
+            <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
           </div>
         </ng-template>
 
@@ -52,20 +38,9 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
                 pInputText
                 formControlName="name"
                 placeholder="Ej: Mi Empresa"
-                [class.ng-invalid]="
-                  tenantForm.get('name')?.invalid &&
-                  tenantForm.get('name')?.touched
-                "
+                [class.ng-invalid]="tenantForm.get('name')?.invalid && tenantForm.get('name')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  tenantForm.get('name')?.invalid &&
-                  tenantForm.get('name')?.touched
-                "
-              >
-                El nombre es requerido (mínimo 3 caracteres)
-              </small>
+              <small class="p-error" *ngIf="tenantForm.get('name')?.invalid && tenantForm.get('name')?.touched"> El nombre es requerido (mínimo 3 caracteres) </small>
             </div>
 
             <!-- Slug -->
@@ -77,21 +52,10 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
                 pInputText
                 formControlName="slug"
                 placeholder="Ej: mi-empresa"
-                [class.ng-invalid]="
-                  tenantForm.get('slug')?.invalid &&
-                  tenantForm.get('slug')?.touched
-                "
+                [class.ng-invalid]="tenantForm.get('slug')?.invalid && tenantForm.get('slug')?.touched"
               />
               <small class="p-hint">Solo letras minúsculas, números y guiones</small>
-              <small
-                class="p-error"
-                *ngIf="
-                  tenantForm.get('slug')?.invalid &&
-                  tenantForm.get('slug')?.touched
-                "
-              >
-                El slug es requerido y debe ser válido
-              </small>
+              <small class="p-error" *ngIf="tenantForm.get('slug')?.invalid && tenantForm.get('slug')?.touched"> El slug es requerido y debe ser válido </small>
             </div>
 
             <!-- Email de Contacto -->
@@ -103,32 +67,15 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
                 pInputText
                 formControlName="contactEmail"
                 placeholder="contacto@empresa.com"
-                [class.ng-invalid]="
-                  tenantForm.get('contactEmail')?.invalid &&
-                  tenantForm.get('contactEmail')?.touched
-                "
+                [class.ng-invalid]="tenantForm.get('contactEmail')?.invalid && tenantForm.get('contactEmail')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  tenantForm.get('contactEmail')?.invalid &&
-                  tenantForm.get('contactEmail')?.touched
-                "
-              >
-                Email inválido
-              </small>
+              <small class="p-error" *ngIf="tenantForm.get('contactEmail')?.invalid && tenantForm.get('contactEmail')?.touched"> Email inválido </small>
             </div>
 
             <!-- Teléfono -->
             <div class="form-field">
               <label for="contactPhone">Teléfono</label>
-              <input
-                id="contactPhone"
-                type="text"
-                pInputText
-                formControlName="contactPhone"
-                placeholder="+54 11 1234-5678"
-              />
+              <input id="contactPhone" type="text" pInputText formControlName="contactPhone" placeholder="+54 11 1234-5678" />
             </div>
 
             <!-- Idioma -->
@@ -176,54 +123,26 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
             <!-- LLM API Key -->
             <div class="form-field" *ngIf="tenantForm.get('llmProvider')?.value">
               <label for="llmApiKey">LLM API Key</label>
-              <input
-                id="llmApiKey"
-                type="password"
-                pInputText
-                formControlName="llmApiKey"
-                placeholder="sk-..."
-              />
+              <input id="llmApiKey" type="password" pInputText formControlName="llmApiKey" placeholder="sk-..." />
               <small class="p-hint">Se guardará de forma encriptada</small>
             </div>
 
             <!-- Color Primario -->
             <div class="form-field">
               <label for="primaryColor">Color Primario</label>
-              <input
-                id="primaryColor"
-                type="color"
-                pInputText
-                formControlName="primaryColor"
-              />
+              <input id="primaryColor" type="color" pInputText formControlName="primaryColor" />
             </div>
 
             <!-- Logo URL -->
             <div class="form-field">
               <label for="logoUrl">URL del Logo</label>
-              <input
-                id="logoUrl"
-                type="url"
-                pInputText
-                formControlName="logoUrl"
-                placeholder="https://ejemplo.com/logo.png"
-              />
+              <input id="logoUrl" type="url" pInputText formControlName="logoUrl" placeholder="https://ejemplo.com/logo.png" />
             </div>
           </div>
 
           <div class="form-actions">
-            <p-button
-              label="Cancelar"
-              severity="secondary"
-              (onClick)="goBack()"
-              type="button"
-            ></p-button>
-            <p-button
-              [label]="isEditMode ? 'Actualizar' : 'Crear'"
-              icon="pi pi-save"
-              type="submit"
-              [disabled]="tenantForm.invalid || saving"
-              [loading]="saving"
-            ></p-button>
+            <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+            <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="tenantForm.invalid || saving" [loading]="saving"></p-button>
           </div>
         </form>
       </p-card>
@@ -231,57 +150,59 @@ import { CreateTenantDto, UpdateTenantDto } from '../tenant.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .tenants-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .tenants-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .form-field label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input,
-    .form-field p-select {
-      width: 100%;
-    }
+      .form-field input,
+      .form-field p-select {
+        width: 100%;
+      }
 
-    .p-hint {
-      font-size: 0.75rem;
-      color: #6c757d;
-    }
+      .p-hint {
+        font-size: 0.75rem;
+        color: #6c757d;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class TenantsFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -317,7 +238,7 @@ export class TenantsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.tenantId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.tenantId && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode = !!this.tenantId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.tenantId) {
       this.loadTenant(this.tenantId);
@@ -377,9 +298,8 @@ export class TenantsFormPage implements OnInit {
         return acc;
       }, {} as any);
 
-      const operation = this.isEditMode && this.tenantId
-        ? this.tenantsService.update(this.tenantId, payload as UpdateTenantDto)
-        : this.tenantsService.create(payload as CreateTenantDto);
+      const operation =
+        this.isEditMode && this.tenantId ? this.tenantsService.update(this.tenantId, payload as UpdateTenantDto) : this.tenantsService.create(payload as CreateTenantDto);
 
       operation.subscribe({
         next: () => {

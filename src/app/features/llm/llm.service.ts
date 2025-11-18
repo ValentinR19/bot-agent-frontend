@@ -10,7 +10,7 @@ import { LLMHealthResponse, LLMTestResponse, EmbeddingTestResponse } from './llm
  * Requiere header X-Tenant-Id (manejado por interceptor)
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LLMService {
   private readonly apiUrl = `${environment.apiUrl}/llm`;

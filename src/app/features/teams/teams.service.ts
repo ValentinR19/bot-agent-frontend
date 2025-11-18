@@ -2,21 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  Team,
-  CreateTeamDto,
-  UpdateTeamDto,
-  TeamMember,
-  AddUserToTeamDto,
-  UpdateTeamMemberRoleDto
-} from './team.model';
+import { Team, CreateTeamDto, UpdateTeamDto, TeamMember, AddUserToTeamDto, UpdateTeamMemberRoleDto } from './team.model';
 
 /**
  * Servicio para gestión de Teams
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TeamsService {
   private readonly http = inject(HttpService);
@@ -44,8 +37,8 @@ export class TeamsService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -66,7 +59,7 @@ export class TeamsService {
       tap((newTeam) => {
         const currentTeams = this.teamsSubject.value;
         this.teamsSubject.next([...currentTeams, newTeam]);
-      })
+      }),
     );
   }
 
@@ -78,12 +71,12 @@ export class TeamsService {
     return this.http.put<Team>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedTeam) => {
         const currentTeams = this.teamsSubject.value;
-        const index = currentTeams.findIndex(t => t.id === id);
+        const index = currentTeams.findIndex((t) => t.id === id);
         if (index !== -1) {
           currentTeams[index] = updatedTeam;
           this.teamsSubject.next([...currentTeams]);
         }
-      })
+      }),
     );
   }
 
@@ -95,8 +88,8 @@ export class TeamsService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentTeams = this.teamsSubject.value;
-        this.teamsSubject.next(currentTeams.filter(t => t.id !== id));
-      })
+        this.teamsSubject.next(currentTeams.filter((t) => t.id !== id));
+      }),
     );
   }
 

@@ -16,17 +16,7 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
 @Component({
   selector: 'app-knowledge-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    Textarea,
-    Select,
-    ChipsModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Textarea, Select, ChipsModule, ToastModule],
   providers: [MessageService],
   template: `
     <div class="knowledge-form-page">
@@ -34,12 +24,7 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>{{ isEditMode ? 'Editar Documento' : 'Nuevo Documento' }}</h2>
-            <p-button
-              label="Volver"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              (onClick)="goBack()"
-            ></p-button>
+            <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
           </div>
         </ng-template>
 
@@ -54,20 +39,9 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
                 pInputText
                 formControlName="title"
                 placeholder="Ej: Manual de Usuario"
-                [class.ng-invalid]="
-                  documentForm.get('title')?.invalid &&
-                  documentForm.get('title')?.touched
-                "
+                [class.ng-invalid]="documentForm.get('title')?.invalid && documentForm.get('title')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  documentForm.get('title')?.invalid &&
-                  documentForm.get('title')?.touched
-                "
-              >
-                El título es requerido
-              </small>
+              <small class="p-error" *ngIf="documentForm.get('title')?.invalid && documentForm.get('title')?.touched"> El título es requerido </small>
             </div>
 
             <!-- Tipo -->
@@ -101,37 +75,19 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
             <!-- URL de Origen -->
             <div class="form-field">
               <label for="sourceUrl">URL de Origen</label>
-              <input
-                id="sourceUrl"
-                type="url"
-                pInputText
-                formControlName="sourceUrl"
-                placeholder="https://ejemplo.com/documento"
-              />
+              <input id="sourceUrl" type="url" pInputText formControlName="sourceUrl" placeholder="https://ejemplo.com/documento" />
             </div>
 
             <!-- Nombre de Archivo -->
             <div class="form-field">
               <label for="fileName">Nombre de Archivo</label>
-              <input
-                id="fileName"
-                type="text"
-                pInputText
-                formControlName="fileName"
-                placeholder="documento.pdf"
-              />
+              <input id="fileName" type="text" pInputText formControlName="fileName" placeholder="documento.pdf" />
             </div>
 
             <!-- Tipo MIME -->
             <div class="form-field">
               <label for="mimeType">Tipo MIME</label>
-              <input
-                id="mimeType"
-                type="text"
-                pInputText
-                formControlName="mimeType"
-                placeholder="application/pdf"
-              />
+              <input id="mimeType" type="text" pInputText formControlName="mimeType" placeholder="application/pdf" />
             </div>
 
             <!-- Contenido -->
@@ -143,48 +99,21 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
                 formControlName="content"
                 placeholder="Contenido del documento"
                 rows="10"
-                [class.ng-invalid]="
-                  documentForm.get('content')?.invalid &&
-                  documentForm.get('content')?.touched
-                "
+                [class.ng-invalid]="documentForm.get('content')?.invalid && documentForm.get('content')?.touched"
               ></textarea>
-              <small
-                class="p-error"
-                *ngIf="
-                  documentForm.get('content')?.invalid &&
-                  documentForm.get('content')?.touched
-                "
-              >
-                El contenido es requerido
-              </small>
+              <small class="p-error" *ngIf="documentForm.get('content')?.invalid && documentForm.get('content')?.touched"> El contenido es requerido </small>
             </div>
 
             <!-- Tags -->
             <div class="form-field full-width">
               <label for="tags">Tags</label>
-              <p-chips
-                id="tags"
-                formControlName="tags"
-                placeholder="Añadir tag"
-                [style]="{ width: '100%' }"
-              ></p-chips>
+              <p-chips id="tags" formControlName="tags" placeholder="Añadir tag" [style]="{ width: '100%' }"></p-chips>
             </div>
           </div>
 
           <div class="form-actions">
-            <p-button
-              label="Cancelar"
-              severity="secondary"
-              (onClick)="goBack()"
-              type="button"
-            ></p-button>
-            <p-button
-              [label]="isEditMode ? 'Actualizar' : 'Crear'"
-              icon="pi pi-save"
-              type="submit"
-              [disabled]="documentForm.invalid || saving"
-              [loading]="saving"
-            ></p-button>
+            <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+            <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="documentForm.invalid || saving" [loading]="saving"></p-button>
           </div>
         </form>
       </p-card>
@@ -192,56 +121,58 @@ import { CreateKnowledgeDocumentDto, UpdateKnowledgeDocumentDto } from '../knowl
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .knowledge-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .knowledge-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .form-field.full-width {
-      grid-column: 1 / -1;
-    }
+      .form-field.full-width {
+        grid-column: 1 / -1;
+      }
 
-    .form-field label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input,
-    .form-field textarea {
-      width: 100%;
-    }
+      .form-field input,
+      .form-field textarea {
+        width: 100%;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class KnowledgeFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -273,7 +204,7 @@ export class KnowledgeFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.documentId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.documentId && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode = !!this.documentId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.documentId) {
       this.loadDocument(this.documentId);
@@ -339,9 +270,10 @@ export class KnowledgeFormPage implements OnInit {
         return acc;
       }, {} as any);
 
-      const operation = this.isEditMode && this.documentId
-        ? this.knowledgeService.update(this.documentId, payload as UpdateKnowledgeDocumentDto)
-        : this.knowledgeService.create(payload as CreateKnowledgeDocumentDto);
+      const operation =
+        this.isEditMode && this.documentId
+          ? this.knowledgeService.update(this.documentId, payload as UpdateKnowledgeDocumentDto)
+          : this.knowledgeService.create(payload as CreateKnowledgeDocumentDto);
 
       operation.subscribe({
         next: () => {

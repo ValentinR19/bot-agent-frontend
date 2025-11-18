@@ -15,16 +15,7 @@ import { Conversation, ConversationStatus } from '../conversations.model';
 @Component({
   selector: 'app-conversations-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-    TagModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule, TagModule],
   providers: [ConfirmationService, MessageService],
   template: `
     <div class="conversations-list-page">
@@ -32,11 +23,7 @@ import { Conversation, ConversationStatus } from '../conversations.model';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Gestión de Conversaciones</h2>
-            <p-button
-              label="Nueva Conversación"
-              icon="pi pi-plus"
-              (onClick)="goToCreate()"
-            ></p-button>
+            <p-button label="Nueva Conversación" icon="pi pi-plus" (onClick)="goToCreate()"></p-button>
           </div>
         </ng-template>
 
@@ -55,28 +42,17 @@ import { Conversation, ConversationStatus } from '../conversations.model';
             <div class="flex">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Buscar..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
               </span>
             </div>
           </ng-template>
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="externalUserId">
-                Usuario <p-sortIcon field="externalUserId"></p-sortIcon>
-              </th>
+              <th pSortableColumn="externalUserId">Usuario <p-sortIcon field="externalUserId"></p-sortIcon></th>
               <th>Canal</th>
-              <th pSortableColumn="status">
-                Estado <p-sortIcon field="status"></p-sortIcon>
-              </th>
-              <th pSortableColumn="lastMessageAt">
-                Último Mensaje <p-sortIcon field="lastMessageAt"></p-sortIcon>
-              </th>
+              <th pSortableColumn="status">Estado <p-sortIcon field="status"></p-sortIcon></th>
+              <th pSortableColumn="lastMessageAt">Último Mensaje <p-sortIcon field="lastMessageAt"></p-sortIcon></th>
               <th>Mensajes</th>
               <th>Acciones</th>
             </tr>
@@ -93,10 +69,7 @@ import { Conversation, ConversationStatus } from '../conversations.model';
                 <small class="text-gray-500">{{ conversation.channel?.type || '' }}</small>
               </td>
               <td>
-                <p-tag
-                  [value]="getStatusLabel(conversation.status)"
-                  [severity]="getStatusSeverity(conversation.status)"
-                ></p-tag>
+                <p-tag [value]="getStatusLabel(conversation.status)" [severity]="getStatusSeverity(conversation.status)"></p-tag>
               </td>
               <td>
                 {{ conversation.lastMessageAt ? (conversation.lastMessageAt | date: 'dd/MM/yyyy HH:mm') : '-' }}
@@ -108,30 +81,9 @@ import { Conversation, ConversationStatus } from '../conversations.model';
               </td>
               <td>
                 <div class="flex gap-2">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="info"
-                    (onClick)="goToDetail(conversation.id)"
-                    pTooltip="Ver detalle"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="warn"
-                    (onClick)="goToEdit(conversation.id)"
-                    pTooltip="Editar"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-trash"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="danger"
-                    (onClick)="confirmDelete(conversation)"
-                    pTooltip="Eliminar"
-                  ></p-button>
+                  <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" (onClick)="goToDetail(conversation.id)" pTooltip="Ver detalle"></p-button>
+                  <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="warn" (onClick)="goToEdit(conversation.id)" pTooltip="Editar"></p-button>
+                  <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (onClick)="confirmDelete(conversation)" pTooltip="Eliminar"></p-button>
                 </div>
               </td>
             </tr>
@@ -149,23 +101,25 @@ import { Conversation, ConversationStatus } from '../conversations.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .conversations-list-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .conversations-list-page {
+        padding: 1.5rem;
+      }
 
-    .badge {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
 
-    .badge-info {
-      background-color: #d1ecf1;
-      color: #0c5460;
-    }
-  `],
+      .badge-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+      }
+    `,
+  ],
 })
 export class ConversationsListPage implements OnInit {
   private conversationsService = inject(ConversationsService);

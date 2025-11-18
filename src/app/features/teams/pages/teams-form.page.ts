@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -20,16 +15,7 @@ import { TeamsService } from '../teams.service';
 @Component({
   selector: 'app-teams-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    TextareaModule,
-    ToggleButtonModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, TextareaModule, ToggleButtonModule, ToastModule],
   providers: [MessageService],
   template: `
     <div class="teams-form-page">
@@ -37,12 +23,7 @@ import { TeamsService } from '../teams.service';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>{{ isEditMode ? 'Editar Equipo' : 'Nuevo Equipo' }}</h2>
-            <p-button
-              label="Volver"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              (onClick)="goBack()"
-            ></p-button>
+            <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
           </div>
         </ng-template>
 
@@ -57,56 +38,27 @@ import { TeamsService } from '../teams.service';
                 pInputText
                 formControlName="name"
                 placeholder="Ej: Equipo de Ventas"
-                [class.ng-invalid]="
-                  teamForm.get('name')?.invalid && teamForm.get('name')?.touched
-                "
+                [class.ng-invalid]="teamForm.get('name')?.invalid && teamForm.get('name')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  teamForm.get('name')?.invalid && teamForm.get('name')?.touched
-                "
-              >
-                El nombre es requerido
-              </small>
+              <small class="p-error" *ngIf="teamForm.get('name')?.invalid && teamForm.get('name')?.touched"> El nombre es requerido </small>
             </div>
 
             <!-- Descripción -->
             <div class="form-field full-width">
               <label for="description">Descripción</label>
-              <textarea
-                id="description"
-                pInputTextarea
-                formControlName="description"
-                placeholder="Descripción del equipo"
-                rows="3"
-              ></textarea>
+              <textarea id="description" pInputTextarea formControlName="description" placeholder="Descripción del equipo" rows="3"></textarea>
             </div>
 
             <!-- Estado Activo -->
             <div class="form-field">
               <label for="isActive">Activo</label>
-              <p-inputSwitch
-                id="isActive"
-                formControlName="isActive"
-              ></p-inputSwitch>
+              <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
             </div>
           </div>
 
           <div class="form-actions">
-            <p-button
-              label="Cancelar"
-              severity="secondary"
-              (onClick)="goBack()"
-              type="button"
-            ></p-button>
-            <p-button
-              [label]="isEditMode ? 'Actualizar' : 'Crear'"
-              icon="pi pi-save"
-              type="submit"
-              [disabled]="teamForm.invalid || saving"
-              [loading]="saving"
-            ></p-button>
+            <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+            <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="teamForm.invalid || saving" [loading]="saving"></p-button>
           </div>
         </form>
       </p-card>
@@ -182,9 +134,7 @@ export class TeamsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.teamId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode =
-      !!this.teamId &&
-      this.route.snapshot.url.some((segment) => segment.path === 'edit');
+    this.isEditMode = !!this.teamId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.teamId) {
       this.loadTeam(this.teamId);
@@ -231,19 +181,14 @@ export class TeamsFormPage implements OnInit {
         return acc;
       }, {} as any);
 
-      const operation =
-        this.isEditMode && this.teamId
-          ? this.teamsService.update(this.teamId, payload as UpdateTeamDto)
-          : this.teamsService.create(payload as CreateTeamDto);
+      const operation = this.isEditMode && this.teamId ? this.teamsService.update(this.teamId, payload as UpdateTeamDto) : this.teamsService.create(payload as CreateTeamDto);
 
       operation.subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
             summary: 'Éxito',
-            detail: `Equipo ${
-              this.isEditMode ? 'actualizado' : 'creado'
-            } correctamente`,
+            detail: `Equipo ${this.isEditMode ? 'actualizado' : 'creado'} correctamente`,
           });
           this.saving = false;
           this.goBack();
@@ -252,9 +197,7 @@ export class TeamsFormPage implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Error al ${
-              this.isEditMode ? 'actualizar' : 'crear'
-            } el equipo`,
+            detail: `Error al ${this.isEditMode ? 'actualizar' : 'crear'} el equipo`,
           });
           this.saving = false;
         },

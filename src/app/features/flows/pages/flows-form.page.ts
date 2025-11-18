@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -21,17 +16,7 @@ import { FlowsService } from '../flows.service';
 @Component({
   selector: 'app-flows-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    TextareaModule,
-    ToggleSwitchModule,
-    ToastModule,
-    ChipModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, TextareaModule, ToggleSwitchModule, ToastModule, ChipModule],
   providers: [MessageService],
   template: `
     <div class="flows-form-page">
@@ -39,12 +24,7 @@ import { FlowsService } from '../flows.service';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>{{ isEditMode ? 'Editar Flujo' : 'Nuevo Flujo' }}</h2>
-            <p-button
-              label="Volver"
-              icon="pi pi-arrow-left"
-              severity="secondary"
-              (onClick)="goBack()"
-            ></p-button>
+            <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
           </div>
         </ng-template>
 
@@ -59,18 +39,9 @@ import { FlowsService } from '../flows.service';
                 pInputText
                 formControlName="name"
                 placeholder="Ej: Flujo de Bienvenida"
-                [class.ng-invalid]="
-                  flowForm.get('name')?.invalid && flowForm.get('name')?.touched
-                "
+                [class.ng-invalid]="flowForm.get('name')?.invalid && flowForm.get('name')?.touched"
               />
-              <small
-                class="p-error"
-                *ngIf="
-                  flowForm.get('name')?.invalid && flowForm.get('name')?.touched
-                "
-              >
-                El nombre es requerido (mínimo 3 caracteres)
-              </small>
+              <small class="p-error" *ngIf="flowForm.get('name')?.invalid && flowForm.get('name')?.touched"> El nombre es requerido (mínimo 3 caracteres) </small>
             </div>
 
             <!-- Slug -->
@@ -82,52 +53,29 @@ import { FlowsService } from '../flows.service';
                 pInputText
                 formControlName="slug"
                 placeholder="Ej: flujo-bienvenida"
-                [class.ng-invalid]="
-                  flowForm.get('slug')?.invalid && flowForm.get('slug')?.touched
-                "
+                [class.ng-invalid]="flowForm.get('slug')?.invalid && flowForm.get('slug')?.touched"
               />
-              <small class="p-hint"
-                >Solo letras minúsculas, números y guiones</small
-              >
-              <small
-                class="p-error"
-                *ngIf="
-                  flowForm.get('slug')?.invalid && flowForm.get('slug')?.touched
-                "
-              >
-                El slug es requerido y debe ser válido
-              </small>
+              <small class="p-hint">Solo letras minúsculas, números y guiones</small>
+              <small class="p-error" *ngIf="flowForm.get('slug')?.invalid && flowForm.get('slug')?.touched"> El slug es requerido y debe ser válido </small>
             </div>
 
             <!-- Estado Activo -->
             <div class="form-field">
               <label for="isActive">Estado Activo</label>
-              <p-inputSwitch
-                id="isActive"
-                formControlName="isActive"
-              ></p-inputSwitch>
+              <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
             </div>
 
             <!-- Flujo por Defecto -->
             <div class="form-field">
               <label for="isDefault">Flujo por Defecto</label>
-              <p-inputSwitch
-                id="isDefault"
-                formControlName="isDefault"
-              ></p-inputSwitch>
+              <p-inputSwitch id="isDefault" formControlName="isDefault"></p-inputSwitch>
             </div>
           </div>
 
           <!-- Descripción -->
           <div class="form-field-full">
             <label for="description">Descripción</label>
-            <textarea
-              id="description"
-              pInputTextarea
-              formControlName="description"
-              placeholder="Describe el propósito de este flujo..."
-              rows="3"
-            ></textarea>
+            <textarea id="description" pInputTextarea formControlName="description" placeholder="Describe el propósito de este flujo..." rows="3"></textarea>
           </div>
 
           <!-- Configuración (JSON) -->
@@ -139,21 +87,10 @@ import { FlowsService } from '../flows.service';
               formControlName="configJson"
               placeholder='{"timeout": 30000, "maxRetries": 3, "fallbackMessage": "Lo siento..."}'
               rows="5"
-              [class.ng-invalid]="
-                flowForm.get('configJson')?.invalid &&
-                flowForm.get('configJson')?.touched
-              "
+              [class.ng-invalid]="flowForm.get('configJson')?.invalid && flowForm.get('configJson')?.touched"
             ></textarea>
             <small class="p-hint">Formato JSON válido (opcional)</small>
-            <small
-              class="p-error"
-              *ngIf="
-                flowForm.get('configJson')?.invalid &&
-                flowForm.get('configJson')?.touched
-              "
-            >
-              JSON inválido
-            </small>
+            <small class="p-error" *ngIf="flowForm.get('configJson')?.invalid && flowForm.get('configJson')?.touched"> JSON inválido </small>
           </div>
 
           <!-- Metadata (JSON) -->
@@ -165,37 +102,15 @@ import { FlowsService } from '../flows.service';
               formControlName="metadataJson"
               placeholder='{"category": "onboarding", "priority": "high"}'
               rows="5"
-              [class.ng-invalid]="
-                flowForm.get('metadataJson')?.invalid &&
-                flowForm.get('metadataJson')?.touched
-              "
+              [class.ng-invalid]="flowForm.get('metadataJson')?.invalid && flowForm.get('metadataJson')?.touched"
             ></textarea>
             <small class="p-hint">Formato JSON válido (opcional)</small>
-            <small
-              class="p-error"
-              *ngIf="
-                flowForm.get('metadataJson')?.invalid &&
-                flowForm.get('metadataJson')?.touched
-              "
-            >
-              JSON inválido
-            </small>
+            <small class="p-error" *ngIf="flowForm.get('metadataJson')?.invalid && flowForm.get('metadataJson')?.touched"> JSON inválido </small>
           </div>
 
           <div class="form-actions">
-            <p-button
-              label="Cancelar"
-              severity="secondary"
-              (onClick)="goBack()"
-              type="button"
-            ></p-button>
-            <p-button
-              [label]="isEditMode ? 'Actualizar' : 'Crear'"
-              icon="pi pi-save"
-              type="submit"
-              [disabled]="flowForm.invalid || saving"
-              [loading]="saving"
-            ></p-button>
+            <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+            <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="flowForm.invalid || saving" [loading]="saving"></p-button>
           </div>
         </form>
       </p-card>
@@ -281,9 +196,7 @@ export class FlowsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.flowId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode =
-      !!this.flowId &&
-      this.route.snapshot.url.some((segment) => segment.path === 'edit');
+    this.isEditMode = !!this.flowId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.flowId) {
       this.loadFlow(this.flowId);
@@ -292,14 +205,7 @@ export class FlowsFormPage implements OnInit {
 
   initForm(): void {
     this.flowForm = this.fb.group({
-      name: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(255),
-        ],
-      ],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
       slug: ['', [Validators.required, Validators.pattern(/^[a-z0-9-]+$/)]],
       description: [''],
       isActive: [true],
@@ -364,8 +270,7 @@ export class FlowsFormPage implements OnInit {
 
       // Clean empty objects
       const cleanConfig = Object.keys(config).length > 0 ? config : undefined;
-      const cleanMetadata =
-        Object.keys(metadata).length > 0 ? metadata : undefined;
+      const cleanMetadata = Object.keys(metadata).length > 0 ? metadata : undefined;
 
       if (this.isEditMode && this.flowId) {
         const updateDto: UpdateFlowDto = {

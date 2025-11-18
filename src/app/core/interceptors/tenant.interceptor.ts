@@ -22,8 +22,8 @@ export const tenantInterceptor: HttpInterceptorFn = (req, next) => {
   // Clonar request y agregar header
   const clonedRequest = req.clone({
     setHeaders: {
-      'X-Tenant-Id': currentTenantId
-    }
+      'X-Tenant-Id': currentTenantId,
+    },
   });
 
   return next(clonedRequest);

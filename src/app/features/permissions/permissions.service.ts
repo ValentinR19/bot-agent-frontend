@@ -10,7 +10,7 @@ import { PermissionCatalog, CreatePermissionDto, UpdatePermissionDto } from './p
  * Requiere header X-Tenant-Id (manejado por interceptor)
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PermissionsService {
   private readonly apiUrl = `${environment.apiUrl}/permissions`;

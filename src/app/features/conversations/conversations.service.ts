@@ -1,24 +1,15 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../core/http/http.service';
-import {
-  Conversation,
-  CreateConversationDto,
-  UpdateConversationDto,
-  Conversation,
-  ConversationStatus,
-  Message,
-  CreateMessageDto,
-  Message
-} from './conversations.model';
+import { Conversation, ConversationStatus, CreateConversationDto, CreateMessageDto, Message, UpdateConversationDto } from './conversations.model';
 
 /**
  * Servicio para gestión de Conversations
  * Endpoints generados desde swagger-export.json
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ConversationsService {
   private readonly http = inject(HttpService);
@@ -46,8 +37,8 @@ export class ConversationsService {
         },
         error: () => {
           this.loadingSubject.next(false);
-        }
-      })
+        },
+      }),
     );
   }
 
@@ -84,7 +75,7 @@ export class ConversationsService {
       tap((newConversation) => {
         const currentConversations = this.conversationsSubject.value;
         this.conversationsSubject.next([...currentConversations, newConversation]);
-      })
+      }),
     );
   }
 
@@ -96,12 +87,12 @@ export class ConversationsService {
     return this.http.put<Conversation>(`${this.baseUrl}/${id}`, dto).pipe(
       tap((updatedConversation) => {
         const currentConversations = this.conversationsSubject.value;
-        const index = currentConversations.findIndex(c => c.id === id);
+        const index = currentConversations.findIndex((c) => c.id === id);
         if (index !== -1) {
           currentConversations[index] = updatedConversation;
           this.conversationsSubject.next([...currentConversations]);
         }
-      })
+      }),
     );
   }
 
@@ -113,8 +104,8 @@ export class ConversationsService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
       tap(() => {
         const currentConversations = this.conversationsSubject.value;
-        this.conversationsSubject.next(currentConversations.filter(c => c.id !== id));
-      })
+        this.conversationsSubject.next(currentConversations.filter((c) => c.id !== id));
+      }),
     );
   }
 

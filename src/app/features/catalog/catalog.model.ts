@@ -3,14 +3,7 @@
  * Generados a partir de swagger-export.json
  */
 
-export type CatalogItemType =
-  | 'product'
-  | 'service'
-  | 'property'
-  | 'course'
-  | 'vehicle'
-  | 'plan'
-  | 'custom';
+export type CatalogItemType = 'product' | 'service' | 'property' | 'course' | 'vehicle' | 'plan' | 'custom';
 
 export interface CatalogItem {
   id: string;

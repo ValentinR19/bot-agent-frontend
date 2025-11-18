@@ -15,15 +15,7 @@ import { Tenant } from '../tenant.model';
 @Component({
   selector: 'app-tenants-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule],
   providers: [ConfirmationService, MessageService],
   template: `
     <div class="tenants-list-page">
@@ -31,11 +23,7 @@ import { Tenant } from '../tenant.model';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Gestión de Tenants</h2>
-            <p-button
-              label="Nuevo Tenant"
-              icon="pi pi-plus"
-              (onClick)="goToCreate()"
-            ></p-button>
+            <p-button label="Nuevo Tenant" icon="pi pi-plus" (onClick)="goToCreate()"></p-button>
           </div>
         </ng-template>
 
@@ -54,24 +42,15 @@ import { Tenant } from '../tenant.model';
             <div class="flex">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Buscar..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
               </span>
             </div>
           </ng-template>
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="name">
-                Nombre <p-sortIcon field="name"></p-sortIcon>
-              </th>
-              <th pSortableColumn="slug">
-                Slug <p-sortIcon field="slug"></p-sortIcon>
-              </th>
+              <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
+              <th pSortableColumn="slug">Slug <p-sortIcon field="slug"></p-sortIcon></th>
               <th>Email</th>
               <th>Idioma</th>
               <th>Estado</th>
@@ -88,40 +67,15 @@ import { Tenant } from '../tenant.model';
               <td>{{ tenant.contactEmail || '-' }}</td>
               <td>{{ tenant.language || 'es' }}</td>
               <td>
-                <span
-                  [class]="
-                    'badge ' + (tenant.isActive ? 'badge-success' : 'badge-danger')
-                  "
-                >
+                <span [class]="'badge ' + (tenant.isActive ? 'badge-success' : 'badge-danger')">
                   {{ tenant.isActive ? 'Activo' : 'Inactivo' }}
                 </span>
               </td>
               <td>
                 <div class="flex gap-2">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="info"
-                    (onClick)="goToDetail(tenant.id)"
-                    pTooltip="Ver detalle"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="warn"
-                    (onClick)="goToEdit(tenant.id)"
-                    pTooltip="Editar"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-trash"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="danger"
-                    (onClick)="confirmDelete(tenant)"
-                    pTooltip="Eliminar"
-                  ></p-button>
+                  <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" (onClick)="goToDetail(tenant.id)" pTooltip="Ver detalle"></p-button>
+                  <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="warn" (onClick)="goToEdit(tenant.id)" pTooltip="Editar"></p-button>
+                  <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (onClick)="confirmDelete(tenant)" pTooltip="Eliminar"></p-button>
                 </div>
               </td>
             </tr>
@@ -139,28 +93,30 @@ import { Tenant } from '../tenant.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .tenants-list-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .tenants-list-page {
+        padding: 1.5rem;
+      }
 
-    .badge {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
 
-    .badge-success {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      .badge-success {
+        background-color: #d4edda;
+        color: #155724;
+      }
 
-    .badge-danger {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
-  `],
+      .badge-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    `,
+  ],
 })
 export class TenantsListPage implements OnInit {
   private tenantsService = inject(TenantsService);

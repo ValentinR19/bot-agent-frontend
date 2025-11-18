@@ -14,15 +14,7 @@ import { PermissionCatalog } from '../permission.model';
 @Component({
   selector: 'app-permissions-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardModule,
-    ButtonModule,
-    DividerModule,
-    SkeletonModule,
-    ToastModule,
-    TagModule,
-  ],
+  imports: [CommonModule, CardModule, ButtonModule, DividerModule, SkeletonModule, ToastModule, TagModule],
   providers: [MessageService],
   template: `
     <div class="permissions-detail-page">
@@ -31,18 +23,8 @@ import { PermissionCatalog } from '../permission.model';
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Detalle del Permiso</h2>
             <div class="flex gap-2">
-              <p-button
-                label="Editar"
-                icon="pi pi-pencil"
-                (onClick)="goToEdit()"
-                [disabled]="!permission"
-              ></p-button>
-              <p-button
-                label="Volver"
-                icon="pi pi-arrow-left"
-                severity="secondary"
-                (onClick)="goBack()"
-              ></p-button>
+              <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!permission"></p-button>
+              <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
             </div>
           </div>
         </ng-template>
@@ -72,10 +54,7 @@ import { PermissionCatalog } from '../permission.model';
 
               <div class="detail-item">
                 <label>Estado:</label>
-                <p-tag
-                  [value]="permission.isActive ? 'Activo' : 'Inactivo'"
-                  [severity]="permission.isActive ? 'success' : 'danger'"
-                ></p-tag>
+                <p-tag [value]="permission.isActive ? 'Activo' : 'Inactivo'" [severity]="permission.isActive ? 'success' : 'danger'"></p-tag>
               </div>
             </div>
           </div>
@@ -134,86 +113,88 @@ import { PermissionCatalog } from '../permission.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .permissions-detail-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .permissions-detail-page {
+        padding: 1.5rem;
+      }
 
-    .detail-section {
-      margin-bottom: 2rem;
-    }
+      .detail-section {
+        margin-bottom: 2rem;
+      }
 
-    .detail-section h3 {
-      margin: 0 0 0.5rem 0;
-      font-size: 1.25rem;
-      font-weight: 600;
-    }
+      .detail-section h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
 
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-top: 1rem;
-    }
+      .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-top: 1rem;
+      }
 
-    .detail-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .detail-item {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .detail-item label {
-      font-weight: 600;
-      color: #6c757d;
-      font-size: 0.875rem;
-      text-transform: uppercase;
-    }
+      .detail-item label {
+        font-weight: 600;
+        color: #6c757d;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+      }
 
-    .detail-item .value {
-      font-size: 1rem;
-      color: #212529;
-    }
+      .detail-item .value {
+        font-size: 1rem;
+        color: #212529;
+      }
 
-    .font-mono {
-      font-family: 'Courier New', monospace;
-    }
+      .font-mono {
+        font-family: 'Courier New', monospace;
+      }
 
-    .description-box {
-      background: #f8f9fa;
-      border: 1px solid #dee2e6;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-top: 1rem;
-    }
+      .description-box {
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+      }
 
-    .description-box p {
-      margin: 0;
-      line-height: 1.6;
-    }
+      .description-box p {
+        margin: 0;
+        line-height: 1.6;
+      }
 
-    .format-explanation {
-      background: #e7f3ff;
-      border: 1px solid #b3d9ff;
-      border-radius: 8px;
-      padding: 1rem;
-      margin-top: 1rem;
-    }
+      .format-explanation {
+        background: #e7f3ff;
+        border: 1px solid #b3d9ff;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 1rem;
+      }
 
-    .format-explanation p {
-      line-height: 1.6;
-    }
+      .format-explanation p {
+        line-height: 1.6;
+      }
 
-    .format-explanation code,
-    .key-format {
-      background: #ffffff;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
-      color: #0066cc;
-      border: 1px solid #b3d9ff;
-    }
-  `],
+      .format-explanation code,
+      .key-format {
+        background: #ffffff;
+        padding: 0.2rem 0.5rem;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 0.9rem;
+        color: #0066cc;
+        border: 1px solid #b3d9ff;
+      }
+    `,
+  ],
 })
 export class PermissionsDetailPage implements OnInit {
   private permissionsService = inject(PermissionsService);

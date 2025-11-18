@@ -14,15 +14,7 @@ import { Team } from '../team.model';
 @Component({
   selector: 'app-teams-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule],
   providers: [ConfirmationService, MessageService],
   template: `
     <div class="teams-list-page">
@@ -30,11 +22,7 @@ import { Team } from '../team.model';
         <ng-template pTemplate="header">
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Gestión de Equipos</h2>
-            <p-button
-              label="Nuevo Equipo"
-              icon="pi pi-plus"
-              (onClick)="goToCreate()"
-            ></p-button>
+            <p-button label="Nuevo Equipo" icon="pi pi-plus" (onClick)="goToCreate()"></p-button>
           </div>
         </ng-template>
 
@@ -53,21 +41,14 @@ import { Team } from '../team.model';
             <div class="flex">
               <span class="p-input-icon-left ml-auto">
                 <i class="pi pi-search"></i>
-                <input
-                  pInputText
-                  type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Buscar..."
-                />
+                <input pInputText type="text" (input)="dt.filterGlobal($any($event.target).value, 'contains')" placeholder="Buscar..." />
               </span>
             </div>
           </ng-template>
 
           <ng-template pTemplate="header">
             <tr>
-              <th pSortableColumn="name">
-                Nombre <p-sortIcon field="name"></p-sortIcon>
-              </th>
+              <th pSortableColumn="name">Nombre <p-sortIcon field="name"></p-sortIcon></th>
               <th>Descripción</th>
               <th>Miembros</th>
               <th>Estado</th>
@@ -81,40 +62,15 @@ import { Team } from '../team.model';
               <td>{{ team.description || '-' }}</td>
               <td>{{ team.members?.length || 0 }}</td>
               <td>
-                <span
-                  [class]="
-                    'badge ' + (team.isActive ? 'badge-success' : 'badge-danger')
-                  "
-                >
+                <span [class]="'badge ' + (team.isActive ? 'badge-success' : 'badge-danger')">
                   {{ team.isActive ? 'Activo' : 'Inactivo' }}
                 </span>
               </td>
               <td>
                 <div class="flex gap-2">
-                  <p-button
-                    icon="pi pi-eye"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="info"
-                    (onClick)="goToDetail(team.id)"
-                    pTooltip="Ver detalle"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-pencil"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="warn"
-                    (onClick)="goToEdit(team.id)"
-                    pTooltip="Editar"
-                  ></p-button>
-                  <p-button
-                    icon="pi pi-trash"
-                    [rounded]="true"
-                    [text]="true"
-                    severity="danger"
-                    (onClick)="confirmDelete(team)"
-                    pTooltip="Eliminar"
-                  ></p-button>
+                  <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" (onClick)="goToDetail(team.id)" pTooltip="Ver detalle"></p-button>
+                  <p-button icon="pi pi-pencil" [rounded]="true" [text]="true" severity="warn" (onClick)="goToEdit(team.id)" pTooltip="Editar"></p-button>
+                  <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" (onClick)="confirmDelete(team)" pTooltip="Eliminar"></p-button>
                 </div>
               </td>
             </tr>
@@ -132,28 +88,30 @@ import { Team } from '../team.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .teams-list-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .teams-list-page {
+        padding: 1.5rem;
+      }
 
-    .badge {
-      padding: 0.25rem 0.5rem;
-      border-radius: 0.25rem;
-      font-size: 0.875rem;
-      font-weight: 600;
-    }
+      .badge {
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
 
-    .badge-success {
-      background-color: #d4edda;
-      color: #155724;
-    }
+      .badge-success {
+        background-color: #d4edda;
+        color: #155724;
+      }
 
-    .badge-danger {
-      background-color: #f8d7da;
-      color: #721c24;
-    }
-  `],
+      .badge-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+      }
+    `,
+  ],
 })
 export class TeamsListPage implements OnInit {
   private teamsService = inject(TeamsService);

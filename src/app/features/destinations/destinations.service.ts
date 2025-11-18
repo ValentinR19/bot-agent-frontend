@@ -10,7 +10,7 @@ import { Destination, CreateDestinationDto, UpdateDestinationDto, TestDestinatio
  * Requiere header X-Tenant-Id (manejado por interceptor)
  */
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DestinationsService {
   private readonly apiUrl = `${environment.apiUrl}/destinations`;
