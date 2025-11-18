@@ -24,6 +24,7 @@ import { Flow, FlowNode } from '../flows.model';
           <div class="flex justify-content-between align-items-center p-3">
             <h2>Detalle del Flujo</h2>
             <div class="flex gap-2">
+              <p-button label="Abrir Builder" icon="pi pi-sitemap" (onClick)="goToBuilder()" [disabled]="!flow" severity="info"></p-button>
               <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!flow"></p-button>
               <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
             </div>
@@ -268,6 +269,12 @@ export class FlowsDetailPage implements OnInit {
         });
       },
     });
+  }
+
+  goToBuilder(): void {
+    if (this.flow) {
+      this.router.navigate(['/flows', this.flow.id, 'builder']);
+    }
   }
 
   goToEdit(): void {
