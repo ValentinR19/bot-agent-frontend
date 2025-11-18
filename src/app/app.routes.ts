@@ -53,6 +53,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/roles/roles.routes').then((m) => m.ROLES_ROUTES)
       },
+      {
+        path: 'permissions',
+        loadChildren: () =>
+          import('./features/permissions/permissions.routes').then(
+            (m) => m.PERMISSIONS_ROUTES
+          )
+      },
 
       // Canales
       {
@@ -67,6 +74,13 @@ export const routes: Routes = [
         loadChildren: () =>
           import('./features/conversations/conversations.routes').then(
             (m) => m.CONVERSATIONS_ROUTES
+          )
+      },
+      {
+        path: 'destinations',
+        loadChildren: () =>
+          import('./features/destinations/destinations.routes').then(
+            (m) => m.DESTINATIONS_ROUTES
           )
       },
 

@@ -9,31 +9,23 @@ export const USERS_ROUTES: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./pages/users-list/users-list.page').then(
-            (m) => m.UsersListPage
-          )
+          import('./pages/users-list.page').then((m) => m.UsersListPage),
       },
       {
         path: 'new',
         loadComponent: () =>
-          import('./pages/users-list/users-list.page').then(
-            (m) => m.UsersListPage
-          )
+          import('./pages/users-form.page').then((m) => m.UsersFormPage),
       },
       {
         path: ':id',
         loadComponent: () =>
-          import('./pages/users-list/users-list.page').then(
-            (m) => m.UsersListPage
-          )
+          import('./pages/users-detail.page').then((m) => m.UsersDetailPage),
       },
       {
         path: ':id/edit',
         loadComponent: () =>
-          import('./pages/users-list/users-list.page').then(
-            (m) => m.UsersListPage
-          )
-      }
-    ]
-  }
+          import('./pages/users-form.page').then((m) => m.UsersFormPage),
+      },
+    ],
+  },
 ];

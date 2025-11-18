@@ -9,30 +9,22 @@ export const CONVERSATIONS_ROUTES: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./pages/conversations-list/conversations-list.page').then(
-            (m) => m.ConversationsListPage
-          )
+          import('./pages/conversations-list.page').then((m) => m.ConversationsListPage),
       },
       {
         path: 'new',
         loadComponent: () =>
-          import('./pages/conversations-list/conversations-list.page').then(
-            (m) => m.ConversationsListPage
-          )
+          import('./pages/conversations-form.page').then((m) => m.ConversationsFormPage),
       },
       {
         path: ':id',
         loadComponent: () =>
-          import('./pages/conversations-list/conversations-list.page').then(
-            (m) => m.ConversationsListPage
-          )
+          import('./pages/conversations-detail.page').then((m) => m.ConversationsDetailPage),
       },
       {
         path: ':id/edit',
         loadComponent: () =>
-          import('./pages/conversations-list/conversations-list.page').then(
-            (m) => m.ConversationsListPage
-          )
+          import('./pages/conversations-form.page').then((m) => m.ConversationsFormPage),
       }
     ]
   }
