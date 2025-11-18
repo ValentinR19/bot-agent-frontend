@@ -3,86 +3,69 @@
  * Generados a partir de swagger-export.json
  */
 
+export type DocumentType = 'faq' | 'product_catalog' | 'manual' | 'policy' | 'general';
+
+export type DocumentSourceType = 'file' | 'url' | 'manual' | 'api';
+
+export type DocumentStatus = 'pending' | 'processing' | 'completed' | 'failed';
+
 export interface KnowledgeDocument {
   id: string;
-  tenantId: string;
-  title: string;
-  content?: string;
   type: DocumentType;
-  status: DocumentStatus;
+  title: string;
+  content: string;
+  sourceType?: DocumentSourceType;
   sourceUrl?: string;
-  filePath?: string;
+  fileName?: string;
   fileSize?: number;
   mimeType?: string;
-  metadata?: Record<string, any>;
-  chunks?: DocumentChunk[];
-  processingStartedAt?: string;
-  processingCompletedAt?: string;
+  status: DocumentStatus;
   errorMessage?: string;
+  chunksCount: number;
+  tags: string[];
+  metadata: Record<string, any>;
+  processedAt?: string;
   createdAt: string;
   updatedAt: string;
-  deletedAt?: string | null;
-}
-
-export enum DocumentType {
-  TEXT = 'text',
-  PDF = 'pdf',
-  DOCX = 'docx',
-  HTML = 'html',
-  MARKDOWN = 'markdown',
-  URL = 'url'
-}
-
-export enum DocumentStatus {
-  PENDING = 'pending',
-  PROCESSING = 'processing',
-  COMPLETED = 'completed',
-  FAILED = 'failed',
-  ARCHIVED = 'archived'
-}
-
-export interface DocumentChunk {
-  id: string;
-  documentId: string;
-  content: string;
-  chunkIndex: number;
-  startPosition: number;
-  endPosition: number;
-  embedding?: number[];
-  metadata?: Record<string, any>;
-  createdAt: string;
 }
 
 export interface CreateKnowledgeDocumentDto {
-  tenantId: string;
-  title: string;
-  content?: string;
   type: DocumentType;
+  title: string;
+  content: string;
+  sourceType?: DocumentSourceType;
   sourceUrl?: string;
+  fileName?: string;
+  fileSize?: number;
+  mimeType?: string;
+  tags?: string[];
   metadata?: Record<string, any>;
 }
 
 export interface UpdateKnowledgeDocumentDto {
-  title?: string;
-  content?: string;
   type?: DocumentType;
-  status?: DocumentStatus;
+  title?: string;
+  sourceType?: DocumentSourceType;
   sourceUrl?: string;
+  fileName?: string;
+  fileSize?: number;
+  mimeType?: string;
+  tags?: string[];
   metadata?: Record<string, any>;
+  status?: DocumentStatus;
+  errorMessage?: string;
 }
 
-export interface KnowledgeDocumentResponseDto extends KnowledgeDocument {}
-
-export interface DocumentSearchDto {
-  query: string;
+export interface KnowledgeDocumentSearchParams {
+  tags?: string[];
   type?: DocumentType;
   status?: DocumentStatus;
-  limit?: number;
 }
 
 export interface UploadDocumentDto {
-  tenantId: string;
-  title: string;
   file: File;
+  type: DocumentType;
+  title: string;
+  tags?: string[];
   metadata?: Record<string, any>;
 }
