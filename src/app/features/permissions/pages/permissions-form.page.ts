@@ -1,15 +1,15 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { PermissionsService } from '../permissions.service';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
 import { CreatePermissionDto, UpdatePermissionDto } from '../permission.model';
+import { PermissionsService } from '../permissions.service';
 
 @Component({
   selector: 'app-permissions-form',
@@ -20,7 +20,7 @@ import { CreatePermissionDto, UpdatePermissionDto } from '../permission.model';
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule,
+    TextareaModule,
     ToastModule,
   ],
   providers: [MessageService],

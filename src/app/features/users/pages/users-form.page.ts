@@ -1,15 +1,20 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { UsersService } from '../users.service';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { ToastModule } from 'primeng/toast';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { CreateUserDto, UpdateUserDto } from '../user.model';
+import { UsersService } from '../users.service';
 
 @Component({
   selector: 'app-users-form',
@@ -20,8 +25,8 @@ import { CreateUserDto, UpdateUserDto } from '../user.model';
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputSwitchModule,
     ToastModule,
+    ToggleSwitchModule,
   ],
   providers: [MessageService],
   template: `
@@ -93,7 +98,9 @@ import { CreateUserDto, UpdateUserDto } from '../user.model';
 
             <!-- Password (solo en modo creación o si se desea cambiar) -->
             <div class="form-field" *ngIf="!isEditMode || showPasswordField">
-              <label for="password" [class.required]="!isEditMode">Contraseña</label>
+              <label for="password" [class.required]="!isEditMode"
+                >Contraseña</label
+              >
               <input
                 id="password"
                 type="password"
@@ -180,51 +187,53 @@ import { CreateUserDto, UpdateUserDto } from '../user.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .users-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .users-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .form-field label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input {
-      width: 100%;
-    }
+      .form-field input {
+        width: 100%;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class UsersFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -242,7 +251,9 @@ export class UsersFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.userId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.userId && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode =
+      !!this.userId &&
+      this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.userId) {
       this.loadUser(this.userId);
@@ -253,7 +264,10 @@ export class UsersFormPage implements OnInit {
     this.userForm = this.fb.group({
       fullName: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', this.isEditMode ? [] : [Validators.required, Validators.minLength(6)]],
+      password: [
+        '',
+        this.isEditMode ? [] : [Validators.required, Validators.minLength(6)],
+      ],
       avatarUrl: [''],
       isActive: [true],
       isSuperAdmin: [false],
@@ -263,7 +277,9 @@ export class UsersFormPage implements OnInit {
   togglePasswordField(): void {
     this.showPasswordField = !this.showPasswordField;
     if (this.showPasswordField) {
-      this.userForm.get('password')?.setValidators([Validators.required, Validators.minLength(6)]);
+      this.userForm
+        .get('password')
+        ?.setValidators([Validators.required, Validators.minLength(6)]);
     } else {
       this.userForm.get('password')?.clearValidators();
       this.userForm.get('password')?.setValue('');
@@ -310,16 +326,19 @@ export class UsersFormPage implements OnInit {
         delete payload.password;
       }
 
-      const operation = this.isEditMode && this.userId
-        ? this.usersService.update(this.userId, payload as UpdateUserDto)
-        : this.usersService.create(payload as CreateUserDto);
+      const operation =
+        this.isEditMode && this.userId
+          ? this.usersService.update(this.userId, payload as UpdateUserDto)
+          : this.usersService.create(payload as CreateUserDto);
 
       operation.subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
             summary: 'Éxito',
-            detail: `Usuario ${this.isEditMode ? 'actualizado' : 'creado'} correctamente`,
+            detail: `Usuario ${
+              this.isEditMode ? 'actualizado' : 'creado'
+            } correctamente`,
           });
           this.saving = false;
           this.goBack();
@@ -328,7 +347,9 @@ export class UsersFormPage implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Error al ${this.isEditMode ? 'actualizar' : 'crear'} el usuario`,
+            detail: `Error al ${
+              this.isEditMode ? 'actualizar' : 'crear'
+            } el usuario`,
           });
           this.saving = false;
         },

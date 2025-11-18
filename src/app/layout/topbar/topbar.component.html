@@ -5,24 +5,24 @@
       type="button"
       icon="pi pi-bars"
       class="p-button-text p-button-rounded"
-      (click)="onToggleSidebar()">
-    </button>
+      (click)="onToggleSidebar()"
+    ></button>
 
     <h2 class="topbar-title">Bot Agent Platform</h2>
   </div>
 
   <div class="topbar-right">
     <!-- Selector de Tenant (solo para super admins) -->
-    <div class="tenant-selector" *ngIf="isSuperAdmin">
-      <p-dropdown
+    <div class="tenant-selector" #overlayHost *ngIf="isSuperAdmin">
+      <p-select
         [options]="availableTenants"
         [(ngModel)]="selectedTenantId"
         optionLabel="name"
         optionValue="id"
-        [placeholder]="currentTenantName"
+        placeholder="'currentTenantName'"
         (onChange)="onTenantChange($event)"
-        styleClass="tenant-dropdown"
-        appendTo="body">
+        [class]="'tenant-dropdown'"
+      >
         <ng-template pTemplate="selectedItem">
           <div class="tenant-item" *ngIf="selectedTenantId">
             <i class="pi pi-building"></i>
@@ -35,7 +35,7 @@
             <span>{{ tenant.name }}</span>
           </div>
         </ng-template>
-      </p-dropdown>
+      </p-select>
     </div>
 
     <!-- Notificaciones -->
@@ -45,8 +45,8 @@
       icon="pi pi-bell"
       class="p-button-text p-button-rounded"
       badge="3"
-      badgeClass="p-badge-danger">
-    </button>
+      badgeClass="p-badge-danger"
+    ></button>
 
     <!-- Usuario -->
     <div class="user-menu">
@@ -54,7 +54,8 @@
         pButton
         type="button"
         class="p-button-text user-button"
-        #userMenuButton>
+        #userMenuButton
+      >
         <div class="user-info">
           <span class="user-name">{{ userName }}</span>
           <span class="user-email">{{ userEmail }}</span>
@@ -62,20 +63,15 @@
         <i class="pi pi-angle-down"></i>
       </button>
 
-      <p-menu
-        #menu
-        [model]="userMenuItems"
-        [popup]="true"
-        appendTo="body">
-      </p-menu>
+      <p-menu #menu [model]="userMenuItems" [popup]="true"> </p-menu>
 
       <button
         pButton
         type="button"
         icon="pi pi-user"
         class="p-button-text p-button-rounded"
-        (click)="menu.toggle($event)">
-      </button>
+        (click)="menu.toggle($event)"
+      ></button>
     </div>
   </div>
 </header>

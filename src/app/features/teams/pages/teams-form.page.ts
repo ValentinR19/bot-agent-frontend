@@ -1,16 +1,21 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { TeamsService } from '../teams.service';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
+import { ToggleButtonModule } from 'primeng/togglebutton';
 import { CreateTeamDto, UpdateTeamDto } from '../team.model';
+import { TeamsService } from '../teams.service';
 
 @Component({
   selector: 'app-teams-form',
@@ -21,8 +26,8 @@ import { CreateTeamDto, UpdateTeamDto } from '../team.model';
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule,
-    InputSwitchModule,
+    TextareaModule,
+    ToggleButtonModule,
     ToastModule,
   ],
   providers: [MessageService],
@@ -53,15 +58,13 @@ import { CreateTeamDto, UpdateTeamDto } from '../team.model';
                 formControlName="name"
                 placeholder="Ej: Equipo de Ventas"
                 [class.ng-invalid]="
-                  teamForm.get('name')?.invalid &&
-                  teamForm.get('name')?.touched
+                  teamForm.get('name')?.invalid && teamForm.get('name')?.touched
                 "
               />
               <small
                 class="p-error"
                 *ngIf="
-                  teamForm.get('name')?.invalid &&
-                  teamForm.get('name')?.touched
+                  teamForm.get('name')?.invalid && teamForm.get('name')?.touched
                 "
               >
                 El nombre es requerido
@@ -111,56 +114,58 @@ import { CreateTeamDto, UpdateTeamDto } from '../team.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .teams-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .teams-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .form-field.full-width {
-      grid-column: 1 / -1;
-    }
+      .form-field.full-width {
+        grid-column: 1 / -1;
+      }
 
-    .form-field label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input,
-    .form-field textarea {
-      width: 100%;
-    }
+      .form-field input,
+      .form-field textarea {
+        width: 100%;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class TeamsFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -177,7 +182,9 @@ export class TeamsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.teamId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.teamId && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode =
+      !!this.teamId &&
+      this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.teamId) {
       this.loadTeam(this.teamId);
@@ -224,16 +231,19 @@ export class TeamsFormPage implements OnInit {
         return acc;
       }, {} as any);
 
-      const operation = this.isEditMode && this.teamId
-        ? this.teamsService.update(this.teamId, payload as UpdateTeamDto)
-        : this.teamsService.create(payload as CreateTeamDto);
+      const operation =
+        this.isEditMode && this.teamId
+          ? this.teamsService.update(this.teamId, payload as UpdateTeamDto)
+          : this.teamsService.create(payload as CreateTeamDto);
 
       operation.subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
             summary: 'Éxito',
-            detail: `Equipo ${this.isEditMode ? 'actualizado' : 'creado'} correctamente`,
+            detail: `Equipo ${
+              this.isEditMode ? 'actualizado' : 'creado'
+            } correctamente`,
           });
           this.saving = false;
           this.goBack();
@@ -242,7 +252,9 @@ export class TeamsFormPage implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Error al ${this.isEditMode ? 'actualizar' : 'crear'} el equipo`,
+            detail: `Error al ${
+              this.isEditMode ? 'actualizar' : 'crear'
+            } el equipo`,
           });
           this.saving = false;
         },

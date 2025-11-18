@@ -10,7 +10,7 @@ import { SelectModule } from 'primeng/select';
 import { TenantService } from '../../core/services/tenant.service';
 import { AuthUser } from '../../features/auth/auth.model';
 import { AuthService } from '../../features/auth/auth.service';
-import { Tenant } from '../../features/tenants/tenants.model';
+import { Tenant } from '../../features/tenants/tenant.model';
 import { TenantsService } from '../../features/tenants/tenants.service';
 
 @Component({

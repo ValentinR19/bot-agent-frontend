@@ -1,16 +1,21 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { RolesService } from '../roles.service';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { CreateRoleDto, UpdateRoleDto } from '../role.model';
+import { RolesService } from '../roles.service';
 
 @Component({
   selector: 'app-roles-form',
@@ -21,8 +26,8 @@ import { CreateRoleDto, UpdateRoleDto } from '../role.model';
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule,
-    InputSwitchModule,
+    TextareaModule,
+    ToggleSwitchModule,
     ToastModule,
   ],
   providers: [MessageService],
@@ -53,15 +58,13 @@ import { CreateRoleDto, UpdateRoleDto } from '../role.model';
                 formControlName="name"
                 placeholder="Ej: Administrador"
                 [class.ng-invalid]="
-                  roleForm.get('name')?.invalid &&
-                  roleForm.get('name')?.touched
+                  roleForm.get('name')?.invalid && roleForm.get('name')?.touched
                 "
               />
               <small
                 class="p-error"
                 *ngIf="
-                  roleForm.get('name')?.invalid &&
-                  roleForm.get('name')?.touched
+                  roleForm.get('name')?.invalid && roleForm.get('name')?.touched
                 "
               >
                 El nombre es requerido
@@ -83,10 +86,10 @@ import { CreateRoleDto, UpdateRoleDto } from '../role.model';
             <!-- Estado Activo -->
             <div class="form-field">
               <label for="isActive">Activo</label>
-              <p-inputSwitch
+              <p-toggleswitch
                 id="isActive"
                 formControlName="isActive"
-              ></p-inputSwitch>
+              ></p-toggleswitch>
             </div>
           </div>
 
@@ -111,56 +114,58 @@ import { CreateRoleDto, UpdateRoleDto } from '../role.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .roles-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .roles-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .form-field.full-width {
-      grid-column: 1 / -1;
-    }
+      .form-field.full-width {
+        grid-column: 1 / -1;
+      }
 
-    .form-field label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input,
-    .form-field textarea {
-      width: 100%;
-    }
+      .form-field input,
+      .form-field textarea {
+        width: 100%;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class RolesFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -177,7 +182,9 @@ export class RolesFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.roleId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.roleId && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode =
+      !!this.roleId &&
+      this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.roleId) {
       this.loadRole(this.roleId);
@@ -234,16 +241,19 @@ export class RolesFormPage implements OnInit {
         return acc;
       }, {} as any);
 
-      const operation = this.isEditMode && this.roleId
-        ? this.rolesService.update(this.roleId, payload as UpdateRoleDto)
-        : this.rolesService.create(payload as CreateRoleDto);
+      const operation =
+        this.isEditMode && this.roleId
+          ? this.rolesService.update(this.roleId, payload as UpdateRoleDto)
+          : this.rolesService.create(payload as CreateRoleDto);
 
       operation.subscribe({
         next: () => {
           this.messageService.add({
             severity: 'success',
             summary: 'Éxito',
-            detail: `Rol ${this.isEditMode ? 'actualizado' : 'creado'} correctamente`,
+            detail: `Rol ${
+              this.isEditMode ? 'actualizado' : 'creado'
+            } correctamente`,
           });
           this.saving = false;
           this.goBack();
@@ -252,7 +262,9 @@ export class RolesFormPage implements OnInit {
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: `Error al ${this.isEditMode ? 'actualizar' : 'crear'} el rol`,
+            detail: `Error al ${
+              this.isEditMode ? 'actualizar' : 'crear'
+            } el rol`,
           });
           this.saving = false;
         },

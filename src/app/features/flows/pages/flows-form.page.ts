@@ -1,17 +1,22 @@
-import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnInit, inject } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { ChipsModule } from 'primeng/chips';
-import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
-import { FlowsService } from '../flows.service';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ChipModule } from 'primeng/chip';
+import { InputTextModule } from 'primeng/inputtext';
+import { TextareaModule } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { CreateFlowDto, UpdateFlowDto } from '../flows.model';
+import { FlowsService } from '../flows.service';
 
 @Component({
   selector: 'app-flows-form',
@@ -22,10 +27,10 @@ import { CreateFlowDto, UpdateFlowDto } from '../flows.model';
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule,
-    InputSwitchModule,
-    ChipsModule,
+    TextareaModule,
+    ToggleSwitchModule,
     ToastModule,
+    ChipModule,
   ],
   providers: [MessageService],
   template: `
@@ -55,15 +60,13 @@ import { CreateFlowDto, UpdateFlowDto } from '../flows.model';
                 formControlName="name"
                 placeholder="Ej: Flujo de Bienvenida"
                 [class.ng-invalid]="
-                  flowForm.get('name')?.invalid &&
-                  flowForm.get('name')?.touched
+                  flowForm.get('name')?.invalid && flowForm.get('name')?.touched
                 "
               />
               <small
                 class="p-error"
                 *ngIf="
-                  flowForm.get('name')?.invalid &&
-                  flowForm.get('name')?.touched
+                  flowForm.get('name')?.invalid && flowForm.get('name')?.touched
                 "
               >
                 El nombre es requerido (mínimo 3 caracteres)
@@ -80,16 +83,16 @@ import { CreateFlowDto, UpdateFlowDto } from '../flows.model';
                 formControlName="slug"
                 placeholder="Ej: flujo-bienvenida"
                 [class.ng-invalid]="
-                  flowForm.get('slug')?.invalid &&
-                  flowForm.get('slug')?.touched
+                  flowForm.get('slug')?.invalid && flowForm.get('slug')?.touched
                 "
               />
-              <small class="p-hint">Solo letras minúsculas, números y guiones</small>
+              <small class="p-hint"
+                >Solo letras minúsculas, números y guiones</small
+              >
               <small
                 class="p-error"
                 *ngIf="
-                  flowForm.get('slug')?.invalid &&
-                  flowForm.get('slug')?.touched
+                  flowForm.get('slug')?.invalid && flowForm.get('slug')?.touched
                 "
               >
                 El slug es requerido y debe ser válido
@@ -200,66 +203,68 @@ import { CreateFlowDto, UpdateFlowDto } from '../flows.model';
       <p-toast></p-toast>
     </div>
   `,
-  styles: [`
-    .flows-form-page {
-      padding: 1.5rem;
-    }
+  styles: [
+    `
+      .flows-form-page {
+        padding: 1.5rem;
+      }
 
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 2rem;
-    }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
 
-    .form-field {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .form-field {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    .form-field-full {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
-    }
+      .form-field-full {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
 
-    .form-field label,
-    .form-field-full label {
-      font-weight: 600;
-      font-size: 0.875rem;
-    }
+      .form-field label,
+      .form-field-full label {
+        font-weight: 600;
+        font-size: 0.875rem;
+      }
 
-    .form-field label.required::after,
-    .form-field-full label.required::after {
-      content: ' *';
-      color: #e24c4c;
-    }
+      .form-field label.required::after,
+      .form-field-full label.required::after {
+        content: ' *';
+        color: #e24c4c;
+      }
 
-    .form-field input,
-    .form-field-full textarea {
-      width: 100%;
-    }
+      .form-field input,
+      .form-field-full textarea {
+        width: 100%;
+      }
 
-    .p-hint {
-      font-size: 0.75rem;
-      color: #6c757d;
-    }
+      .p-hint {
+        font-size: 0.75rem;
+        color: #6c757d;
+      }
 
-    .p-error {
-      font-size: 0.75rem;
-      color: #e24c4c;
-    }
+      .p-error {
+        font-size: 0.75rem;
+        color: #e24c4c;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid #dee2e6;
-    }
-  `],
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #dee2e6;
+      }
+    `,
+  ],
 })
 export class FlowsFormPage implements OnInit {
   private fb = inject(FormBuilder);
@@ -276,7 +281,9 @@ export class FlowsFormPage implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.flowId = this.route.snapshot.paramMap.get('id');
-    this.isEditMode = !!this.flowId && this.route.snapshot.url.some(segment => segment.path === 'edit');
+    this.isEditMode =
+      !!this.flowId &&
+      this.route.snapshot.url.some((segment) => segment.path === 'edit');
 
     if (this.isEditMode && this.flowId) {
       this.loadFlow(this.flowId);
@@ -285,7 +292,14 @@ export class FlowsFormPage implements OnInit {
 
   initForm(): void {
     this.flowForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(255)]],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(255),
+        ],
+      ],
       slug: ['', [Validators.required, Validators.pattern(/^[a-z0-9-]+$/)]],
       description: [''],
       isActive: [true],
@@ -350,7 +364,8 @@ export class FlowsFormPage implements OnInit {
 
       // Clean empty objects
       const cleanConfig = Object.keys(config).length > 0 ? config : undefined;
-      const cleanMetadata = Object.keys(metadata).length > 0 ? metadata : undefined;
+      const cleanMetadata =
+        Object.keys(metadata).length > 0 ? metadata : undefined;
 
       if (this.isEditMode && this.flowId) {
         const updateDto: UpdateFlowDto = {

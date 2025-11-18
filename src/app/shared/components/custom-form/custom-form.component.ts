@@ -1,23 +1,37 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule, FormGroup } from '@angular/forms';
-import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { DropdownModule } from 'primeng/dropdown';
-import { CalendarModule } from 'primeng/calendar';
-import { CheckboxModule } from 'primeng/checkbox';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
+import { DatePickerModule } from 'primeng/datepicker';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
+import { TextareaModule } from 'primeng/textarea';
 
 export interface FormField {
   name: string;
   label: string;
-  type: 'text' | 'email' | 'password' | 'number' | 'textarea' | 'dropdown' | 'date' | 'checkbox';
+  type:
+    | 'text'
+    | 'email'
+    | 'password'
+    | 'number'
+    | 'textarea'
+    | 'select'
+    | 'date'
+    | 'checkbox';
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;
   options?: { label: string; value: any }[];
-  rows?: number;
   min?: number;
   max?: number;
 }
@@ -30,19 +44,21 @@ export interface FormField {
     FormsModule,
     ReactiveFormsModule,
     InputTextModule,
-    InputTextareaModule,
+    TextareaModule,
+    SelectModule,
     InputNumberModule,
-    DropdownModule,
-    CalendarModule,
     CheckboxModule,
-    ButtonModule
+    DatePickerModule,
+    ButtonModule,
   ],
   templateUrl: './custom-form.component.html',
-  styleUrl: './custom-form.component.scss'
+  styleUrl: './custom-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomFormComponent {
   @Input() fields: FormField[] = [];
   @Input() formGroup!: FormGroup;
+
   @Input() submitLabel = 'Guardar';
   @Input() cancelLabel = 'Cancelar';
   @Input() loading = false;
@@ -63,21 +79,23 @@ export class CustomFormComponent {
     this.cancel.emit();
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const control = this.formGroup.get(fieldName);
-    return !!(control && control.invalid && (control.dirty || control.touched));
+  isFieldInvalid(name: string): boolean {
+    const ctrl = this.formGroup.get(name);
+    return !!ctrl && ctrl.invalid && (ctrl.dirty || ctrl.touched);
   }
 
-  getErrorMessage(fieldName: string): string {
-    const control = this.formGroup.get(fieldName);
-    if (!control || !control.errors) return '';
+  getErrorMessage(name: string): string {
+    const ctrl = this.formGroup.get(name);
+    if (!ctrl?.errors) return '';
 
-    if (control.errors['required']) return 'Este campo es requerido';
-    if (control.errors['email']) return 'Email inválido';
-    if (control.errors['min']) return `Valor mínimo: ${control.errors['min'].min}`;
-    if (control.errors['max']) return `Valor máximo: ${control.errors['max'].max}`;
-    if (control.errors['minlength']) return `Mínimo ${control.errors['minlength'].requiredLength} caracteres`;
-    if (control.errors['maxlength']) return `Máximo ${control.errors['maxlength'].requiredLength} caracteres`;
+    if (ctrl.errors['required']) return 'Este campo es requerido';
+    if (ctrl.errors['email']) return 'Email inválido';
+    if (ctrl.errors['min']) return `Mínimo ${ctrl.errors['min'].min}`;
+    if (ctrl.errors['max']) return `Máximo ${ctrl.errors['max'].max}`;
+    if (ctrl.errors['minlength'])
+      return `Mínimo ${ctrl.errors['minlength'].requiredLength} caracteres`;
+    if (ctrl.errors['maxlength'])
+      return `Máximo ${ctrl.errors['maxlength'].requiredLength} caracteres`;
 
     return 'Campo inválido';
   }

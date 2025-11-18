@@ -1,108 +1,106 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="custom-form">
   <div class="form-fields">
-    <div *ngFor="let field of fields" class="form-field">
+    @for (field of fields; track field.name) {
+
+    <div class="form-field">
       <label [for]="field.name" class="form-label">
         {{ field.label }}
-        <span *ngIf="field.required" class="required">*</span>
+        @if (field.required) {
+        <span class="required">*</span>
+        }
       </label>
 
-      <!-- Text, Email, Password -->
+      <!-- TEXT / EMAIL / PASSWORD -->
+      @if (['text', 'email', 'password'].includes(field.type)) {
       <input
-        *ngIf="['text', 'email', 'password'].includes(field.type)"
+        pInputText
         [id]="field.name"
         [type]="field.type"
-        [formControlName]="field.name"
         [placeholder]="field.placeholder || ''"
-        [disabled]="field.disabled"
-        pInputText
+        [formControlName]="field.name"
         class="w-full"
         [class.ng-invalid]="isFieldInvalid(field.name)"
-        [class.ng-dirty]="isFieldInvalid(field.name)" />
+      />
+      }
 
-      <!-- Number -->
-      <p-inputNumber
-        *ngIf="field.type === 'number'"
+      <!-- NUMBER -->
+      @if (field.type === 'number') {
+      <p-inputnumber
+        pInputNumber
         [formControlName]="field.name"
         [placeholder]="field.placeholder || ''"
-        [disabled]="field.disabled"
-        [min]="field.min"
-        [max]="field.max"
-        styleClass="w-full"
-        [class.ng-invalid]="isFieldInvalid(field.name)"
-        [class.ng-dirty]="isFieldInvalid(field.name)">
-      </p-inputNumber>
+        class="w-full"
+      ></p-inputnumber>
+      }
 
-      <!-- Textarea -->
-      <textarea
-        *ngIf="field.type === 'textarea'"
+      <!-- TEXTAREA -->
+      @if (field.type === 'textarea') {
+      <p-textarea
+        pTextarea
         [id]="field.name"
+        autoResize="true"
         [formControlName]="field.name"
-        [placeholder]="field.placeholder || ''"
-        [disabled]="field.disabled"
-        [rows]="field.rows || 3"
-        pInputTextarea
         class="w-full"
-        [class.ng-invalid]="isFieldInvalid(field.name)"
-        [class.ng-dirty]="isFieldInvalid(field.name)">
-      </textarea>
+      ></p-textarea>
+      }
 
-      <!-- Dropdown -->
-      <p-dropdown
-        *ngIf="field.type === 'dropdown'"
+      <!-- SELECT -->
+      @if (field.type === 'select') {
+      <p-select
         [formControlName]="field.name"
-        [options]="field.options || []"
+        [options]="field.options ?? []"
+        optionLabel="label"
         [placeholder]="field.placeholder || 'Seleccionar'"
-        [disabled]="field.disabled"
-        styleClass="w-full"
-        [class.ng-invalid]="isFieldInvalid(field.name)"
-        [class.ng-dirty]="isFieldInvalid(field.name)">
-      </p-dropdown>
+        class="w-full"
+      ></p-select>
+      }
 
-      <!-- Date -->
-      <p-calendar
-        *ngIf="field.type === 'date'"
+      <!-- DATEPICKER -->
+      @if (field.type === 'date') {
+      <p-datepicker
         [formControlName]="field.name"
-        [placeholder]="field.placeholder || 'Seleccionar fecha'"
-        [disabled]="field.disabled"
-        dateFormat="dd/mm/yy"
-        styleClass="w-full"
-        [class.ng-invalid]="isFieldInvalid(field.name)"
-        [class.ng-dirty]="isFieldInvalid(field.name)">
-      </p-calendar>
+        [showIcon]="true"
+        [showButtonBar]="true"
+        [dateFormat]="'dd/mm/yy'"
+        [inputId]="field.name"
+        class="w-full"
+      ></p-datepicker>
+      }
 
-      <!-- Checkbox -->
-      <p-checkbox
-        *ngIf="field.type === 'checkbox'"
-        [formControlName]="field.name"
-        [binary]="true"
-        [disabled]="field.disabled">
-      </p-checkbox>
+      <!-- CHECKBOX -->
+      @if (field.type === 'checkbox') {
+      <p-checkbox [binary]="true" [formControlName]="field.name"></p-checkbox>
+      }
 
-      <!-- Error message -->
-      <small *ngIf="isFieldInvalid(field.name)" class="p-error">
-        {{ getErrorMessage(field.name) }}
-      </small>
+      <!-- ERROR MESSAGE -->
+      @if (isFieldInvalid(field.name)) {
+      <small class="p-error">{{ getErrorMessage(field.name) }}</small>
+      }
     </div>
+
+    }
   </div>
 
   <div class="form-actions">
+    @if (showCancel) {
     <button
-      *ngIf="showCancel"
       pButton
       type="button"
+      class="p-button-text"
       [label]="cancelLabel"
       icon="pi pi-times"
-      class="p-button-text"
       (click)="onCancel()"
-      [disabled]="loading">
-    </button>
+      [disabled]="loading"
+    ></button>
+    }
+
     <button
       pButton
       type="submit"
       [label]="submitLabel"
       icon="pi pi-check"
-      [disabled]="formGroup.invalid"
-      [loading]="loading">
-    </button>
+      [loading]="loading"
+      [disabled]="formGroup.invalid || loading"
+    ></button>
   </div>
 </form>

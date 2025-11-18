@@ -23,6 +23,8 @@ export interface Flow {
   slug: string;
   description?: string;
   isActive: boolean;
+  isDefault: boolean;
+  config: any;
   triggerKeywords: string[];
   initialNodeId?: string;
   metadata: Record<string, any>;
