@@ -1,0 +1,31 @@
+.table-actions {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-color-secondary);
+
+  i {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+}
+
+::ng-deep {
+  .p-datatable-gridlines {
+    .p-datatable-thead > tr > th {
+      background-color: var(--surface-100);
+      font-weight: 600;
+    }
+  }
+}

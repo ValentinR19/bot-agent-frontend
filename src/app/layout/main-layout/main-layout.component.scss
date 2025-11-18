@@ -1,0 +1,31 @@
+.layout-wrapper {
+  display: flex;
+  min-height: 100vh;
+  background-color: var(--surface-ground);
+
+  &.sidebar-collapsed {
+    .layout-main {
+      margin-left: 80px;
+    }
+  }
+}
+
+.layout-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: 280px;
+  transition: margin-left 0.3s;
+}
+
+.layout-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+@media (max-width: 991px) {
+  .layout-main {
+    margin-left: 0;
+  }
+}

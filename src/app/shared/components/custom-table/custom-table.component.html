@@ -1,0 +1,77 @@
+<p-table
+  [value]="data"
+  [columns]="columns"
+  [loading]="loading"
+  [paginator]="paginator"
+  [rows]="rows"
+  [totalRecords]="totalRecords"
+  [lazy]="lazy"
+  [selectionMode]="selectionMode"
+  [(selection)]="selectedItems"
+  (onPage)="onPageChange($event)"
+  (onSort)="onSort($event)"
+  (selectionChange)="onSelectionChange()"
+  [globalFilterFields]="globalFilterFields"
+  responsiveLayout="scroll"
+  styleClass="p-datatable-gridlines">
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th *ngIf="selectionMode" style="width: 3rem"></th>
+      <th
+        *ngFor="let col of columns"
+        [pSortableColumn]="col.sortable ? col.field : null"
+        [style.width]="col.width">
+        {{ col.header }}
+        <p-sortIcon *ngIf="col.sortable" [field]="col.field"></p-sortIcon>
+      </th>
+      <th *ngIf="actions.length > 0" style="width: 150px">Acciones</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-item>
+    <tr>
+      <td *ngIf="selectionMode">
+        <p-tableCheckbox [value]="item"></p-tableCheckbox>
+      </td>
+
+      <td *ngFor="let col of columns">
+        <ng-container [ngSwitch]="col.type || 'text'">
+          <span *ngSwitchCase="'date'">{{ item[col.field] | date: 'short' }}</span>
+          <span *ngSwitchCase="'boolean'">
+            <i [class]="item[col.field] ? 'pi pi-check text-green-500' : 'pi pi-times text-red-500'"></i>
+          </span>
+          <span *ngSwitchCase="'number'">{{ item[col.field] | number }}</span>
+          <span *ngSwitchDefault>{{ item[col.field] }}</span>
+        </ng-container>
+      </td>
+
+      <td *ngIf="actions.length > 0">
+        <div class="table-actions">
+          <button
+            *ngFor="let action of actions"
+            pButton
+            type="button"
+            [icon]="action.icon"
+            [severity]="action.severity || 'secondary'"
+            class="p-button-sm p-button-text"
+            [pTooltip]="action.label"
+            (click)="action.command(item)"
+            [style.display]="isActionVisible(action, item) ? 'inline-flex' : 'none'">
+          </button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td [attr.colspan]="columns.length + (selectionMode ? 1 : 0) + (actions.length > 0 ? 1 : 0)">
+        <div class="empty-message">
+          <i class="pi pi-inbox"></i>
+          <p>No se encontraron registros</p>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

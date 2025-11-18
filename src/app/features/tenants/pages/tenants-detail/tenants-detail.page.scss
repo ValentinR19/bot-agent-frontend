@@ -1,0 +1,45 @@
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+}
+
+.tenant-detail {
+  .detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+
+    .detail-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+
+      &.full-width {
+        grid-column: 1 / -1;
+      }
+
+      label {
+        font-weight: 600;
+        color: var(--text-color-secondary);
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      span {
+        color: var(--text-color);
+        font-size: 1rem;
+      }
+
+      pre {
+        background-color: var(--surface-100);
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        overflow-x: auto;
+        margin: 0;
+      }
+    }
+  }
+}

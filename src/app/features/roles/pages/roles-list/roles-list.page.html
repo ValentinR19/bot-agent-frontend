@@ -1,0 +1,29 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<app-page-header
+  title="Roles"
+  subtitle="Gestión de roles y permisos (RBAC)"
+  icon="shield-halved">
+  <button
+    pButton
+    type="button"
+    label="Nuevo Rol"
+    icon="pi pi-plus"
+    (click)="createRole()">
+  </button>
+</app-page-header>
+
+<app-filter-panel
+  searchPlaceholder="Buscar roles..."
+  (search)="onSearch($event)">
+</app-filter-panel>
+
+<app-custom-table
+  [data]="roles"
+  [columns]="columns"
+  [actions]="actions"
+  [loading]="loading"
+  [paginator]="true"
+  [rows]="10">
+</app-custom-table>

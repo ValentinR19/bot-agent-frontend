@@ -1,0 +1,12 @@
+<aside class="sidebar" [class.collapsed]="!visible">
+  <div class="sidebar-header">
+    <div class="logo">
+      <i class="pi pi-comments"></i>
+      <span class="logo-text" *ngIf="visible">Bot Agent</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-menu">
+    <p-menu [model]="menuItems" styleClass="w-full border-none"></p-menu>
+  </nav>
+</aside>

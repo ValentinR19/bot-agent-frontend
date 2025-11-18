@@ -1,0 +1,29 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<app-page-header
+  title="Equipos"
+  subtitle="Gestión de equipos de trabajo"
+  icon="people-group">
+  <button
+    pButton
+    type="button"
+    label="Nuevo Equipo"
+    icon="pi pi-plus"
+    (click)="createTeam()">
+  </button>
+</app-page-header>
+
+<app-filter-panel
+  searchPlaceholder="Buscar equipos..."
+  (search)="onSearch($event)">
+</app-filter-panel>
+
+<app-custom-table
+  [data]="teams"
+  [columns]="columns"
+  [actions]="actions"
+  [loading]="loading"
+  [paginator]="true"
+  [rows]="10">
+</app-custom-table>
