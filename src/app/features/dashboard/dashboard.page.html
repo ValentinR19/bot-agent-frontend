@@ -1,0 +1,54 @@
+<app-page-header
+  title="Dashboard"
+  subtitle="Vista general de la plataforma"
+  icon="home">
+</app-page-header>
+
+<div class="dashboard-grid">
+  <p-card styleClass="stat-card">
+    <div class="stat-content">
+      <i class="pi pi-comments stat-icon"></i>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.totalConversations }}</span>
+        <span class="stat-label">Conversaciones</span>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card styleClass="stat-card">
+    <div class="stat-content">
+      <i class="pi pi-slack stat-icon"></i>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.activeChannels }}</span>
+        <span class="stat-label">Canales Activos</span>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card styleClass="stat-card">
+    <div class="stat-content">
+      <i class="pi pi-sitemap stat-icon"></i>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.totalFlows }}</span>
+        <span class="stat-label">Flujos</span>
+      </div>
+    </div>
+  </p-card>
+
+  <p-card styleClass="stat-card">
+    <div class="stat-content">
+      <i class="pi pi-database stat-icon"></i>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.documentsProcessed }}</span>
+        <span class="stat-label">Documentos</span>
+      </div>
+    </div>
+  </p-card>
+</div>
+
+<div class="charts-section">
+  <p-card>
+    <h3>Conversaciones por Mes</h3>
+    <p-chart type="line" [data]="conversationsData" height="300px"></p-chart>
+  </p-card>
+</div>

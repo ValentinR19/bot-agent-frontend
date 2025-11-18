@@ -1,0 +1,29 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<app-page-header
+  title="Usuarios"
+  subtitle="Gestión de usuarios de la plataforma"
+  icon="users">
+  <button
+    pButton
+    type="button"
+    label="Nuevo Usuario"
+    icon="pi pi-plus"
+    (click)="createUser()">
+  </button>
+</app-page-header>
+
+<app-filter-panel
+  searchPlaceholder="Buscar usuarios..."
+  (search)="onSearch($event)">
+</app-filter-panel>
+
+<app-custom-table
+  [data]="users"
+  [columns]="columns"
+  [actions]="actions"
+  [loading]="loading"
+  [paginator]="true"
+  [rows]="10">
+</app-custom-table>

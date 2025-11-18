@@ -1,0 +1,29 @@
+<p-toast></p-toast>
+<p-confirmDialog></p-confirmDialog>
+
+<app-page-header
+  title="Tenants"
+  subtitle="Gestión de tenants de la plataforma"
+  icon="building">
+  <button
+    pButton
+    type="button"
+    label="Nuevo Tenant"
+    icon="pi pi-plus"
+    (click)="createTenant()">
+  </button>
+</app-page-header>
+
+<app-filter-panel
+  searchPlaceholder="Buscar tenants..."
+  (search)="onSearch($event)">
+</app-filter-panel>
+
+<app-custom-table
+  [data]="tenants"
+  [columns]="columns"
+  [actions]="actions"
+  [loading]="loading"
+  [paginator]="true"
+  [rows]="10">
+</app-custom-table>
