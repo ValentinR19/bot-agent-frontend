@@ -1,19 +1,20 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { DividerModule } from 'primeng/divider';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { InputTextModule } from 'primeng/inputtext';
+import { Select } from 'primeng/select';
+import { Textarea } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { Textarea } from 'primeng/textarea';
-import { Select } from 'primeng/select';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { ChannelType, CreateChannelDto, UpdateChannelDto } from '../../models/channel.model';
 import { ChannelsService } from '../../services/channels.service';
-import { CreateChannelDto, UpdateChannelDto, ChannelType } from '../../models/channel.model';
 
 interface ChannelFormValue {
   name: string;
@@ -31,17 +32,7 @@ interface ChannelFormValue {
 @Component({
   selector: 'app-channels-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    Textarea,
-    Select,
-    InputSwitchModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Textarea, Select, InputSwitchModule, ToastModule, DividerModule],
   providers: [MessageService],
   templateUrl: './channels-form.component.html',
   styleUrl: './channels-form.component.scss',
