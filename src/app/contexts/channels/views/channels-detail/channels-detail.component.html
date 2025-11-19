@@ -1,0 +1,135 @@
+<div class="channels-detail-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>Detalle del Canal</h2>
+        <div class="flex gap-2">
+          <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!channel"></p-button>
+          <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="loading" class="loading-skeleton">
+      <p-skeleton height="2rem" styleClass="mb-3"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+    </div>
+
+    <div *ngIf="!loading && channel" class="channel-details">
+      <div class="detail-section">
+        <h3>Información General</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Nombre:</label>
+            <span class="value">{{ channel.name }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Tipo:</label>
+            <span [class]="'badge badge-' + channel.type">
+              {{ getChannelTypeLabel(channel.type) }}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Estado:</label>
+            <span [class]="'badge badge-status-' + channel.status">
+              {{ getStatusLabel(channel.status) }}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Activo:</label>
+            <span [class]="'badge ' + (channel.isActive ? 'badge-success' : 'badge-danger')">
+              {{ channel.isActive ? 'Sí' : 'No' }}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Tenant ID:</label>
+            <span class="value text-sm text-gray-500">{{ channel.tenantId }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Última Sincronización:</label>
+            <span class="value">{{ channel.lastSyncAt ? (channel.lastSyncAt | date: 'dd/MM/yyyy HH:mm') : '-' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="channel.config && (channel.config | json) !== '{}'">
+        <h3>Configuración</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item" *ngIf="channel.config.botToken">
+            <label>Bot Token:</label>
+            <span class="value text-sm">{{ channel.config.botToken.substring(0, 20) }}...</span>
+          </div>
+
+          <div class="detail-item" *ngIf="channel.config.webhookUrl">
+            <label>Webhook URL:</label>
+            <span class="value text-sm">{{ channel.config.webhookUrl }}</span>
+          </div>
+
+          <div class="detail-item" *ngIf="channel.config.apiKey">
+            <label>API Key:</label>
+            <span class="value text-sm">{{ channel.config.apiKey.substring(0, 20) }}...</span>
+          </div>
+
+          <div class="detail-item" *ngIf="channel.config.phoneNumber">
+            <label>Número de Teléfono:</label>
+            <span class="value">{{ channel.config.phoneNumber }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="channel.metadata && (channel.metadata | json) !== '{}'">
+        <h3>Metadatos</h3>
+        <p-divider></p-divider>
+
+        <div class="metadata-container">
+          <pre>{{ channel.metadata | json }}</pre>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3>Información del Sistema</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>ID:</label>
+            <span class="value text-sm text-gray-500">{{ channel.id }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Fecha de Creación:</label>
+            <span class="value">{{ channel.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Última Actualización:</label>
+            <span class="value">{{ channel.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item" *ngIf="channel.deletedAt">
+            <label>Fecha de Eliminación:</label>
+            <span class="value text-red-500">{{ channel.deletedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !channel" class="text-center p-5">
+      <i class="pi pi-exclamation-circle text-4xl text-red-500 mb-3"></i>
+      <p>Canal no encontrado</p>
+    </div>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

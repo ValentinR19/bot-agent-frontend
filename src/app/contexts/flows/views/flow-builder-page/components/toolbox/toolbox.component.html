@@ -1,0 +1,110 @@
+<div class="toolbox">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="toolbox-header">
+        <h3>Nodos Disponibles</h3>
+        <small>Arrastra al canvas</small>
+      </div>
+    </ng-template>
+
+    <!-- Nodos básicos -->
+    <div class="node-category">
+      <h4>Básicos</h4>
+      <div class="node-list">
+        <div
+          *ngFor="let nodeDef of basicNodes"
+          class="toolbox-node"
+          [attr.data-node-type]="nodeDef.type"
+          draggable="true"
+          (dragstart)="onDragStart($event, nodeDef)"
+          [pTooltip]="nodeDef.description"
+          tooltipPosition="right"
+        >
+          <i [class]="nodeDef.icon" [style.color]="nodeDef.color"></i>
+          <span>{{ nodeDef.label }}</span>
+          <p-chip *ngIf="!nodeDef.isImplemented" label="Próximamente" styleClass="chip-pending"></p-chip>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nodos de interacción -->
+    <div class="node-category">
+      <h4>Interacción</h4>
+      <div class="node-list">
+        <div
+          *ngFor="let nodeDef of interactionNodes"
+          class="toolbox-node"
+          [attr.data-node-type]="nodeDef.type"
+          draggable="true"
+          (dragstart)="onDragStart($event, nodeDef)"
+          [pTooltip]="nodeDef.description"
+          tooltipPosition="right"
+        >
+          <i [class]="nodeDef.icon" [style.color]="nodeDef.color"></i>
+          <span>{{ nodeDef.label }}</span>
+          <p-chip *ngIf="!nodeDef.isImplemented" label="Próximamente" styleClass="chip-pending"></p-chip>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nodos de lógica -->
+    <div class="node-category">
+      <h4>Lógica</h4>
+      <div class="node-list">
+        <div
+          *ngFor="let nodeDef of logicNodes"
+          class="toolbox-node"
+          [attr.data-node-type]="nodeDef.type"
+          draggable="true"
+          (dragstart)="onDragStart($event, nodeDef)"
+          [pTooltip]="nodeDef.description"
+          tooltipPosition="right"
+        >
+          <i [class]="nodeDef.icon" [style.color]="nodeDef.color"></i>
+          <span>{{ nodeDef.label }}</span>
+          <p-chip *ngIf="!nodeDef.isImplemented" label="Próximamente" styleClass="chip-pending"></p-chip>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nodos de integración -->
+    <div class="node-category">
+      <h4>Integración</h4>
+      <div class="node-list">
+        <div
+          *ngFor="let nodeDef of integrationNodes"
+          class="toolbox-node"
+          [attr.data-node-type]="nodeDef.type"
+          draggable="true"
+          (dragstart)="onDragStart($event, nodeDef)"
+          [pTooltip]="nodeDef.description"
+          tooltipPosition="right"
+        >
+          <i [class]="nodeDef.icon" [style.color]="nodeDef.color"></i>
+          <span>{{ nodeDef.label }}</span>
+          <p-chip *ngIf="!nodeDef.isImplemented" label="Próximamente" styleClass="chip-pending"></p-chip>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nodos avanzados -->
+    <div class="node-category">
+      <h4>Avanzados</h4>
+      <div class="node-list">
+        <div
+          *ngFor="let nodeDef of advancedNodes"
+          class="toolbox-node"
+          [attr.data-node-type]="nodeDef.type"
+          draggable="true"
+          (dragstart)="onDragStart($event, nodeDef)"
+          [pTooltip]="nodeDef.description"
+          tooltipPosition="right"
+        >
+          <i [class]="nodeDef.icon" [style.color]="nodeDef.color"></i>
+          <span>{{ nodeDef.label }}</span>
+          <p-chip *ngIf="!nodeDef.isImplemented" label="Próximamente" styleClass="chip-pending"></p-chip>
+        </div>
+      </div>
+    </div>
+  </p-card>
+</div>

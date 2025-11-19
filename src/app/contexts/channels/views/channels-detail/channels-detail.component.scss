@@ -1,0 +1,128 @@
+.channels-detail-page {
+  padding: 1.5rem;
+}
+
+.detail-section {
+  margin-bottom: 2rem;
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-weight: 600;
+    color: #6c757d;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+
+  .value {
+    font-size: 1rem;
+    color: #212529;
+  }
+
+  .text-sm {
+    font-size: 0.875rem;
+  }
+
+  .text-gray-500 {
+    color: #6c757d;
+  }
+
+  .text-red-500 {
+    color: #dc3545;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.badge-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.badge-telegram {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.badge-whatsapp {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-web {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.badge-voice {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.badge-sms {
+  background-color: #cce5ff;
+  color: #004085;
+}
+
+.badge-status-active {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-status-inactive {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.badge-status-error {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.badge-status-configuring {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.metadata-container {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin-top: 1rem;
+
+  pre {
+    margin: 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.875rem;
+    color: #212529;
+  }
+}

@@ -1,0 +1,92 @@
+<div class="catalog-form-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>{{ isEditMode ? 'Editar Item' : 'Nuevo Item' }}</h2>
+        <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="title" class="required">Título</label>
+          <input id="title" type="text" pInputText formControlName="title" placeholder="Ej: Producto 1" [class.ng-invalid]="itemForm.controls.title.invalid && itemForm.controls.title.touched" />
+          <small class="p-error" *ngIf="itemForm.controls.title.invalid && itemForm.controls.title.touched"> El título es requerido </small>
+        </div>
+
+        <div class="form-field">
+          <label for="subtitle">Subtítulo</label>
+          <input id="subtitle" type="text" pInputText formControlName="subtitle" placeholder="Subtítulo del item" />
+        </div>
+
+        <div class="form-field">
+          <label for="type" class="required">Tipo</label>
+          <p-select id="type" formControlName="type" [options]="itemTypes" optionLabel="label" optionValue="value" placeholder="Seleccionar tipo" [style]="{ width: '100%' }"></p-select>
+        </div>
+
+        <div class="form-field">
+          <label for="sku">SKU</label>
+          <input id="sku" type="text" pInputText formControlName="sku" placeholder="SKU-001" />
+        </div>
+
+        <div class="form-field">
+          <label for="price">Precio</label>
+          <p-inputNumber id="price" formControlName="price" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" placeholder="0.00" [style]="{ width: '100%' }"></p-inputNumber>
+        </div>
+
+        <div class="form-field">
+          <label for="currency">Moneda</label>
+          <p-select id="currency" formControlName="currency" [options]="currencies" optionLabel="label" optionValue="value" placeholder="Seleccionar moneda" [style]="{ width: '100%' }"></p-select>
+        </div>
+
+        <div class="form-field">
+          <label for="stock">Stock</label>
+          <p-inputNumber id="stock" formControlName="stock" placeholder="0" [style]="{ width: '100%' }"></p-inputNumber>
+        </div>
+
+        <div class="form-field full-width">
+          <label for="description">Descripción</label>
+          <textarea id="description" pInputTextarea formControlName="description" placeholder="Descripción del item" rows="4"></textarea>
+        </div>
+
+        <div class="form-field full-width">
+          <label for="tags">Tags</label>
+          <p-chips id="tags" formControlName="tags" placeholder="Añadir tag" [style]="{ width: '100%' }"></p-chips>
+        </div>
+
+        <div class="form-field full-width">
+          <label for="imageUrl">URL de Imagen Principal</label>
+          <input id="imageUrl" type="url" pInputText formControlName="imageUrl" placeholder="https://ejemplo.com/imagen.jpg" />
+        </div>
+
+        <div class="form-field">
+          <label for="externalSystem">Sistema Externo</label>
+          <input id="externalSystem" type="text" pInputText formControlName="externalSystem" placeholder="Nombre del sistema" />
+        </div>
+
+        <div class="form-field">
+          <label for="externalId">ID Externo</label>
+          <input id="externalId" type="text" pInputText formControlName="externalId" placeholder="ID en sistema externo" />
+        </div>
+
+        <div class="form-field">
+          <label for="isFeatured">Destacado</label>
+          <p-inputSwitch id="isFeatured" formControlName="isFeatured"></p-inputSwitch>
+        </div>
+
+        <div class="form-field">
+          <label for="isActive">Activo</label>
+          <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="itemForm.invalid || saving" [loading]="saving"></p-button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

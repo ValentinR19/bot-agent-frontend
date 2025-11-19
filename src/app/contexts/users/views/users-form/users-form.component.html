@@ -1,0 +1,137 @@
+<div class="users-form-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>{{ isEditMode ? 'Editar Usuario' : 'Nuevo Usuario' }}</h2>
+        <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Tenant ID (solo en modo creación) -->
+        <div class="form-field" *ngIf="!isEditMode">
+          <label for="tenantId" class="required">Tenant ID</label>
+          <input
+            id="tenantId"
+            type="text"
+            pInputText
+            formControlName="tenantId"
+            placeholder="Ej: tenant-123"
+            [class.ng-invalid]="userForm.controls.tenantId.invalid && userForm.controls.tenantId.touched"
+          />
+          <small class="p-error" *ngIf="userForm.controls.tenantId.invalid && userForm.controls.tenantId.touched">
+            El Tenant ID es requerido
+          </small>
+        </div>
+
+        <!-- Nombre -->
+        <div class="form-field">
+          <label for="firstName" class="required">Nombre</label>
+          <input
+            id="firstName"
+            type="text"
+            pInputText
+            formControlName="firstName"
+            placeholder="Ej: Juan"
+            [class.ng-invalid]="userForm.controls.firstName.invalid && userForm.controls.firstName.touched"
+          />
+          <small class="p-error" *ngIf="userForm.controls.firstName.invalid && userForm.controls.firstName.touched">
+            El nombre es requerido
+          </small>
+        </div>
+
+        <!-- Apellido -->
+        <div class="form-field">
+          <label for="lastName" class="required">Apellido</label>
+          <input
+            id="lastName"
+            type="text"
+            pInputText
+            formControlName="lastName"
+            placeholder="Ej: Pérez"
+            [class.ng-invalid]="userForm.controls.lastName.invalid && userForm.controls.lastName.touched"
+          />
+          <small class="p-error" *ngIf="userForm.controls.lastName.invalid && userForm.controls.lastName.touched">
+            El apellido es requerido
+          </small>
+        </div>
+
+        <!-- Email -->
+        <div class="form-field">
+          <label for="email" class="required">Email</label>
+          <input
+            id="email"
+            type="email"
+            pInputText
+            formControlName="email"
+            placeholder="usuario@ejemplo.com"
+            [class.ng-invalid]="userForm.controls.email.invalid && userForm.controls.email.touched"
+          />
+          <small class="p-error" *ngIf="userForm.controls.email.invalid && userForm.controls.email.touched">
+            Email válido es requerido
+          </small>
+        </div>
+
+        <!-- Password (solo en modo creación o si se desea cambiar) -->
+        <div class="form-field" *ngIf="!isEditMode || showPasswordField">
+          <label for="password" [class.required]="!isEditMode">Contraseña</label>
+          <input
+            id="password"
+            type="password"
+            pInputText
+            formControlName="password"
+            placeholder="••••••••"
+            [class.ng-invalid]="userForm.controls.password.invalid && userForm.controls.password.touched"
+          />
+          <small class="p-error" *ngIf="userForm.controls.password.invalid && userForm.controls.password.touched">
+            La contraseña es requerida (mínimo 6 caracteres)
+          </small>
+        </div>
+
+        <!-- Mostrar campo password en modo edición -->
+        <div class="form-field" *ngIf="isEditMode && !showPasswordField">
+          <label>&nbsp;</label>
+          <p-button
+            label="Cambiar contraseña"
+            icon="pi pi-key"
+            severity="secondary"
+            (onClick)="togglePasswordField()"
+            type="button"
+          ></p-button>
+        </div>
+
+        <!-- Teléfono -->
+        <div class="form-field">
+          <label for="phone">Teléfono</label>
+          <input id="phone" type="tel" pInputText formControlName="phone" placeholder="+34 600 000 000" />
+        </div>
+
+        <!-- Avatar URL -->
+        <div class="form-field">
+          <label for="avatarUrl">URL del Avatar</label>
+          <input id="avatarUrl" type="url" pInputText formControlName="avatarUrl" placeholder="https://ejemplo.com/avatar.jpg" />
+        </div>
+
+        <!-- Estado Activo -->
+        <div class="form-field">
+          <label for="isActive">Activo</label>
+          <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+        <p-button
+          [label]="isEditMode ? 'Actualizar' : 'Crear'"
+          icon="pi pi-save"
+          type="submit"
+          [disabled]="userForm.invalid || saving"
+          [loading]="saving"
+        ></p-button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

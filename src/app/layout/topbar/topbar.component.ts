@@ -8,10 +8,10 @@ import { MenuModule } from 'primeng/menu';
 
 import { SelectModule } from 'primeng/select';
 import { TenantService } from '../../core/services/tenant.service';
-import { AuthUser } from '../../features/auth/auth.model';
-import { AuthService } from '../../features/auth/auth.service';
-import { Tenant } from '../../features/tenants/tenant.model';
-import { TenantsService } from '../../features/tenants/tenants.service';
+import { AuthUser } from '../../contexts/auth/models/auth.model';
+import { AuthService } from '../../contexts/auth/services/auth.service';
+import { Tenant } from '../../contexts/tenants/models/tenant.model';
+import { TenantsService } from '../../contexts/tenants/services/tenants.service';
 
 @Component({
   selector: 'app-topbar',

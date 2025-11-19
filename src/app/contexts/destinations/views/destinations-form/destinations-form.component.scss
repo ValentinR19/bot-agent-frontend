@@ -1,0 +1,73 @@
+.destinations-form-page {
+  padding: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-field-full {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-section {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.form-section h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.form-field label,
+.form-field-full label {
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.form-field label.required::after,
+.form-field-full label.required::after {
+  content: ' *';
+  color: #e24c4c;
+}
+
+.form-field input,
+.form-field p-select,
+.form-field-full textarea {
+  width: 100%;
+}
+
+.p-hint {
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.p-error {
+  font-size: 0.75rem;
+  color: #e24c4c;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+}

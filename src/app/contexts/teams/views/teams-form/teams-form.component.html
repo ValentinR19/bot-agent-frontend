@@ -1,0 +1,77 @@
+<div class="teams-form-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>{{ isEditMode ? 'Editar Equipo' : 'Nuevo Equipo' }}</h2>
+        <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="teamForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Nombre -->
+        <div class="form-field">
+          <label for="name" class="required">Nombre</label>
+          <input
+            id="name"
+            type="text"
+            pInputText
+            formControlName="name"
+            placeholder="Ej: Equipo de Ventas"
+            [class.ng-invalid]="teamForm.controls.name.invalid && teamForm.controls.name.touched"
+          />
+          <small class="p-error" *ngIf="teamForm.controls.name.invalid && teamForm.controls.name.touched">
+            El nombre es requerido
+          </small>
+        </div>
+
+        <!-- Slug -->
+        <div class="form-field">
+          <label for="slug" class="required">Slug</label>
+          <input
+            id="slug"
+            type="text"
+            pInputText
+            formControlName="slug"
+            placeholder="Ej: equipo-ventas"
+            [class.ng-invalid]="teamForm.controls.slug.invalid && teamForm.controls.slug.touched"
+          />
+          <small class="p-error" *ngIf="teamForm.controls.slug.invalid && teamForm.controls.slug.touched">
+            El slug es requerido
+          </small>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-field full-width">
+          <label for="description">Descripción</label>
+          <textarea
+            id="description"
+            pInputTextarea
+            formControlName="description"
+            placeholder="Descripción del equipo"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <!-- Estado Activo -->
+        <div class="form-field">
+          <label for="isActive">Activo</label>
+          <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+        <p-button
+          [label]="isEditMode ? 'Actualizar' : 'Crear'"
+          icon="pi pi-save"
+          type="submit"
+          [disabled]="teamForm.invalid || saving"
+          [loading]="saving"
+        ></p-button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

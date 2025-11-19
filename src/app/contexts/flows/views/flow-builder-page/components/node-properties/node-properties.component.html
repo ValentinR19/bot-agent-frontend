@@ -1,0 +1,172 @@
+<div class="node-properties">
+  <p-card *ngIf="!selectedNode" class="empty-state">
+    <div class="text-center p-5">
+      <i class="pi pi-inbox text-6xl text-gray-300 mb-3"></i>
+      <p class="text-gray-500">Selecciona un nodo para editar sus propiedades</p>
+    </div>
+  </p-card>
+
+  <p-card *ngIf="selectedNode">
+    <ng-template pTemplate="header">
+      <div class="properties-header">
+        <div class="flex align-items-center gap-2">
+          <i [class]="nodeDefinition.icon" [style.color]="nodeDefinition.color"></i>
+          <h3>{{ nodeDefinition.label }}</h3>
+        </div>
+        <p-chip [label]="selectedNode.type" [style]="{ background: nodeDefinition.color, color: 'white', fontSize: '0.75rem' }"></p-chip>
+      </div>
+    </ng-template>
+
+    <!-- Formulario general -->
+    <form [formGroup]="nodeForm" *ngIf="nodeForm">
+      <!-- Nombre del nodo -->
+      <div class="form-field">
+        <label for="nodeName">Nombre del nodo</label>
+        <input id="nodeName" type="text" pInputText formControlName="name" placeholder="Ej: Mensaje de Bienvenida" class="w-full" />
+        <small *ngIf="nodeForm.get('name')?.invalid && nodeForm.get('name')?.touched" class="p-error"> El nombre es requerido </small>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Configuración específica por tipo -->
+      <div [ngSwitch]="selectedNode.type">
+        <!-- MESSAGE -->
+        <div *ngSwitchCase="NodeType.MESSAGE" class="node-config">
+          <h4>Configuración del Mensaje</h4>
+          <div class="form-field">
+            <label for="message">Mensaje</label>
+            <textarea id="message" pInputTextarea formControlName="message" rows="5" placeholder="Escribe el mensaje aquí..." class="w-full"></textarea>
+            <small class="text-gray-500">Puedes usar variables con sintaxis de doble llave</small>
+          </div>
+        </div>
+
+        <!-- QUESTION -->
+        <div *ngSwitchCase="NodeType.QUESTION" class="node-config">
+          <h4>Configuración de Pregunta</h4>
+          <div class="form-field">
+            <label for="variableName">Nombre de Variable</label>
+            <input id="variableName" type="text" pInputText formControlName="variableName" placeholder="Ej: userEmail" class="w-full" />
+            <small class="text-gray-500">Nombre donde se guardará el dato</small>
+          </div>
+
+          <div class="form-field">
+            <label for="prompt">Prompt al Usuario</label>
+            <textarea id="prompt" pInputTextarea formControlName="prompt" rows="3" placeholder="¿Cuál es tu email?" class="w-full"></textarea>
+          </div>
+
+          <div class="form-field">
+            <label for="validationType">Tipo de Validación</label>
+            <p-select id="validationType" formControlName="validationType" [options]="validationTypes" optionLabel="label" optionValue="value" placeholder="Seleccionar" class="w-full"></p-select>
+          </div>
+
+          <div class="form-field" *ngIf="nodeForm.get('validationType')?.value === 'regex'">
+            <label for="validationPattern">Patrón Regex</label>
+            <input id="validationPattern" type="text" pInputText formControlName="validationPattern" placeholder="^[A-Z]+" class="w-full" />
+          </div>
+
+          <div class="form-field">
+            <label for="errorMessage">Mensaje de Error</label>
+            <input id="errorMessage" type="text" pInputText formControlName="errorMessage" placeholder="Dato inválido, intenta de nuevo" class="w-full" />
+          </div>
+        </div>
+
+        <!-- CONDITION -->
+        <div *ngSwitchCase="NodeType.CONDITION" class="node-config">
+          <h4>Configuración de Condición</h4>
+          <div class="alert alert-info">
+            <i class="pi pi-info-circle"></i>
+            <span>Las condiciones se definen en las transiciones de salida de este nodo.</span>
+          </div>
+        </div>
+
+        <!-- ACTION -->
+        <div *ngSwitchCase="NodeType.ACTION" class="node-config">
+          <h4>Configuración de Acción</h4>
+          <div class="form-field">
+            <label for="actionType">Tipo de Acción</label>
+            <input id="actionType" type="text" pInputText formControlName="actionType" placeholder="Ej: send_notification" class="w-full" />
+          </div>
+        </div>
+
+        <!-- AI_RESPONSE -->
+        <div *ngSwitchCase="NodeType.AI_RESPONSE" class="node-config">
+          <h4>Configuración de IA/LLM</h4>
+          <div class="form-field">
+            <label for="aiPrompt">Prompt</label>
+            <textarea id="aiPrompt" pInputTextarea formControlName="prompt" rows="6" placeholder="Eres un asistente útil..." class="w-full"></textarea>
+            <small class="text-gray-500">Puedes usar variables con sintaxis de doble llave</small>
+          </div>
+
+          <div class="form-field">
+            <label for="model">Modelo</label>
+            <p-select id="model" formControlName="model" [options]="llmModels" optionLabel="label" optionValue="value" class="w-full"></p-select>
+          </div>
+
+          <div class="form-field">
+            <label for="temperature">Temperatura ({{ nodeForm.get('temperature')?.value }})</label>
+            <p-inputNumber id="temperature" formControlName="temperature" [min]="0" [max]="1" [step]="0.1" [showButtons]="true" class="w-full"></p-inputNumber>
+          </div>
+
+          <div class="form-field">
+            <label for="resultVariable">Variable de Resultado</label>
+            <input id="resultVariable" type="text" pInputText formControlName="resultVariable" placeholder="Ej: llmResponse" class="w-full" />
+          </div>
+        </div>
+
+        <!-- API_CALL -->
+        <div *ngSwitchCase="NodeType.API_CALL" class="node-config">
+          <h4>Configuración de API Call</h4>
+          <div class="form-field">
+            <label for="url">URL</label>
+            <input id="url" type="text" pInputText formControlName="url" placeholder="https://api.ejemplo.com/endpoint" class="w-full" />
+          </div>
+
+          <div class="form-field">
+            <label for="method">Método HTTP</label>
+            <p-select id="method" formControlName="method" [options]="httpMethods" optionLabel="label" optionValue="value" class="w-full"></p-select>
+          </div>
+
+          <div class="form-field">
+            <label for="body">Body (JSON)</label>
+            <textarea id="body" pInputTextarea formControlName="body" rows="4" placeholder='{ "key": "value" }' class="w-full"></textarea>
+          </div>
+
+          <div class="form-field">
+            <label for="resultVariable">Variable de Resultado</label>
+            <input id="resultVariable" type="text" pInputText formControlName="resultVariable" placeholder="Ej: apiResponse" class="w-full" />
+          </div>
+
+          <div class="form-field">
+            <label for="timeout">Timeout (ms)</label>
+            <p-inputNumber id="timeout" formControlName="timeout" [min]="1000" [max]="30000" [step]="1000" [showButtons]="true" class="w-full"></p-inputNumber>
+          </div>
+        </div>
+
+        <!-- END -->
+        <div *ngSwitchCase="NodeType.END" class="node-config">
+          <h4>Configuración de Fin</h4>
+          <div class="form-field">
+            <label for="message">Mensaje Final</label>
+            <textarea id="message" pInputTextarea formControlName="message" rows="3" placeholder="¡Gracias por usar nuestro servicio!" class="w-full"></textarea>
+          </div>
+        </div>
+
+        <!-- Default -->
+        <div *ngSwitchDefault class="node-config">
+          <div class="alert alert-warning">
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>Configuración no implementada para este tipo de nodo.</span>
+          </div>
+        </div>
+      </div>
+
+      <p-divider></p-divider>
+
+      <!-- Acciones -->
+      <div class="flex justify-content-end gap-2 mt-3">
+        <p-button label="Cerrar" severity="secondary" (onClick)="close()"></p-button>
+        <p-button label="Guardar" icon="pi pi-save" (onClick)="save()" [disabled]="nodeForm.invalid || isSaving" [loading]="isSaving"></p-button>
+      </div>
+    </form>
+  </p-card>
+</div>

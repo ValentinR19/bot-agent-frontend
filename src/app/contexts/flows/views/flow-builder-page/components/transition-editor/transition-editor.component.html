@@ -1,0 +1,43 @@
+<p-dialog
+  [(visible)]="visible"
+  [modal]="true"
+  [closable]="true"
+  [draggable]="false"
+  [resizable]="false"
+  [style]="{ width: '500px' }"
+  header="Editar Transición"
+  (onHide)="onClose()"
+>
+  <form [formGroup]="transitionForm" *ngIf="transitionForm">
+    <!-- Condición -->
+    <div class="form-field">
+      <label for="condition">Condición (opcional)</label>
+      <textarea id="condition" pInputTextarea formControlName="condition" rows="3" placeholder="Ejemplo: edad > 18" class="w-full"></textarea>
+      <small class="text-gray-500">Deja vacío si la transición es incondicional. Usa operadores: ==, !=, >, <, contains, startsWith</small>
+    </div>
+
+    <!-- Prioridad -->
+    <div class="form-field">
+      <label for="priority">Prioridad</label>
+      <p-inputNumber id="priority" formControlName="priority" [min]="0" [max]="100" [showButtons]="true" placeholder="0" class="w-full"></p-inputNumber>
+      <small class="text-gray-500">Mayor prioridad se evalúa primero. Default: 0</small>
+    </div>
+
+    <!-- Label (opcional) -->
+    <div class="form-field">
+      <label for="label">Etiqueta (opcional)</label>
+      <input id="label" type="text" pInputText formControlName="label" placeholder="Ej: Sí, No, Continuar" class="w-full" />
+      <small class="text-gray-500">Etiqueta visual para la transición</small>
+    </div>
+  </form>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-content-between w-full">
+      <p-button label="Eliminar" severity="danger" icon="pi pi-trash" (onClick)="onDelete()" [text]="true"></p-button>
+      <div class="flex gap-2">
+        <p-button label="Cancelar" severity="secondary" (onClick)="onClose()"></p-button>
+        <p-button label="Guardar" icon="pi pi-save" (onClick)="onSave()" [disabled]="transitionForm.invalid || isSaving" [loading]="isSaving"></p-button>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>

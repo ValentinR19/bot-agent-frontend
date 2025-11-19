@@ -1,0 +1,30 @@
+.upload-container {
+  padding: 1rem 0;
+}
+
+.form-field {
+  margin-bottom: 1.5rem;
+}
+
+.form-field label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  color: #495057;
+}
+
+.form-field small {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.file-preview {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+::ng-deep .p-fileupload-choose {
+  width: 100%;
+}

@@ -1,0 +1,98 @@
+<div class="flows-form-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>{{ isEditMode ? 'Editar Flujo' : 'Nuevo Flujo' }}</h2>
+        <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="flowForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Nombre -->
+        <div class="form-field">
+          <label for="name" class="required">Nombre</label>
+          <input
+            id="name"
+            type="text"
+            pInputText
+            formControlName="name"
+            placeholder="Ej: Flujo de Bienvenida"
+            [class.ng-invalid]="flowForm.controls.name.invalid && flowForm.controls.name.touched"
+          />
+          <small class="p-error" *ngIf="flowForm.controls.name.invalid && flowForm.controls.name.touched"> El nombre es requerido (mínimo 3 caracteres) </small>
+        </div>
+
+        <!-- Slug -->
+        <div class="form-field">
+          <label for="slug" class="required">Slug</label>
+          <input
+            id="slug"
+            type="text"
+            pInputText
+            formControlName="slug"
+            placeholder="Ej: flujo-bienvenida"
+            [class.ng-invalid]="flowForm.controls.slug.invalid && flowForm.controls.slug.touched"
+          />
+          <small class="p-hint">Solo letras minúsculas, números y guiones</small>
+          <small class="p-error" *ngIf="flowForm.controls.slug.invalid && flowForm.controls.slug.touched"> El slug es requerido y debe ser válido </small>
+        </div>
+
+        <!-- Estado Activo -->
+        <div class="form-field">
+          <label for="isActive">Estado Activo</label>
+          <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
+        </div>
+
+        <!-- Flujo por Defecto -->
+        <div class="form-field">
+          <label for="isDefault">Flujo por Defecto</label>
+          <p-inputSwitch id="isDefault" formControlName="isDefault"></p-inputSwitch>
+        </div>
+      </div>
+
+      <!-- Descripción -->
+      <div class="form-field-full">
+        <label for="description">Descripción</label>
+        <textarea id="description" pInputTextarea formControlName="description" placeholder="Describe el propósito de este flujo..." rows="3"></textarea>
+      </div>
+
+      <!-- Configuración (JSON) -->
+      <div class="form-field-full">
+        <label for="config">Configuración (JSON)</label>
+        <textarea
+          id="config"
+          pInputTextarea
+          formControlName="configJson"
+          placeholder='{"timeout": 30000, "maxRetries": 3, "fallbackMessage": "Lo siento..."}'
+          rows="5"
+          [class.ng-invalid]="flowForm.controls.configJson.invalid && flowForm.controls.configJson.touched"
+        ></textarea>
+        <small class="p-hint">Formato JSON válido (opcional)</small>
+        <small class="p-error" *ngIf="flowForm.controls.configJson.invalid && flowForm.controls.configJson.touched"> JSON inválido </small>
+      </div>
+
+      <!-- Metadata (JSON) -->
+      <div class="form-field-full">
+        <label for="metadata">Metadatos (JSON)</label>
+        <textarea
+          id="metadata"
+          pInputTextarea
+          formControlName="metadataJson"
+          placeholder='{"category": "onboarding", "priority": "high"}'
+          rows="5"
+          [class.ng-invalid]="flowForm.controls.metadataJson.invalid && flowForm.controls.metadataJson.touched"
+        ></textarea>
+        <small class="p-hint">Formato JSON válido (opcional)</small>
+        <small class="p-error" *ngIf="flowForm.controls.metadataJson.invalid && flowForm.controls.metadataJson.touched"> JSON inválido </small>
+      </div>
+
+      <div class="form-actions">
+        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="flowForm.invalid || saving" [loading]="saving"></p-button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

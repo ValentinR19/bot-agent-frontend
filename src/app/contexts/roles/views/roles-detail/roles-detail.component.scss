@@ -1,0 +1,76 @@
+.roles-detail-page {
+  padding: 1.5rem;
+}
+
+.detail-section {
+  margin-bottom: 2rem;
+
+  h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+  }
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    font-weight: 600;
+    color: #6c757d;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+  }
+
+  .value {
+    font-size: 1rem;
+    color: #212529;
+  }
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.badge-success {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.badge-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.badge-info {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}
+
+.badge-secondary {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.badge-module {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.badge-action {
+  background-color: #cfe2ff;
+  color: #084298;
+}

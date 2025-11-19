@@ -1,0 +1,72 @@
+<p-table [value]="documents" [paginator]="true" [rows]="10" [loading]="isLoading" responsiveLayout="scroll" [globalFilterFields]="['title', 'type', 'status']">
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="title">
+        Documento <p-sortIcon field="title"></p-sortIcon>
+      </th>
+      <th pSortableColumn="type">
+        Tipo <p-sortIcon field="type"></p-sortIcon>
+      </th>
+      <th pSortableColumn="status">
+        Estado <p-sortIcon field="status"></p-sortIcon>
+      </th>
+      <th>Chunks</th>
+      <th>Tamaño</th>
+      <th pSortableColumn="updatedAt">
+        Última actualización <p-sortIcon field="updatedAt"></p-sortIcon>
+      </th>
+      <th>Acciones</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-doc>
+    <tr>
+      <td>
+        <div class="document-title">
+          <i class="pi pi-file text-primary mr-2"></i>
+          <span>{{ doc.title }}</span>
+        </div>
+        <small class="text-gray-500" *ngIf="doc.fileName">{{ doc.fileName }}</small>
+      </td>
+      <td>
+        <p-chip [label]="getTypeLabel(doc.type)" [style]="{ background: getTypeColor(doc.type), color: 'white', fontSize: '0.75rem' }"></p-chip>
+      </td>
+      <td>
+        <p-badge [value]="getStatusLabel(doc.status)" [severity]="getStatusSeverity(doc.status)"></p-badge>
+        <p-progressBar *ngIf="doc.status === 'processing'" [value]="doc.progress" [showValue]="true" class="mt-2"></p-progressBar>
+      </td>
+      <td class="text-center">
+        <p-badge [value]="doc.chunkCount || 0" severity="info"></p-badge>
+      </td>
+      <td>{{ formatSize(doc.size) }}</td>
+      <td>{{ doc.updatedAt | date : 'short' }}</td>
+      <td>
+        <div class="flex gap-2">
+          <p-button icon="pi pi-eye" [rounded]="true" [text]="true" severity="info" pTooltip="Ver detalle" (onClick)="onViewDetail(doc)"></p-button>
+          <p-button
+            icon="pi pi-refresh"
+            [rounded]="true"
+            [text]="true"
+            severity="warn"
+            pTooltip="Reintentar ingestión"
+            (onClick)="onRetryIngestion(doc)"
+            *ngIf="doc.status === 'failed'"
+          ></p-button>
+          <p-button icon="pi pi-trash" [rounded]="true" [text]="true" severity="danger" pTooltip="Eliminar" (onClick)="onDelete(doc)"></p-button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="7" class="text-center p-5">
+        <i class="pi pi-inbox text-6xl text-gray-300 mb-3"></i>
+        <p class="text-gray-500">No hay documentos disponibles</p>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<p-confirmDialog></p-confirmDialog>
+<p-toast></p-toast>

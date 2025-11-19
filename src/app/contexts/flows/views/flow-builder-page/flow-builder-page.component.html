@@ -1,0 +1,66 @@
+<div class="flow-builder-page">
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-container">
+    <p-breadcrumb [model]="breadcrumbItems" [home]="breadcrumbHome"></p-breadcrumb>
+  </div>
+
+  <!-- Toolbar -->
+  <p-toolbar>
+    <ng-template pTemplate="start">
+      <div class="toolbar-start">
+        <h2 class="m-0">{{ flow?.name || 'Cargando...' }}</h2>
+        <p-chip *ngIf="flow" [label]="flow.isActive ? 'Activo' : 'Inactivo'" [style]="{ background: flow.isActive ? '#10b981' : '#6c757d', color: 'white', marginLeft: '1rem' }"></p-chip>
+      </div>
+    </ng-template>
+
+    <ng-template pTemplate="end">
+      <div class="toolbar-end">
+        <!-- Status indicator -->
+        <div class="save-status" *ngIf="isDirty || isSaving">
+          <i [class]="isSaving ? 'pi pi-spin pi-spinner' : 'pi pi-circle-fill'" [style.color]="isSaving ? '#f59e0b' : '#10b981'"></i>
+          <span>{{ isSaving ? 'Guardando...' : 'Guardado' }}</span>
+        </div>
+
+        <!-- Actions -->
+        <p-button icon="pi pi-undo" [text]="true" [rounded]="true" (onClick)="undo()" [disabled]="!canUndo" pTooltip="Deshacer (Ctrl+Z)" tooltipPosition="bottom"></p-button>
+        <p-button icon="pi pi-redo" [text]="true" [rounded]="true" (onClick)="redo()" [disabled]="!canRedo" pTooltip="Rehacer (Ctrl+Y)" tooltipPosition="bottom"></p-button>
+        <p-button icon="pi pi-eye" [text]="true" [rounded]="true" (onClick)="togglePreview()" pTooltip="Vista Previa" tooltipPosition="bottom" severity="info"></p-button>
+        <p-button icon="pi pi-download" [text]="true" [rounded]="true" (onClick)="exportFlow()" pTooltip="Exportar" tooltipPosition="bottom"></p-button>
+        <p-button icon="pi pi-check-circle" label="Validar" severity="secondary" (onClick)="validateFlow()"></p-button>
+        <p-button icon="pi pi-arrow-left" label="Salir" severity="secondary" (onClick)="exit()"></p-button>
+      </div>
+    </ng-template>
+  </p-toolbar>
+
+  <!-- Builder Layout -->
+  <div class="builder-layout">
+    <!-- Toolbox (Left) -->
+    <div class="builder-toolbox">
+      <app-toolbox></app-toolbox>
+    </div>
+
+    <!-- Canvas (Center) -->
+    <div class="builder-canvas">
+      <app-builder-canvas></app-builder-canvas>
+    </div>
+
+    <!-- Properties Panel (Right) -->
+    <div class="builder-properties">
+      <app-node-properties></app-node-properties>
+    </div>
+  </div>
+
+  <!-- Transition Editor Modal -->
+  <app-transition-editor
+    [(visible)]="showTransitionEditor"
+    [transition]="selectedTransition"
+    (save)="onTransitionSave($event)"
+    (delete)="onTransitionDelete($event)"
+  ></app-transition-editor>
+
+  <!-- Flow Preview Sidebar -->
+  <app-flow-preview #flowPreview></app-flow-preview>
+
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+</div>

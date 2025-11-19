@@ -1,0 +1,48 @@
+.roles-form-page {
+  padding: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  &.full-width {
+    grid-column: 1 / -1;
+  }
+
+  label {
+    font-weight: 600;
+    font-size: 0.875rem;
+
+    &.required::after {
+      content: ' *';
+      color: #e24c4c;
+    }
+  }
+
+  input,
+  textarea {
+    width: 100%;
+  }
+}
+
+.p-error {
+  font-size: 0.75rem;
+  color: #e24c4c;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #dee2e6;
+}
