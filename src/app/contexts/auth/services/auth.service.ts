@@ -1,19 +1,19 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { HttpService } from '../../../core/http/http.service';
 import { TenantService } from '../../../core/services/tenant.service';
 import {
-  LoginCredentials,
-  LoginResponse,
-  RegisterDto,
-  RefreshTokenDto,
-  RefreshTokenResponse,
+  AuthUser,
   ChangePasswordDto,
   ForgotPasswordDto,
+  LoginCredentials,
+  LoginResponse,
+  RefreshTokenDto,
+  RefreshTokenResponse,
+  RegisterDto,
   ResetPasswordDto,
   VerifyEmailDto,
-  AuthUser,
 } from '../models/auth.model';
 
 /**
@@ -30,7 +30,7 @@ export class AuthService {
   private readonly http = inject(HttpService);
   private readonly router = inject(Router);
   private readonly tenantService = inject(TenantService);
-  private readonly baseUrl = '/api/v1/auth';
+  private readonly baseUrl = '/auth';
 
   // Estado interno
   private currentUserSubject = new BehaviorSubject<AuthUser | null>(null);

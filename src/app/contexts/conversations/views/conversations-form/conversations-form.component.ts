@@ -1,18 +1,18 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { CardModule } from 'primeng/card';
+import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { Textarea } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { ConversationStatus, CreateConversationDto, UpdateConversationDto } from '../../models/conversations.model';
 import { ConversationsService } from '../../services/conversations.service';
-import { CreateConversationDto, UpdateConversationDto, ConversationStatus } from '../../models/conversations.model';
 
 interface ConversationFormValue {
   channelId: string;
@@ -80,7 +80,7 @@ export class ConversationsFormComponent implements OnInit, OnDestroy {
     this.conversationForm = new FormGroup({
       channelId: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
       externalUserId: new FormControl('', { nonNullable: true, validators: [Validators.required] }),
-      status: new FormControl(ConversationStatus.ACTIVE, { nonNullable: true }),
+      status: new FormControl<ConversationStatus>(ConversationStatus.ACTIVE, { nonNullable: true }),
       currentFlowId: new FormControl('', { nonNullable: true }),
       currentNodeId: new FormControl('', { nonNullable: true }),
       contextJson: new FormControl('{}', { nonNullable: true, validators: [this.jsonValidator] }),
