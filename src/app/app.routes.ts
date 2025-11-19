@@ -74,6 +74,10 @@ export const routes: Routes = [
         loadChildren: () => import('./features/knowledge/knowledge.routes').then((m) => m.KNOWLEDGE_ROUTES),
       },
       {
+        path: 'rag',
+        loadChildren: () => import('./features/rag/rag.routes').then((m) => m.RAG_ROUTES),
+      },
+      {
         path: 'catalog',
         loadChildren: () => import('./features/catalog/catalog.routes').then((m) => m.CATALOG_ROUTES),
       },

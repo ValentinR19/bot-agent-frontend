@@ -132,9 +132,12 @@ export class TeamsFormPage implements OnInit {
   saving = false;
 
   ngOnInit(): void {
-    this.initForm();
+    // Determinar modo de edición ANTES de inicializar el formulario
     this.teamId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.teamId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
+
+    // Inicializar formulario
+    this.initForm();
 
     if (this.isEditMode && this.teamId) {
       this.loadTeam(this.teamId);

@@ -22,6 +22,10 @@ export const FLOWS_ROUTES: Routes = [
         path: ':id/edit',
         loadComponent: () => import('./pages/flows-form.page').then((m) => m.FlowsFormPage),
       },
+      {
+        path: ':id/builder',
+        loadChildren: () => import('./builder/flow-builder.routes').then((m) => m.FLOW_BUILDER_ROUTES),
+      },
     ],
   },
 ];

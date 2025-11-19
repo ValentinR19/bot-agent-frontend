@@ -236,9 +236,12 @@ export class TenantsFormPage implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.initForm();
+    // Determinar modo de edición ANTES de inicializar el formulario
     this.tenantId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.tenantId && this.route.snapshot.url.some((segment) => segment.path === 'edit');
+
+    // Inicializar formulario
+    this.initForm();
 
     if (this.isEditMode && this.tenantId) {
       this.loadTenant(this.tenantId);

@@ -1,13 +1,20 @@
-// /* Importar tema de PrimeNG Aura (Modern Light Theme) */
-// @import 'primeng/resources/themes/aura-light-blue/theme.css';
+/* ========================================
+   IMPORTS DE LIBRERÍAS
+   ======================================== */
 
-// /* Importar estilos base de PrimeNG */
-// @import 'primeng/resources/primeng.min.css';
+/* PrimeNG 19: El tema se configura via providePrimeNG() en app.config.ts
+   Los estilos se generan dinámicamente, NO se importan CSS files */
+/* Toastr - Notificaciones */
+@use 'ngx-toastr/toastr';
 
-@import '../node_modules/primeflex/primeflex.css';
+/* PrimeFlex - Utilidades CSS */
+@import 'primeflex/primeflex.css';
+
+/* PrimeIcons - Iconos */
 @import 'primeicons/primeicons.css';
-@import '../node_modules/ngx-toastr/toastr.css';
-@import '../node_modules/quill/dist/quill.snow.css';
+
+/* Quill - Editor de texto rico */
+@import 'quill/dist/quill.snow.css';
 
 /* ========================================
    VARIABLES GLOBALES DE DISEÑO
