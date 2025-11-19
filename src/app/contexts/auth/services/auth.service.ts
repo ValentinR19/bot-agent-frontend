@@ -1,11 +1,12 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { Observable, BehaviorSubject, tap, map } from 'rxjs';
 import { HttpService } from '../../../core/http/http.service';
 import { TenantService } from '../../../core/services/tenant.service';
 import {
   LoginCredentials,
   LoginResponse,
+  ApiLoginResponse,
   RegisterDto,
   RefreshTokenDto,
   RefreshTokenResponse,
@@ -49,9 +50,10 @@ export class AuthService {
    * Iniciar sesión
    */
   login(credentials: LoginCredentials): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, credentials).pipe(
-      tap((response) => {
-        this.setAuthData(response);
+    return this.http.post<ApiLoginResponse>(`${this.baseUrl}/login`, credentials).pipe(
+      map((response) => response.data),
+      tap((data) => {
+        this.setAuthData(data);
       }),
     );
   }
@@ -139,7 +141,9 @@ export class AuthService {
   // Métodos auxiliares para gestión de tokens
   private setAuthData(response: LoginResponse): void {
     localStorage.setItem('access_token', response.accessToken);
-    localStorage.setItem('refresh_token', response.refreshToken);
+    if (response.refreshToken) {
+      localStorage.setItem('refresh_token', response.refreshToken);
+    }
     localStorage.setItem('user', JSON.stringify(response.user));
     this.currentUserSubject.next(response.user);
     this.isAuthenticatedSubject.next(true);

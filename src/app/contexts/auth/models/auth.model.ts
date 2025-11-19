@@ -1,6 +1,6 @@
 /**
  * Modelos y DTOs para el contexto Auth
- * Generados a partir de swagger-export.json
+ * Actualizados para coincidir con la respuesta real del backend
  */
 
 export interface LoginCredentials {
@@ -8,22 +8,34 @@ export interface LoginCredentials {
   password: string;
 }
 
+/**
+ * Respuesta del backend envuelta en data
+ */
+export interface ApiLoginResponse {
+  data: LoginResponse;
+  timestamp: string;
+  path: string;
+}
+
+/**
+ * Datos de login dentro de data
+ */
 export interface LoginResponse {
   accessToken: string;
-  refreshToken: string;
-  user: AuthUser;
+  tokenType: string;
   expiresIn: number;
+  user: AuthUser;
+  refreshToken?: string; // Opcional, el backend actual no lo devuelve
 }
 
 export interface AuthUser {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
-  fullName?: string;
+  fullName: string;
+  tenantId: string | null;
+  isSuperAdmin?: boolean;
+  isActive: boolean;
   avatarUrl?: string;
-  tenantId: string;
-  isSuperAdmin?: boolean; // Para identificar si puede cambiar de tenant
   roles?: string[];
   permissions?: string[];
 }
