@@ -2,18 +2,18 @@
  * Transition Editor - Modal para editar una transición seleccionada
  */
 
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FlowTransition } from '../../../flows.model';
 import { FlowBuilderStateService } from '../../services/flow-builder-state.service';
 
 // PrimeNG
-import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { DialogModule } from 'primeng/dialog';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { Textarea } from 'primeng/textarea';
-import { InputNumberModule } from 'primeng/inputnumber';
 
 @Component({
   selector: 'app-transition-editor',
@@ -58,7 +58,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
           <p-button label="Eliminar" severity="danger" icon="pi pi-trash" (onClick)="onDelete()" [text]="true"></p-button>
           <div class="flex gap-2">
             <p-button label="Cancelar" severity="secondary" (onClick)="onClose()"></p-button>
-            <p-button label="Guardar" icon="pi pi-save" (onClick)="onSave()" [disabled]="transitionForm?.invalid || isSaving" [loading]="isSaving"></p-button>
+            <p-button label="Guardar" icon="pi pi-save" (onClick)="onSave()" [disabled]="transitionForm.invalid || isSaving" [loading]="isSaving"></p-button>
           </div>
         </div>
       </ng-template>
