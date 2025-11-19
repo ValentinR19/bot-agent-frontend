@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import {
-  Team,
-  CreateTeamDto,
-  UpdateTeamDto,
-  TeamMember,
-  AddTeamMemberDto,
-  UpdateTeamMemberRoleDto,
+    AddTeamMemberDto,
+    CreateTeamDto,
+    Team,
+    TeamMember,
+    UpdateTeamDto,
+    UpdateTeamMemberRoleDto,
 } from '../models/team.model';
 
 /**
@@ -20,7 +20,7 @@ import {
 })
 export class TeamsService {
   private readonly http = inject(HttpService);
-  private readonly baseUrl = '/api/v1/teams';
+  private readonly baseUrl = '/teams';
 
   // Estado interno (mini-store)
   private teamsSubject = new BehaviorSubject<Team[]>([]);

@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
-import { User, CreateUserDto, UpdateUserDto, Role, Team } from '../models/user.model';
+import { CreateUserDto, Role, Team, UpdateUserDto, User } from '../models/user.model';
 
 /**
  * Servicio para gestión de Users
@@ -13,7 +13,7 @@ import { User, CreateUserDto, UpdateUserDto, Role, Team } from '../models/user.m
 })
 export class UsersService {
   private readonly http = inject(HttpService);
-  private readonly baseUrl = '/api/v1/users';
+  private readonly baseUrl = '/users';
 
   // Estado interno (mini-store)
   private usersSubject = new BehaviorSubject<User[]>([]);

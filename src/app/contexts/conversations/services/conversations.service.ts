@@ -13,7 +13,7 @@ import { Conversation, ConversationStatus, CreateConversationDto, CreateMessageD
 })
 export class ConversationsService {
   private readonly http = inject(HttpService);
-  private readonly baseUrl = '/api/v1/conversations';
+  private readonly baseUrl = '/conversations';
 
   // Estado interno (mini-store)
   private conversationsSubject = new BehaviorSubject<Conversation[]>([]);

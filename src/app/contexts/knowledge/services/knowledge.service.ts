@@ -13,7 +13,7 @@ import { CreateKnowledgeDocumentDto, DocumentStatus, DocumentType, KnowledgeDocu
 })
 export class KnowledgeService {
   private readonly http = inject(HttpService);
-  private readonly baseUrl = '/api/v1/knowledge/documents';
+  private readonly baseUrl = '/knowledge/documents';
 
   // Estado interno (mini-store)
   private documentsSubject = new BehaviorSubject<KnowledgeDocument[]>([]);

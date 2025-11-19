@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
-import { Tenant, CreateTenantDto, UpdateTenantDto } from '../models/tenant.model';
+import { CreateTenantDto, Tenant, UpdateTenantDto } from '../models/tenant.model';
 
 /**
  * Servicio para gestión de Tenants
@@ -13,7 +13,7 @@ import { Tenant, CreateTenantDto, UpdateTenantDto } from '../models/tenant.model
 })
 export class TenantsService {
   private readonly http = inject(HttpService);
-  private readonly baseUrl = '/api/v1/tenants';
+  private readonly baseUrl = '/tenants';
 
   // Estado interno (mini-store)
   private tenantsSubject = new BehaviorSubject<Tenant[]>([]);

@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import {
-  Role,
-  CreateRoleDto,
-  UpdateRoleDto,
-  Permission,
-  AssignRoleDto,
-  AssignPermissionDto,
+    AssignPermissionDto,
+    AssignRoleDto,
+    CreateRoleDto,
+    Permission,
+    Role,
+    UpdateRoleDto,
 } from '../models/role.model';
 
 /**
@@ -20,7 +20,7 @@ import {
 })
 export class RolesService {
   private readonly http = inject(HttpService);
-  private readonly baseUrl = '/api/v1/roles';
+  private readonly baseUrl = '/roles';
 
   // Estado interno (mini-store)
   private rolesSubject = new BehaviorSubject<Role[]>([]);

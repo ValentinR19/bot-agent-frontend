@@ -14,7 +14,7 @@ import { TelegramConfigDto, TelegramSetupDto, WebhookInfo } from '../models/dtos
 })
 export class ChannelsService {
   private readonly http = inject(HttpService);
-  private readonly baseUrl = '/api/v1/channels';
+  private readonly baseUrl = '/channels';
 
   // Estado interno (mini-store)
   private channelsSubject = new BehaviorSubject<Channel[]>([]);

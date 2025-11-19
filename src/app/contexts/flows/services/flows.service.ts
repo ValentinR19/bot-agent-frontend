@@ -3,15 +3,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import {
-  CreateFlowDto,
-  CreateFlowNodeDto,
-  CreateFlowTransitionDto,
-  Flow,
-  FlowNode,
-  FlowTransition,
-  UpdateFlowDto,
-  UpdateFlowNodeDto,
-  UpdateFlowTransitionDto,
+    CreateFlowDto,
+    CreateFlowNodeDto,
+    CreateFlowTransitionDto,
+    Flow,
+    FlowNode,
+    FlowTransition,
+    UpdateFlowDto,
+    UpdateFlowNodeDto,
+    UpdateFlowTransitionDto,
 } from '../models/flow.model';
 
 /**
@@ -23,7 +23,7 @@ import {
 })
 export class FlowsService {
   private readonly http = inject(HttpService);
-  private readonly baseUrl = '/api/v1/flows';
+  private readonly baseUrl = '/flows';
 
   // Estado interno (mini-store)
   private flowsSubject = new BehaviorSubject<Flow[]>([]);

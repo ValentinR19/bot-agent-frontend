@@ -13,7 +13,7 @@ import { CatalogItem, CatalogItemType, CatalogSearchParams, CreateCatalogItemDto
 })
 export class CatalogService {
   private readonly http = inject(HttpService);
-  private readonly baseUrl = '/api/v1/catalog';
+  private readonly baseUrl = '/catalog';
 
   // Estado interno (mini-store)
   private catalogItemsSubject = new BehaviorSubject<CatalogItem[]>([]);
