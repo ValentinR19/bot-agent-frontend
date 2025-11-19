@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -88,7 +88,7 @@ export class ConversationsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  jsonValidator(control: FormControl): { invalidJson: boolean } | null {
+  jsonValidator(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
     try {
       JSON.parse(control.value);

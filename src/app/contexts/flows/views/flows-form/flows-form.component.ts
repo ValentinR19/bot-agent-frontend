@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { FormGroup, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormGroup, FormControl, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -72,7 +72,7 @@ export class FlowsFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  jsonValidator(control: FormControl<string>) {
+  jsonValidator(control: AbstractControl): ValidationErrors | null {
     if (!control.value) return null;
     try {
       JSON.parse(control.value);

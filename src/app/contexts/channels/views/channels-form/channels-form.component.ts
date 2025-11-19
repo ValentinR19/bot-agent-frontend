@@ -144,10 +144,10 @@ export class ChannelsFormComponent implements OnInit, OnDestroy {
 
       // Limpiar config vacíos
       const config: Record<string, any> = {};
-      if (formValue.config.botToken) config.botToken = formValue.config.botToken;
-      if (formValue.config.webhookUrl) config.webhookUrl = formValue.config.webhookUrl;
-      if (formValue.config.apiKey) config.apiKey = formValue.config.apiKey;
-      if (formValue.config.phoneNumber) config.phoneNumber = formValue.config.phoneNumber;
+      if (formValue.config['botToken']) config['botToken'] = formValue.config['botToken'];
+      if (formValue.config['webhookUrl']) config['webhookUrl'] = formValue.config['webhookUrl'];
+      if (formValue.config['apiKey']) config['apiKey'] = formValue.config['apiKey'];
+      if (formValue.config['phoneNumber']) config['phoneNumber'] = formValue.config['phoneNumber'];
 
       // Parsear metadata
       let metadata: Record<string, any> | undefined;

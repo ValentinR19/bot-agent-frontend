@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
-import { InputTextareaModule } from 'primeng/inputtextarea';
+import { Textarea } from 'primeng/textarea';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { ToastModule } from 'primeng/toast';
 import { Subject } from 'rxjs';
@@ -31,7 +31,7 @@ interface TeamFormControls {
     CardModule,
     ButtonModule,
     InputTextModule,
-    InputTextareaModule,
+    Textarea,
     InputSwitchModule,
     ToastModule,
   ],

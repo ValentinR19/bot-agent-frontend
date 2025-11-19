@@ -146,12 +146,12 @@ export class UsersFormComponent implements OnInit, OnDestroy {
 
       // En modo edición, no enviar password si está vacío
       if (this.isEditMode && !this.showPasswordField) {
-        delete payload.password;
+        delete payload['password'];
       }
 
       // En modo edición, no enviar tenantId
       if (this.isEditMode) {
-        delete payload.tenantId;
+        delete payload['tenantId'];
       }
 
       const operation =

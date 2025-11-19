@@ -6,6 +6,7 @@ import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
+import { ProgressSpinner } from 'primeng/progressspinner';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -23,6 +24,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
     CardModule,
     TagModule,
     ToastModule,
+    ProgressSpinner,
   ],
   providers: [MessageService],
   templateUrl: './tenants-detail.component.html',
