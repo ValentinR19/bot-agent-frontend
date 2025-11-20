@@ -1,0 +1,185 @@
+<p-dialog
+  [(visible)]="visible"
+  (visibleChange)="visibleChange.emit($event)"
+  [modal]="true"
+  [style]="{ width: '700px' }"
+  [header]="'Subir Documento'"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-tabView [(activeIndex)]="activeTabIndex">
+    <!-- Tab 1: Upload de Archivo -->
+    <p-tabPanel header="Subir Archivo">
+      <form [formGroup]="uploadForm" class="flex flex-col gap-4">
+        <div class="field">
+          <label class="font-semibold mb-2 block">Archivo *</label>
+          <p-fileUpload
+            #fileUpload
+            [multiple]="false"
+            [customUpload]="true"
+            (uploadHandler)="onFileSelect($event)"
+            (onRemove)="onFileRemove()"
+            [accept]="ALLOWED_EXTENSIONS.join(',')"
+            [maxFileSize]="MAX_FILE_SIZE"
+            chooseLabel="Seleccionar"
+            [showUploadButton]="false"
+            [showCancelButton]="false"
+            mode="advanced"
+          >
+            <ng-template pTemplate="content" let-files>
+              @if (files.length === 0) {
+                <div class="drop-zone text-center p-5 border-2 border-dashed border-surface-300 rounded-lg">
+                  <i class="pi pi-cloud-upload text-4xl text-muted-color mb-3"></i>
+                  <p class="text-muted-color mb-2">Arrastra el archivo aquí o haz clic para seleccionar</p>
+                  <small class="text-muted-color">PDF, TXT, CSV - Máx {{ MAX_FILE_SIZE / 1024 / 1024 }}MB</small>
+                </div>
+              }
+            </ng-template>
+          </p-fileUpload>
+        </div>
+
+        <div class="field">
+          <label for="upload-type" class="font-semibold mb-2 block">Tipo de Documento *</label>
+          <p-select
+            inputId="upload-type"
+            [options]="documentTypes"
+            formControlName="type"
+            placeholder="Selecciona tipo"
+            styleClass="w-full"
+            optionLabel="label"
+            optionValue="value"
+          />
+          @if (uploadForm.controls.type.invalid && uploadForm.controls.type.touched) {
+            <small class="text-red-500">Campo requerido</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="upload-title" class="font-semibold mb-2 block">Título (opcional)</label>
+          <input
+            pInputText
+            id="upload-title"
+            formControlName="title"
+            placeholder="Se usará el nombre del archivo si no se especifica"
+            class="w-full"
+          />
+        </div>
+
+        <div class="field">
+          <label for="upload-tags" class="font-semibold mb-2 block">Tags (opcional)</label>
+          <p-chips
+            inputId="upload-tags"
+            formControlName="tags"
+            placeholder="Agregar tags"
+            styleClass="w-full"
+            [max]="10"
+          />
+          <small class="text-muted-color">Presiona Enter para agregar un tag</small>
+        </div>
+
+        @if (uploading) {
+          <div class="field">
+            <label class="font-semibold mb-2 block">Progreso</label>
+            <p-progressBar [value]="uploadProgress" />
+          </div>
+        }
+      </form>
+    </p-tabPanel>
+
+    <!-- Tab 2: Ingesta Manual -->
+    <p-tabPanel header="Ingesta Manual">
+      <form [formGroup]="manualForm" class="flex flex-col gap-4">
+        <div class="field">
+          <label for="manual-type" class="font-semibold mb-2 block">Tipo de Documento *</label>
+          <p-select
+            inputId="manual-type"
+            [options]="documentTypes"
+            formControlName="type"
+            placeholder="Selecciona tipo"
+            styleClass="w-full"
+            optionLabel="label"
+            optionValue="value"
+          />
+          @if (manualForm.controls.type.invalid && manualForm.controls.type.touched) {
+            <small class="text-red-500">Campo requerido</small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="manual-title" class="font-semibold mb-2 block">Título *</label>
+          <input
+            pInputText
+            id="manual-title"
+            formControlName="title"
+            placeholder="Título descriptivo del documento"
+            class="w-full"
+          />
+          @if (manualForm.controls.title.invalid && manualForm.controls.title.touched) {
+            <small class="text-red-500">
+              @if (manualForm.controls.title.errors?.['required']) {
+                Campo requerido
+              }
+              @if (manualForm.controls.title.errors?.['minlength']) {
+                Mínimo 3 caracteres
+              }
+            </small>
+          }
+        </div>
+
+        <div class="field">
+          <label for="manual-content" class="font-semibold mb-2 block">Contenido *</label>
+          <textarea
+            pTextarea
+            id="manual-content"
+            formControlName="content"
+            rows="10"
+            placeholder="Pega o escribe el contenido del documento aquí..."
+            class="w-full"
+          ></textarea>
+          @if (manualForm.controls.content.invalid && manualForm.controls.content.touched) {
+            <small class="text-red-500">
+              @if (manualForm.controls.content.errors?.['required']) {
+                Campo requerido
+              }
+              @if (manualForm.controls.content.errors?.['minlength']) {
+                Mínimo 50 caracteres
+              }
+            </small>
+          }
+          <small class="text-muted-color">
+            {{ manualForm.value.content?.length || 0 }} caracteres (mín. 50)
+          </small>
+        </div>
+
+        <div class="field">
+          <label for="manual-tags" class="font-semibold mb-2 block">Tags (opcional)</label>
+          <p-chips
+            inputId="manual-tags"
+            formControlName="tags"
+            placeholder="Agregar tags"
+            styleClass="w-full"
+            [max]="10"
+          />
+          <small class="text-muted-color">Presiona Enter para agregar un tag</small>
+        </div>
+      </form>
+    </p-tabPanel>
+  </p-tabView>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        (onClick)="close()"
+        [disabled]="uploading"
+      />
+      <p-button
+        [label]="activeTabIndex === 0 ? 'Subir' : 'Crear'"
+        (onClick)="submit()"
+        [loading]="uploading"
+        [disabled]="!canSubmit"
+      />
+    </div>
+  </ng-template>
+</p-dialog>

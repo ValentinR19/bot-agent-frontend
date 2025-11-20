@@ -12,15 +12,28 @@ export const KNOWLEDGE_ROUTES: Routes = [
     children: [
       {
         path: '',
+        redirectTo: 'documents',
+        pathMatch: 'full',
+      },
+      {
+        path: 'documents',
         loadChildren: () => import('./views/knowledge-list/knowledge-list.routes').then((m) => m.KNOWLEDGE_LIST_ROUTES),
       },
       {
-        path: '',
+        path: 'documents/new',
         loadChildren: () => import('./views/knowledge-form/knowledge-form.routes').then((m) => m.KNOWLEDGE_FORM_ROUTES),
       },
       {
-        path: '',
+        path: 'documents/:id',
         loadChildren: () => import('./views/knowledge-detail/knowledge-detail.routes').then((m) => m.KNOWLEDGE_DETAIL_ROUTES),
+      },
+      {
+        path: 'documents/:id/edit',
+        loadChildren: () => import('./views/knowledge-form/knowledge-form.routes').then((m) => m.KNOWLEDGE_FORM_ROUTES),
+      },
+      {
+        path: 'playground',
+        loadChildren: () => import('./views/rag-playground/rag-playground.routes').then((m) => m.RAG_PLAYGROUND_ROUTES),
       },
     ],
   },

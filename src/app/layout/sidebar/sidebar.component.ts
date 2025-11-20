@@ -87,6 +87,11 @@ export class SidebarComponent {
           routerLink: ['/knowledge'],
         },
         {
+          label: 'RAG Playground',
+          icon: 'pi pi-sparkles',
+          routerLink: ['/knowledge/playground'],
+        },
+        {
           label: 'Catálogo',
           icon: 'pi pi-shopping-cart',
           routerLink: ['/catalog'],

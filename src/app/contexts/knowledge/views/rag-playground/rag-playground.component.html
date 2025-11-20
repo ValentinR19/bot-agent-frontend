@@ -1,0 +1,178 @@
+<app-page-header
+  title="RAG Playground"
+  description="Prueba el sistema de búsqueda inteligente y generación de respuestas"
+/>
+
+<div class="playground-container">
+  <!-- Search Section -->
+  <p-card styleClass="mb-4">
+    <div class="flex flex-col gap-4">
+      <div class="field">
+        <label for="query" class="font-semibold mb-2 block">Pregunta</label>
+        <textarea
+          pTextarea
+          id="query"
+          [(ngModel)]="query"
+          rows="3"
+          placeholder="¿Qué necesitas saber?"
+          class="w-full"
+          [disabled]="searching"
+        ></textarea>
+      </div>
+
+      <div class="field">
+        <label for="method" class="font-semibold mb-2 block">Método de búsqueda</label>
+        <p-select
+          inputId="method"
+          [options]="searchMethods"
+          [(ngModel)]="selectedMethod"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Selecciona método"
+          styleClass="w-full"
+          [disabled]="searching"
+        >
+          <ng-template pTemplate="selectedItem" let-item>
+            <div class="flex flex-col">
+              <span class="font-semibold">{{ item.label }}</span>
+              <small class="text-muted-color">{{ item.description }}</small>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            <div class="flex flex-col">
+              <span class="font-semibold">{{ item.label }}</span>
+              <small class="text-muted-color">{{ item.description }}</small>
+            </div>
+          </ng-template>
+        </p-select>
+      </div>
+
+      <div class="flex justify-end">
+        <p-button
+          label="Buscar"
+          icon="pi pi-search"
+          (onClick)="search()"
+          [loading]="searching"
+          [disabled]="!canSearch"
+        />
+      </div>
+    </div>
+  </p-card>
+
+  <!-- Results Section -->
+  @if (searching) {
+    <p-card styleClass="mb-4">
+      <div class="flex flex-col items-center justify-center py-5 gap-3">
+        <p-progressSpinner styleClass="w-3rem h-3rem" strokeWidth="4" />
+        <p class="text-muted-color">Buscando y generando respuesta...</p>
+      </div>
+    </p-card>
+  }
+
+  @if (results && !searching) {
+    <p-card styleClass="mb-4">
+      <ng-template pTemplate="header">
+        <div class="flex justify-between items-center p-4 border-b">
+          <h3 class="text-xl font-semibold m-0">Respuesta</h3>
+          <p-button
+            icon="pi pi-copy"
+            [text]="true"
+            [rounded]="true"
+            severity="secondary"
+            (onClick)="copyAnswer()"
+            pTooltip="Copiar respuesta"
+          />
+        </div>
+      </ng-template>
+
+      <div class="answer-content whitespace-pre-wrap mb-4">
+        {{ results.answer }}
+      </div>
+
+      @if (results.sources && results.sources.length > 0) {
+        <div class="sources-section">
+          <h4 class="text-lg font-semibold mb-3 flex items-center gap-2">
+            <i class="pi pi-book"></i>
+            Fuentes utilizadas
+          </h4>
+
+          @if (results.chunks && results.chunks.length > 0) {
+            <p-accordion [multiple]="true">
+              @for (chunk of results.chunks; track chunk.id; let i = $index) {
+                <p-accordionPanel [header]="'Fuente ' + (i + 1) + ' - ' + chunk.documentTitle">
+                  <div class="chunk-content">
+                    <p class="mb-3">{{ chunk.chunkText }}</p>
+                    <div class="flex items-center gap-2">
+                      <p-tag
+                        [value]="'Similitud: ' + (chunk.similarity * 100).toFixed(1) + '%'"
+                        severity="info"
+                      />
+                      @if (chunk.metadata) {
+                        <small class="text-muted-color">
+                          Documento ID: {{ chunk.documentId }}
+                        </small>
+                      }
+                    </div>
+                  </div>
+                </p-accordionPanel>
+              }
+            </p-accordion>
+          } @else {
+            <div class="flex flex-col gap-2">
+              @for (source of results.sources; track $index) {
+                <div class="p-3 bg-surface-50 rounded border border-surface-200">
+                  <i class="pi pi-file-o mr-2"></i>
+                  {{ source }}
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </p-card>
+  }
+
+  <!-- History Section -->
+  @if (history.length > 0) {
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="flex justify-between items-center p-4 border-b">
+          <h3 class="text-xl font-semibold m-0">Historial de Búsquedas</h3>
+          <p-button
+            label="Limpiar"
+            icon="pi pi-trash"
+            severity="secondary"
+            [text]="true"
+            (onClick)="clearHistory()"
+          />
+        </div>
+      </ng-template>
+
+      <div class="history-list flex flex-col gap-3">
+        @for (item of history; track $index) {
+          <div class="history-item p-3 bg-surface-50 rounded border border-surface-200">
+            <div class="flex items-start justify-between mb-2">
+              <div class="flex-1">
+                <div class="flex items-center gap-2 mb-1">
+                  <p-tag [value]="item.method" severity="secondary" />
+                  <small class="text-muted-color">
+                    {{ item.timestamp | date : 'short' }}
+                  </small>
+                </div>
+                <div class="history-query font-semibold text-primary mb-2">
+                  <i class="pi pi-question-circle mr-2"></i>
+                  {{ item.query }}
+                </div>
+              </div>
+            </div>
+            <div class="history-answer pl-4 border-l-3 border-primary-200">
+              <p class="m-0 text-muted-color">{{ item.answer }}</p>
+            </div>
+          </div>
+        }
+      </div>
+    </p-card>
+  }
+</div>
+
+<p-toast />
