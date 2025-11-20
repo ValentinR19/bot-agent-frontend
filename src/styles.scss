@@ -257,11 +257,11 @@ p {
 }
 
 /* Menus más elegantes */
-.p-menu {
+.p-panelMenu {
   box-shadow: var(--shadow-lg);
   border: 1px solid var(--surface-border);
 
-  .p-menuitem-link {
+  .p-panelMenu-link {
     transition: all var(--transition-fast);
 
     &:hover {

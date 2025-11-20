@@ -26,7 +26,7 @@
 
     .sidebar-menu {
       ::ng-deep {
-        .p-menuitem-text {
+        .p-panelMenu-text {
           opacity: 0;
           display: none;
         }
@@ -35,7 +35,7 @@
           display: none;
         }
 
-        .p-menuitem-icon {
+        .p-panelMenu-icon {
           margin-right: 0 !important;
         }
       }
@@ -100,7 +100,7 @@
   }
 
   ::ng-deep {
-    .p-menu {
+    .p-panelMenu {
       border: none;
       background: transparent;
       padding: 0;
@@ -121,11 +121,11 @@
       }
     }
 
-    .p-menuitem {
+    .p-panelMenu {
       margin: 0.25rem 0.75rem;
     }
 
-    .p-menuitem-link {
+    .p-panelMenu-link {
       padding: 0.875rem 1rem;
       color: var(--text-color);
       border-radius: 0.5rem;
@@ -151,27 +151,27 @@
         background: var(--surface-hover);
         transform: translateX(2px);
 
-        .p-menuitem-icon {
+        .p-panelMenu-icon {
           color: var(--primary-color);
         }
       }
 
-      .p-menuitem-icon {
+      .p-panelMenu-icon {
         color: var(--text-color-secondary);
         margin-right: 0.875rem;
         font-size: 1.125rem;
         transition: all 0.2s;
       }
 
-      .p-menuitem-text {
+      .p-panelMenu-text {
         font-weight: 500;
         font-size: 0.95rem;
       }
     }
 
     /* Menú activo */
-    .p-menuitem-link.router-link-active,
-    .p-menuitem-link.active {
+    .p-panelMenu-link.router-link-active,
+    .p-panelMenu-link.active {
       background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-600) 100%);
       color: white;
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
@@ -180,11 +180,11 @@
         transform: scaleY(1);
       }
 
-      .p-menuitem-icon {
+      .p-panelMenu-icon {
         color: white;
       }
 
-      .p-menuitem-text {
+      .p-panelMenu-text {
         font-weight: 600;
       }
 
@@ -195,7 +195,7 @@
     }
 
     /* Separadores */
-    .p-menuitem-separator {
+    .p-panelMenu-separator {
       margin: 0.75rem 1.5rem;
       border-top: 1px solid var(--surface-border);
     }
