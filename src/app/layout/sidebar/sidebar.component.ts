@@ -1,13 +1,13 @@
-import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MenuModule } from 'primeng/menu';
 import { MenuItem } from 'primeng/api';
-
+import { MenuModule } from 'primeng/menu';
+import { PanelMenuModule } from 'primeng/panelmenu';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterModule, MenuModule],
+  imports: [CommonModule, RouterModule, MenuModule, PanelMenuModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.scss',
 })
@@ -20,9 +20,7 @@ export class SidebarComponent {
       icon: 'pi pi-home',
       routerLink: ['/dashboard'],
     },
-    {
-      separator: true,
-    },
+
     {
       label: 'Configuración',
       icon: 'pi pi-cog',
@@ -49,9 +47,7 @@ export class SidebarComponent {
         },
       ],
     },
-    {
-      separator: true,
-    },
+
     {
       label: 'Canales',
       icon: 'pi pi-comment',
@@ -68,9 +64,7 @@ export class SidebarComponent {
         },
       ],
     },
-    {
-      separator: true,
-    },
+
     {
       label: 'Flujos',
       icon: 'pi pi-sitemap',
@@ -82,9 +76,7 @@ export class SidebarComponent {
         },
       ],
     },
-    {
-      separator: true,
-    },
+
     {
       label: 'Conocimiento',
       icon: 'pi pi-book',
@@ -101,9 +93,7 @@ export class SidebarComponent {
         },
       ],
     },
-    {
-      separator: true,
-    },
+
     {
       label: 'Análisis',
       icon: 'pi pi-chart-bar',

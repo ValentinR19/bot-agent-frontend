@@ -1,0 +1,107 @@
+<div class="conversations-form-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>{{ isEditMode ? 'Editar Conversación' : 'Nueva Conversación' }}</h2>
+        <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="conversationForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Channel ID -->
+        <div class="form-field">
+          <label for="channelId" class="required">ID del Canal</label>
+          <input
+            id="channelId"
+            type="text"
+            pInputText
+            formControlName="channelId"
+            placeholder="Ej: channel-123"
+            [class.ng-invalid]="conversationForm.controls.channelId.invalid && conversationForm.controls.channelId.touched"
+          />
+          <small class="p-error" *ngIf="conversationForm.controls.channelId.invalid && conversationForm.controls.channelId.touched"> El ID del canal es requerido </small>
+        </div>
+
+        <!-- External User ID -->
+        <div class="form-field">
+          <label for="externalUserId" class="required">ID de Usuario Externo</label>
+          <input
+            id="externalUserId"
+            type="text"
+            pInputText
+            formControlName="externalUserId"
+            placeholder="Ej: user-456"
+            [class.ng-invalid]="conversationForm.controls.externalUserId.invalid && conversationForm.controls.externalUserId.touched"
+          />
+          <small class="p-error" *ngIf="conversationForm.controls.externalUserId.invalid && conversationForm.controls.externalUserId.touched">
+            El ID de usuario externo es requerido
+          </small>
+        </div>
+
+        <!-- Status (only for edit mode) -->
+        <div class="form-field" *ngIf="isEditMode">
+          <label for="status">Estado</label>
+          <p-select
+            id="status"
+            formControlName="status"
+            [options]="statusOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccionar estado"
+            [style]="{ width: '100%' }"
+          ></p-select>
+        </div>
+
+        <!-- Current Flow ID (only for edit mode) -->
+        <div class="form-field" *ngIf="isEditMode">
+          <label for="currentFlowId">ID del Flujo Actual</label>
+          <input id="currentFlowId" type="text" pInputText formControlName="currentFlowId" placeholder="Ej: flow-789" />
+        </div>
+
+        <!-- Current Node ID (only for edit mode) -->
+        <div class="form-field" *ngIf="isEditMode">
+          <label for="currentNodeId">ID del Nodo Actual</label>
+          <input id="currentNodeId" type="text" pInputText formControlName="currentNodeId" placeholder="Ej: node-101" />
+        </div>
+      </div>
+
+      <!-- Context (as JSON textarea) -->
+      <div class="form-field-full">
+        <label for="context">Contexto (JSON)</label>
+        <textarea
+          id="context"
+          pInputTextarea
+          formControlName="contextJson"
+          placeholder='{"userName": "John", "userEmail": "john@example.com"}'
+          rows="5"
+          [class.ng-invalid]="conversationForm.controls.contextJson.invalid && conversationForm.controls.contextJson.touched"
+        ></textarea>
+        <small class="p-hint">Formato JSON válido</small>
+        <small class="p-error" *ngIf="conversationForm.controls.contextJson.invalid && conversationForm.controls.contextJson.touched"> JSON inválido </small>
+      </div>
+
+      <!-- Metadata (as JSON textarea) -->
+      <div class="form-field-full">
+        <label for="metadata">Metadatos (JSON)</label>
+        <textarea
+          id="metadata"
+          pInputTextarea
+          formControlName="metadataJson"
+          placeholder='{"source": "web", "campaign": "summer2024"}'
+          rows="5"
+          [class.ng-invalid]="conversationForm.controls.metadataJson.invalid && conversationForm.controls.metadataJson.touched"
+        ></textarea>
+        <small class="p-hint">Formato JSON válido (opcional)</small>
+        <small class="p-error" *ngIf="conversationForm.controls.metadataJson.invalid && conversationForm.controls.metadataJson.touched"> JSON inválido </small>
+      </div>
+
+      <div class="form-actions">
+        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="conversationForm.invalid || saving" [loading]="saving"></p-button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

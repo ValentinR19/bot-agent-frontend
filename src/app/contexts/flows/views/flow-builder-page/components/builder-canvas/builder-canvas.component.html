@@ -1,0 +1,112 @@
+<div
+  class="canvas-container"
+  (drop)="onDrop($event)"
+  (dragover)="onDragOver($event)"
+  (click)="onCanvasClick()"
+  (mousedown)="onCanvasMouseDown($event)"
+  (mousemove)="onCanvasMouseMove($event)"
+  (mouseup)="onCanvasMouseUp()"
+  (wheel)="onCanvasWheel($event)"
+  #canvasContainer
+>
+  <!-- Grid background -->
+  <div class="canvas-grid" [style.transform]="'scale(' + zoom + ') translate(' + offset.x + 'px, ' + offset.y + 'px)'"></div>
+
+  <!-- SVG para transiciones -->
+  <svg class="transitions-layer" [attr.viewBox]="'0 0 ' + canvasWidth + ' ' + canvasHeight">
+    <defs>
+      <!-- Arrow marker -->
+      <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+        <polygon points="0 0, 10 3, 0 6" fill="#3b82f6" />
+      </marker>
+
+      <!-- Selected arrow marker -->
+      <marker id="arrowhead-selected" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+        <polygon points="0 0, 10 3, 0 6" fill="#10b981" />
+      </marker>
+    </defs>
+
+    <!-- Render transitions -->
+    <g *ngFor="let transition of transitions" (click)="onTransitionClick($event, transition)">
+      <ng-container *ngIf="getTransitionPath(transition) as path">
+        <path
+          [attr.d]="path.svgPath"
+          [attr.stroke]="selectedTransition?.id === transition.id ? '#10b981' : '#3b82f6'"
+          [attr.stroke-width]="selectedTransition?.id === transition.id ? 3 : 2"
+          fill="none"
+          [attr.marker-end]="'url(#' + (selectedTransition?.id === transition.id ? 'arrowhead-selected' : 'arrowhead') + ')'"
+          class="transition-path"
+        />
+
+        <!-- Label -->
+        <text
+          *ngIf="transition.condition"
+          [attr.x]="path.midpoint.x"
+          [attr.y]="path.midpoint.y"
+          text-anchor="middle"
+          class="transition-label"
+          [attr.fill]="selectedTransition?.id === transition.id ? '#10b981' : '#3b82f6'"
+        >
+          {{ transition.condition }}
+        </text>
+      </ng-container>
+    </g>
+
+    <!-- Drawing new transition (temp) -->
+    <path
+      *ngIf="isDrawingTransition && drawingTransitionPath"
+      [attr.d]="drawingTransitionPath"
+      stroke="#f59e0b"
+      stroke-width="2"
+      stroke-dasharray="5,5"
+      fill="none"
+      marker-end="url(#arrowhead)"
+    />
+  </svg>
+
+  <!-- Nodos layer -->
+  <div class="nodes-layer" [style.transform]="'scale(' + zoom + ') translate(' + offset.x + 'px, ' + offset.y + 'px)'">
+    <app-node-item
+      *ngFor="let node of nodes"
+      [node]="node"
+      [isSelected]="selectedNode?.id === node.id"
+      [isDragging]="draggingNode?.id === node.id"
+      (nodeClick)="onNodeClick($event)"
+      (nodeEdit)="onNodeEdit($event)"
+      (nodeDelete)="onNodeDelete($event)"
+      (nodeMouseDown)="onNodeMouseDown($event)"
+      (connectionPointClick)="onConnectionPointClick($event)"
+    ></app-node-item>
+  </div>
+
+  <!-- Canvas info -->
+  <div class="canvas-info">
+    <div class="info-item">
+      <i class="pi pi-sitemap"></i>
+      <span>{{ nodes.length }} nodos</span>
+    </div>
+    <div class="info-item">
+      <i class="pi pi-arrow-right"></i>
+      <span>{{ transitions.length }} conexiones</span>
+    </div>
+    <div class="info-item">
+      <i class="pi pi-search-plus"></i>
+      <span>{{ (zoom * 100).toFixed(0) }}%</span>
+    </div>
+  </div>
+
+  <!-- Zoom controls -->
+  <div class="zoom-controls">
+    <button class="zoom-btn" (click)="zoomIn()">
+      <i class="pi pi-plus"></i>
+    </button>
+    <button class="zoom-btn" (click)="zoomOut()">
+      <i class="pi pi-minus"></i>
+    </button>
+    <button class="zoom-btn" (click)="resetZoom()">
+      <i class="pi pi-replay"></i>
+    </button>
+  </div>
+
+  <p-toast></p-toast>
+</div>

@@ -1,0 +1,39 @@
+.chunk-preview {
+  max-width: 600px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #495057;
+}
+
+.chunk-detail {
+  padding: 1rem 0;
+}
+
+.chunk-metadata {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.chunk-text {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.metadata-json {
+  padding: 1rem;
+  background: #2d3748;
+  color: #e2e8f0;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.875rem;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  padding: 0.75rem;
+}

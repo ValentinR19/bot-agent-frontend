@@ -1,0 +1,104 @@
+.preview-content {
+  padding: 1rem 0;
+}
+
+.preview-status {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.preview-status.status-running {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.preview-status i {
+  font-size: 1.25rem;
+}
+
+.preview-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.preview-timeline h4 {
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin: 0 0 1rem 0;
+  color: #495057;
+}
+
+.step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+}
+
+.step-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.step-details {
+  padding: 0.5rem 0;
+}
+
+.step-time {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.step-data {
+  margin-top: 0.75rem;
+}
+
+.step-data strong {
+  display: block;
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-bottom: 0.25rem;
+}
+
+.step-data pre {
+  background: #f8f9fa;
+  padding: 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  margin: 0;
+  overflow-x: auto;
+}
+
+.preview-input {
+  background: #fff9db;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+}
+
+.preview-input h4 {
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem 0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #6c757d;
+}
+
+.empty-state i {
+  margin-bottom: 1rem;
+}

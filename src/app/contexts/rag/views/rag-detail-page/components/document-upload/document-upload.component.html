@@ -1,0 +1,62 @@
+<p-dialog [(visible)]="visible" [modal]="true" [style]="{ width: '600px' }" header="Subir documento" (onHide)="onClose()">
+  <div class="upload-container">
+    <form [formGroup]="uploadForm">
+      <!-- Tipo de documento -->
+      <div class="form-field">
+        <label for="docType">Tipo de documento *</label>
+        <p-select id="docType" formControlName="type" [options]="documentTypes" optionLabel="label" optionValue="value" placeholder="Seleccionar tipo" class="w-full"></p-select>
+        <small class="text-gray-500">Selecciona el tipo que mejor describe el contenido</small>
+      </div>
+
+      <!-- Tags -->
+      <div class="form-field">
+        <label for="tags">Tags (opcional)</label>
+        <p-chips id="tags" formControlName="tags" placeholder="Agregar tag y presionar Enter" class="w-full"></p-chips>
+        <small class="text-gray-500">Útil para filtrar y organizar documentos</small>
+      </div>
+    </form>
+
+    <!-- File upload -->
+    <div class="form-field">
+      <label>Archivo *</label>
+      <p-fileUpload
+        mode="basic"
+        name="file"
+        [auto]="false"
+        [customUpload]="true"
+        (uploadHandler)="onFileSelect($event)"
+        [maxFileSize]="10000000"
+        accept=".pdf,.txt,.csv"
+        [chooseLabel]="selectedFile ? selectedFile.name : 'Seleccionar archivo'"
+        [disabled]="isUploading"
+      ></p-fileUpload>
+      <small class="text-gray-500">Formatos soportados: PDF, TXT, CSV (máx. 10MB)</small>
+    </div>
+
+    <!-- Preview de archivo seleccionado -->
+    <div class="file-preview" *ngIf="selectedFile">
+      <div class="flex align-items-center justify-content-between p-3 border-round" style="background: #f8f9fa">
+        <div class="flex align-items-center gap-2">
+          <i class="pi pi-file text-2xl text-primary"></i>
+          <div>
+            <div class="font-semibold">{{ selectedFile.name }}</div>
+            <small class="text-gray-500">{{ formatSize(selectedFile.size) }}</small>
+          </div>
+        </div>
+        <p-button icon="pi pi-times" [text]="true" [rounded]="true" severity="danger" (onClick)="clearFile()"></p-button>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <p-progressBar *ngIf="isUploading" [value]="uploadProgress" [showValue]="true"></p-progressBar>
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex gap-2 justify-content-end">
+      <p-button label="Cancelar" severity="secondary" (onClick)="onClose()" [disabled]="isUploading"></p-button>
+      <p-button label="Subir" icon="pi pi-upload" (onClick)="onUpload()" [disabled]="!canUpload()" [loading]="isUploading"></p-button>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-toast></p-toast>

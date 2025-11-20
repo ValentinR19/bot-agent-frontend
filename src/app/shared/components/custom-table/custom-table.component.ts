@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { TooltipModule } from 'primeng/tooltip';
 
 export interface TableColumn {
   field: string;
@@ -16,7 +17,7 @@ export interface TableColumn {
 export interface TableAction {
   label: string;
   icon: string;
-  severity?: 'primary' | 'secondary' | 'success' | 'info' | 'warning' | 'danger';
+  severity?: 'primary' | 'secondary' | 'success' | 'info' | 'danger' | 'contrast' | 'help';
   command: (item: any) => void;
   visible?: (item: any) => boolean;
 }
@@ -24,7 +25,7 @@ export interface TableAction {
 @Component({
   selector: 'app-custom-table',
   standalone: true,
-  imports: [CommonModule, TableModule, ButtonModule, InputTextModule],
+  imports: [CommonModule, TableModule, ButtonModule, InputTextModule, TooltipModule],
   templateUrl: './custom-table.component.html',
   styleUrl: './custom-table.component.scss',
 })

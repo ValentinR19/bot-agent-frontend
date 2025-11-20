@@ -1,0 +1,44 @@
+.search-form {
+  margin-bottom: 1rem;
+}
+
+.result-item {
+  transition: transform 0.2s;
+}
+
+.result-item:hover {
+  transform: translateX(4px);
+}
+
+.result-text {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  line-height: 1.6;
+  color: #495057;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+::ng-deep .custom-chip-secondary {
+  background: #6b7280;
+  color: white;
+}
+
+::ng-deep .custom-chip-info {
+  background: #3b82f6;
+  color: white;
+}
+
+::ng-deep .custom-chip-primary {
+  background: #10b981;
+  color: white;
+}
+
+::ng-deep .p-accordion .p-accordion-header-link {
+  padding: 0.75rem 1rem;
+}
+
+::ng-deep .p-accordion .p-accordion-content {
+  padding: 1rem;
+}

@@ -1,0 +1,129 @@
+<div class="destinations-form-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>{{ isEditMode ? 'Editar Destino' : 'Nuevo Destino' }}</h2>
+        <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="destinationForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <div class="form-field">
+          <label for="name" class="required">Nombre</label>
+          <input
+            id="name"
+            type="text"
+            pInputText
+            formControlName="name"
+            placeholder="Ej: API Principal"
+            [class.ng-invalid]="destinationForm.controls.name.invalid && destinationForm.controls.name.touched"
+          />
+          <small class="p-error" *ngIf="destinationForm.controls.name.invalid && destinationForm.controls.name.touched"> El nombre es requerido (mínimo 3 caracteres) </small>
+        </div>
+
+        <div class="form-field">
+          <label for="type" class="required">Tipo</label>
+          <p-select
+            id="type"
+            formControlName="type"
+            [options]="typeOptions"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccionar tipo"
+            [style]="{ width: '100%' }"
+          ></p-select>
+          <small class="p-error" *ngIf="destinationForm.controls.type.invalid && destinationForm.controls.type.touched"> El tipo es requerido </small>
+        </div>
+
+        <div class="form-field">
+          <label for="isActive">Estado Activo</label>
+          <p-toggleSwitch id="isActive" formControlName="isActive"></p-toggleSwitch>
+        </div>
+      </div>
+
+      <div class="form-field-full">
+        <label for="description">Descripción</label>
+        <textarea id="description" pInputTextarea formControlName="description" placeholder="Describe el propósito de este destino..." rows="3"></textarea>
+      </div>
+
+      <div class="form-field-full">
+        <label for="config" class="required">Configuración (JSON)</label>
+        <textarea
+          id="config"
+          pInputTextarea
+          formControlName="configJson"
+          placeholder='{"url": "https://api.example.com", "apiKey": "..."}'
+          rows="6"
+          [class.ng-invalid]="destinationForm.controls.configJson.invalid && destinationForm.controls.configJson.touched"
+        ></textarea>
+        <small class="p-hint">Formato JSON válido con la configuración específica del tipo de destino</small>
+        <small class="p-error" *ngIf="destinationForm.controls.configJson.invalid && destinationForm.controls.configJson.touched"> JSON inválido o vacío </small>
+      </div>
+
+      <div class="form-section">
+        <h4>Configuración de Reintentos (Opcional)</h4>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="maxRetries">Reintentos Máximos</label>
+            <p-inputNumber id="maxRetries" formControlName="maxRetries" [min]="0" [max]="10" [showButtons]="true" [style]="{ width: '100%' }"></p-inputNumber>
+          </div>
+
+          <div class="form-field">
+            <label for="retryDelay">Retraso entre Reintentos (ms)</label>
+            <p-inputNumber id="retryDelay" formControlName="retryDelay" [min]="0" [step]="100" [showButtons]="true" [style]="{ width: '100%' }"></p-inputNumber>
+          </div>
+
+          <div class="form-field">
+            <label for="backoffMultiplier">Multiplicador de Backoff</label>
+            <p-inputNumber
+              id="backoffMultiplier"
+              formControlName="backoffMultiplier"
+              [min]="1"
+              [max]="5"
+              [step]="0.5"
+              [showButtons]="true"
+              [style]="{ width: '100%' }"
+            ></p-inputNumber>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4>Límite de Tasa (Opcional)</h4>
+        <div class="form-grid">
+          <div class="form-field">
+            <label for="maxRequests">Solicitudes Máximas</label>
+            <p-inputNumber id="maxRequests" formControlName="maxRequests" [min]="0" [showButtons]="true" [style]="{ width: '100%' }"></p-inputNumber>
+          </div>
+
+          <div class="form-field">
+            <label for="windowMs">Ventana de Tiempo (ms)</label>
+            <p-inputNumber id="windowMs" formControlName="windowMs" [min]="0" [step]="1000" [showButtons]="true" [style]="{ width: '100%' }"></p-inputNumber>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field-full">
+        <label for="metadata">Metadatos (JSON)</label>
+        <textarea
+          id="metadata"
+          pInputTextarea
+          formControlName="metadataJson"
+          placeholder='{"region": "us-east-1", "environment": "production"}'
+          rows="4"
+          [class.ng-invalid]="destinationForm.controls.metadataJson.invalid && destinationForm.controls.metadataJson.touched"
+        ></textarea>
+        <small class="p-hint">Formato JSON válido (opcional)</small>
+        <small class="p-error" *ngIf="destinationForm.controls.metadataJson.invalid && destinationForm.controls.metadataJson.touched"> JSON inválido </small>
+      </div>
+
+      <div class="form-actions">
+        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="destinationForm.invalid || saving" [loading]="saving"></p-button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

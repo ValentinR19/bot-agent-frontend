@@ -1,0 +1,129 @@
+<div class="roles-detail-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>Detalle del Rol</h2>
+        <div class="flex gap-2">
+          <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!role || role.isSystem"></p-button>
+          <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="loading" class="loading-skeleton">
+      <p-skeleton height="2rem" styleClass="mb-3"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+    </div>
+
+    <div *ngIf="!loading && role" class="role-details">
+      <div class="detail-section">
+        <h3>Información General</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Nombre:</label>
+            <span class="value">{{ role.name }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Código:</label>
+            <span class="value">{{ role.code }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Descripción:</label>
+            <span class="value">{{ role.description || '-' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Tipo:</label>
+            <span [class]="'badge ' + (role.isSystem ? 'badge-info' : 'badge-secondary')">
+              {{ role.isSystem ? 'Sistema' : 'Personalizado' }}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Estado:</label>
+            <span [class]="'badge ' + (role.isActive ? 'badge-success' : 'badge-danger')">
+              {{ role.isActive ? 'Activo' : 'Inactivo' }}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Permisos:</label>
+            <span class="value">{{ role.permissions?.length || 0 }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="role.permissions && role.permissions.length > 0">
+        <h3>Permisos Asignados</h3>
+        <p-divider></p-divider>
+
+        <p-table [value]="role.permissions" [paginator]="true" [rows]="10">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Clave</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Módulo</th>
+              <th>Acción</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-permission>
+            <tr>
+              <td>
+                <span class="font-semibold">{{ permission.key }}</span>
+              </td>
+              <td>{{ permission.name || '-' }}</td>
+              <td>{{ permission.description || '-' }}</td>
+              <td>
+                <span class="badge badge-module">{{ permission.module || '-' }}</span>
+              </td>
+              <td>
+                <span class="badge badge-action">{{ permission.action || '-' }}</span>
+              </td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td colspan="5" class="text-center">No hay permisos asignados a este rol.</td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <div class="detail-section">
+        <h3>Metadatos</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Creado:</label>
+            <span class="value">{{ role.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Última actualización:</label>
+            <span class="value">{{ role.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>ID:</label>
+            <span class="value text-sm text-gray-500">{{ role.id }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !role" class="text-center p-5">
+      <i class="pi pi-exclamation-circle text-4xl text-red-500 mb-3"></i>
+      <p>Rol no encontrado</p>
+    </div>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

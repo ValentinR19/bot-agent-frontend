@@ -1,0 +1,82 @@
+<p-card header="Búsqueda RAG Semántica">
+  <!-- Formulario de búsqueda -->
+  <div class="search-form">
+    <form [formGroup]="searchForm">
+      <div class="flex gap-3 mb-3">
+        <span class="p-input-icon-left flex-1">
+          <i class="pi pi-search"></i>
+          <input type="text" pInputText formControlName="query" placeholder="Escribe tu consulta..." class="w-full" (keyup.enter)="onSearch()" [disabled]="isSearching" />
+        </span>
+        <p-button label="Buscar" icon="pi pi-search" (onClick)="onSearch()" [loading]="isSearching" [disabled]="!searchForm.value.query"></p-button>
+        <p-button label="Limpiar" icon="pi pi-times" severity="secondary" (onClick)="onClear()" [disabled]="isSearching"></p-button>
+      </div>
+
+      <!-- Parámetros avanzados -->
+      <p-accordion>
+        <p-accordionTab header="Parámetros avanzados">
+          <div class="grid">
+            <div class="col-6">
+              <label for="topK" class="block mb-2 font-semibold text-sm">Top K resultados</label>
+              <p-inputNumber id="topK" formControlName="topK" [min]="1" [max]="20" [showButtons]="true" class="w-full"></p-inputNumber>
+              <small class="text-gray-500">Cantidad de chunks a retornar (1-20)</small>
+            </div>
+
+            <div class="col-6">
+              <label for="minSimilarity" class="block mb-2 font-semibold text-sm">Similitud mínima</label>
+              <div class="flex align-items-center gap-3">
+                <p-slider formControlName="minSimilarityPercent" [min]="0" [max]="100" class="flex-1"></p-slider>
+                <span class="font-semibold">{{ searchForm.value.minSimilarityPercent }}%</span>
+              </div>
+              <small class="text-gray-500">Umbral de similitud (0-100%)</small>
+            </div>
+          </div>
+        </p-accordionTab>
+      </p-accordion>
+    </form>
+  </div>
+
+  <p-divider></p-divider>
+
+  <!-- Resultados -->
+  <div class="search-results">
+    <div class="flex justify-content-between align-items-center mb-3" *ngIf="results.length > 0">
+      <h3 class="m-0">Resultados ({{ results.length }})</h3>
+    </div>
+
+    <!-- Lista de resultados -->
+    <div class="results-list">
+      <div *ngFor="let result of results; let i = index" class="result-item mb-3">
+        <p-card>
+          <div class="result-header flex justify-content-between align-items-start mb-2">
+            <div class="flex align-items-center gap-2">
+              <p-badge [value]="i + 1" severity="info"></p-badge>
+              <span class="font-semibold">{{ result.document?.title || 'Sin título' }}</span>
+            </div>
+            <p-badge [value]="formatSimilarity(result.similarityScore)" severity="success"></p-badge>
+          </div>
+
+          <div class="result-metadata mb-2 flex gap-3">
+            <p-chip [label]="'Chunk #' + result.chunkIndex" styleClass="custom-chip-secondary"></p-chip>
+            <p-chip [label]="result.tokenCount + ' tokens'" styleClass="custom-chip-info"></p-chip>
+            <p-chip [label]="result.document?.type || 'general'" styleClass="custom-chip-primary"></p-chip>
+          </div>
+
+          <div class="result-text">
+            {{ result.chunkText }}
+          </div>
+        </p-card>
+      </div>
+
+      <!-- Empty state -->
+      <div class="empty-state text-center p-5" *ngIf="results.length === 0 && !isSearching && hasSearched">
+        <i class="pi pi-inbox text-6xl text-gray-300 mb-3"></i>
+        <p class="text-gray-500">No se encontraron resultados para tu búsqueda</p>
+      </div>
+
+      <div class="empty-state text-center p-5" *ngIf="results.length === 0 && !isSearching && !hasSearched">
+        <i class="pi pi-search text-6xl text-gray-300 mb-3"></i>
+        <p class="text-gray-500">Escribe una consulta para buscar en la base de conocimiento</p>
+      </div>
+    </div>
+  </div>
+</p-card>

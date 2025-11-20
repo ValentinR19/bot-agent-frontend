@@ -1,0 +1,158 @@
+<div class="destinations-detail-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>Detalle del Destino</h2>
+        <div class="flex gap-2">
+          <p-button label="Probar" icon="pi pi-bolt" severity="help" (onClick)="testDestination()" [disabled]="!destination"></p-button>
+          <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!destination"></p-button>
+          <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="loading" class="loading-skeleton">
+      <p-skeleton height="2rem" styleClass="mb-3"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+    </div>
+
+    <div *ngIf="!loading && destination" class="destination-details">
+      <div class="detail-section">
+        <h3>Información General</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Nombre:</label>
+            <span class="value">{{ destination.name }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Tipo:</label>
+            <p-tag [value]="getTypeLabel(destination.type)" severity="info"></p-tag>
+          </div>
+
+          <div class="detail-item">
+            <label>Descripción:</label>
+            <span class="value">{{ destination.description || '-' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Estado:</label>
+            <p-tag [value]="destination.isActive ? 'Activo' : 'Inactivo'" [severity]="destination.isActive ? 'success' : 'danger'"></p-tag>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3>Estadísticas</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Total de Llamadas:</label>
+            <span class="value font-semibold text-blue-600">{{ destination.totalCalls }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Total de Errores:</label>
+            <span class="value font-semibold" [class.text-red-600]="destination.totalErrors > 0" [class.text-green-600]="destination.totalErrors === 0">
+              {{ destination.totalErrors }}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Tasa de Éxito:</label>
+            <span class="value font-semibold"> {{ getSuccessRate() }}% </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Último Uso:</label>
+            <span class="value">
+              {{ destination.lastUsedAt ? (destination.lastUsedAt | date: 'dd/MM/yyyy HH:mm') : 'Nunca' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="destination.retryConfig">
+        <h3>Configuración de Reintentos</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item" *ngIf="destination.retryConfig.maxRetries">
+            <label>Reintentos Máximos:</label>
+            <span class="value">{{ destination.retryConfig.maxRetries }}</span>
+          </div>
+
+          <div class="detail-item" *ngIf="destination.retryConfig.retryDelay">
+            <label>Retraso entre Reintentos:</label>
+            <span class="value">{{ destination.retryConfig.retryDelay }}ms</span>
+          </div>
+
+          <div class="detail-item" *ngIf="destination.retryConfig.backoffMultiplier">
+            <label>Multiplicador de Backoff:</label>
+            <span class="value">{{ destination.retryConfig.backoffMultiplier }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="destination.rateLimit">
+        <h3>Límite de Tasa</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item" *ngIf="destination.rateLimit.maxRequests">
+            <label>Solicitudes Máximas:</label>
+            <span class="value">{{ destination.rateLimit.maxRequests }}</span>
+          </div>
+
+          <div class="detail-item" *ngIf="destination.rateLimit.windowMs">
+            <label>Ventana de Tiempo:</label>
+            <span class="value">{{ destination.rateLimit.windowMs }}ms</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3>Configuración</h3>
+        <p-divider></p-divider>
+
+        <div class="config-display">
+          <pre>{{ getConfigDisplay() }}</pre>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3>Metadatos</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Creado:</label>
+            <span class="value">{{ destination.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Última actualización:</label>
+            <span class="value">{{ destination.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>ID:</label>
+            <span class="value text-sm text-gray-500">{{ destination.id }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !destination" class="text-center p-5">
+      <i class="pi pi-exclamation-circle text-4xl text-red-500 mb-3"></i>
+      <p>Destino no encontrado</p>
+    </div>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

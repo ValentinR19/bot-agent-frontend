@@ -1,0 +1,53 @@
+<div
+  class="node-item"
+  [class.node-selected]="isSelected"
+  [class.node-dragging]="isDragging"
+  [class.node-error]="hasErrors"
+  [style.left.px]="node.position.x"
+  [style.top.px]="node.position.y"
+  [style.border-color]="nodeDefinition.color"
+  (mousedown)="onMouseDown($event)"
+  (click)="onClick($event)"
+  [pTooltip]="nodeDefinition.description"
+  tooltipPosition="top"
+>
+  <!-- Connection points -->
+  <div class="connection-point connection-top" (click)="onConnectionPointClick($event, 'top')">
+    <i class="pi pi-circle-fill"></i>
+  </div>
+  <div class="connection-point connection-bottom" (click)="onConnectionPointClick($event, 'bottom')">
+    <i class="pi pi-circle-fill"></i>
+  </div>
+  <div class="connection-point connection-left" (click)="onConnectionPointClick($event, 'left')">
+    <i class="pi pi-circle-fill"></i>
+  </div>
+  <div class="connection-point connection-right" (click)="onConnectionPointClick($event, 'right')">
+    <i class="pi pi-circle-fill"></i>
+  </div>
+
+  <!-- Node content -->
+  <div class="node-header">
+    <i [class]="nodeDefinition.icon" [style.color]="nodeDefinition.color"></i>
+    <p-chip [label]="nodeDefinition.label" [style]="{ background: nodeDefinition.color, color: 'white', fontSize: '0.75rem' }"></p-chip>
+  </div>
+
+  <div class="node-body">
+    <div class="node-name">{{ node.name }}</div>
+    <div class="node-id">{{ node.id.substring(0, 8) }}...</div>
+  </div>
+
+  <!-- Error indicator -->
+  <div class="node-error-icon" *ngIf="hasErrors">
+    <i class="pi pi-exclamation-triangle" pTooltip="Este nodo tiene errores de configuración" tooltipPosition="right"></i>
+  </div>
+
+  <!-- Actions -->
+  <div class="node-actions">
+    <button class="node-action-btn" (click)="onEdit($event)" pTooltip="Editar" tooltipPosition="top">
+      <i class="pi pi-pencil"></i>
+    </button>
+    <button class="node-action-btn node-action-delete" (click)="onDelete($event)" pTooltip="Eliminar" tooltipPosition="top">
+      <i class="pi pi-trash"></i>
+    </button>
+  </div>
+</div>

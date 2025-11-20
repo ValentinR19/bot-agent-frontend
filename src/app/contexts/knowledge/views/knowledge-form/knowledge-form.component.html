@@ -1,0 +1,101 @@
+<div class="knowledge-form-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>{{ isEditMode ? 'Editar Documento' : 'Nuevo Documento' }}</h2>
+        <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="documentForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Título -->
+        <div class="form-field">
+          <label for="title" class="required">Título</label>
+          <input
+            id="title"
+            type="text"
+            pInputText
+            formControlName="title"
+            placeholder="Ej: Manual de Usuario"
+            [class.ng-invalid]="documentForm.controls.title.invalid && documentForm.controls.title.touched"
+          />
+          <small class="p-error" *ngIf="documentForm.controls.title.invalid && documentForm.controls.title.touched"> El título es requerido </small>
+        </div>
+
+        <!-- Tipo -->
+        <div class="form-field">
+          <label for="type" class="required">Tipo</label>
+          <p-select
+            id="type"
+            formControlName="type"
+            [options]="documentTypes"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccionar tipo"
+            [style]="{ width: '100%' }"
+          ></p-select>
+        </div>
+
+        <!-- Tipo de Origen -->
+        <div class="form-field">
+          <label for="sourceType">Tipo de Origen</label>
+          <p-select
+            id="sourceType"
+            formControlName="sourceType"
+            [options]="sourceTypes"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccionar origen"
+            [style]="{ width: '100%' }"
+          ></p-select>
+        </div>
+
+        <!-- URL de Origen -->
+        <div class="form-field">
+          <label for="sourceUrl">URL de Origen</label>
+          <input id="sourceUrl" type="url" pInputText formControlName="sourceUrl" placeholder="https://ejemplo.com/documento" />
+        </div>
+
+        <!-- Nombre de Archivo -->
+        <div class="form-field">
+          <label for="fileName">Nombre de Archivo</label>
+          <input id="fileName" type="text" pInputText formControlName="fileName" placeholder="documento.pdf" />
+        </div>
+
+        <!-- Tipo MIME -->
+        <div class="form-field">
+          <label for="mimeType">Tipo MIME</label>
+          <input id="mimeType" type="text" pInputText formControlName="mimeType" placeholder="application/pdf" />
+        </div>
+
+        <!-- Contenido -->
+        <div class="form-field full-width">
+          <label for="content" class="required">Contenido</label>
+          <textarea
+            id="content"
+            pInputTextarea
+            formControlName="content"
+            placeholder="Contenido del documento"
+            rows="10"
+            [class.ng-invalid]="documentForm.controls.content.invalid && documentForm.controls.content.touched"
+          ></textarea>
+          <small class="p-error" *ngIf="documentForm.controls.content.invalid && documentForm.controls.content.touched"> El contenido es requerido </small>
+        </div>
+
+        <!-- Tags -->
+        <div class="form-field full-width">
+          <label for="tags">Tags</label>
+          <p-chips id="tags" formControlName="tags" placeholder="Añadir tag" [style]="{ width: '100%' }"></p-chips>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="documentForm.invalid || saving" [loading]="saving"></p-button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

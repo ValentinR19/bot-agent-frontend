@@ -1,0 +1,23 @@
+.progress-container {
+  padding: 0.5rem 0;
+}
+
+.status-message {
+  font-size: 0.875rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+::ng-deep .custom-chip {
+  background: #3b82f6;
+  color: white;
+}
+
+::ng-deep .p-progressbar {
+  border-radius: 8px;
+}
+
+::ng-deep .p-progressbar .p-progressbar-value {
+  border-radius: 8px;
+}

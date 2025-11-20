@@ -1,0 +1,85 @@
+.flow-builder-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+}
+
+.breadcrumb-container {
+  padding: 0.75rem 1.5rem;
+  background: white;
+  border-bottom: 1px solid #dee2e6;
+}
+
+:host ::ng-deep .p-toolbar {
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+}
+
+.toolbar-start {
+  display: flex;
+  align-items: center;
+}
+
+.toolbar-start h2 {
+  font-size: 1.25rem;
+}
+
+.toolbar-end {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.save-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
+}
+
+.save-status i {
+  font-size: 0.75rem;
+}
+
+.builder-layout {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+.builder-toolbox {
+  width: 250px;
+  border-right: 1px solid #dee2e6;
+  background: white;
+  overflow-y: auto;
+}
+
+.builder-canvas {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.builder-properties {
+  width: 350px;
+  border-left: 1px solid #dee2e6;
+  background: white;
+  overflow-y: auto;
+}
+
+@media (max-width: 1200px) {
+  .builder-toolbox {
+    width: 200px;
+  }
+
+  .builder-properties {
+    width: 300px;
+  }
+}

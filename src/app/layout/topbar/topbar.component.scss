@@ -187,7 +187,7 @@
   }
 
   ::ng-deep {
-    .p-menu {
+    .p-panelMenu {
       margin-top: 0.5rem;
       border-radius: 0.75rem;
       overflow: hidden;
@@ -195,7 +195,7 @@
       border: 1px solid var(--surface-border);
       min-width: 200px;
 
-      .p-menuitem-link {
+      .p-panelMenu-link {
         padding: 0.75rem 1.25rem;
         transition: all 0.2s;
 
@@ -204,17 +204,17 @@
           padding-left: 1.5rem;
         }
 
-        .p-menuitem-icon {
+        .p-panelMenu-icon {
           color: var(--text-color-secondary);
           margin-right: 0.875rem;
         }
 
-        .p-menuitem-text {
+        .p-panelMenu-text {
           font-weight: 500;
         }
       }
 
-      .p-menuitem-separator {
+      .p-panelMenu-separator {
         margin: 0.5rem 0;
       }
     }

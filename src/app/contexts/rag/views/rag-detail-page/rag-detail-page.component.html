@@ -1,0 +1,115 @@
+<div class="rag-detail-page">
+  <!-- Header -->
+  <div class="page-header mb-4">
+    <div class="flex justify-content-between align-items-center">
+      <div class="flex align-items-center gap-3">
+        <p-button icon="pi pi-arrow-left" [text]="true" [rounded]="true" severity="secondary" (onClick)="goBack()"></p-button>
+        <div>
+          <h1 class="m-0 mb-2">{{ document?.title || 'Cargando...' }}</h1>
+          <p class="text-gray-600 m-0" *ngIf="document">{{ document.fileName || 'Documento de conocimiento' }}</p>
+        </div>
+      </div>
+      <div class="flex gap-2">
+        <p-button label="Reintentar" icon="pi pi-refresh" severity="warn" (onClick)="onRetryIngestion()" *ngIf="document?.status === 'failed'" [disabled]="isRetrying"></p-button>
+        <p-button label="Eliminar" icon="pi pi-trash" severity="danger" (onClick)="onDelete()"></p-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Document info card -->
+  <p-card class="mb-4" *ngIf="document">
+    <div class="grid">
+      <div class="col-12 md:col-6">
+        <div class="info-row">
+          <span class="info-label">Tipo:</span>
+          <p-chip [label]="getTypeLabel(document.type)" [style]="{ background: getTypeColor(document.type), color: 'white' }"></p-chip>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Estado:</span>
+          <p-badge [value]="getStatusLabel(document.status)" [severity]="getStatusSeverity(document.status)"></p-badge>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Chunks:</span>
+          <p-badge [value]="document.chunkCount || 0" severity="info"></p-badge>
+        </div>
+      </div>
+
+      <div class="col-12 md:col-6">
+        <div class="info-row">
+          <span class="info-label">Tamaño:</span>
+          <span>{{ formatSize(document.size) }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Creado:</span>
+          <span>{{ document.createdAt | date: 'medium' }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Actualizado:</span>
+          <span>{{ document.updatedAt | date: 'medium' }}</span>
+        </div>
+      </div>
+
+      <div class="col-12" *ngIf="document.tags && document.tags.length > 0">
+        <p-divider></p-divider>
+        <div class="info-row">
+          <span class="info-label">Tags:</span>
+          <div class="flex gap-2 flex-wrap">
+            <p-chip *ngFor="let tag of document.tags" [label]="tag"></p-chip>
+          </div>
+        </div>
+      </div>
+    </div>
+  </p-card>
+
+  <!-- Progress card (solo si está processing o pending) -->
+  <div class="mb-4" *ngIf="document && (document.status === 'processing' || document.status === 'pending')">
+    <app-ingestion-progress [status]="document.status" [progress]="document.progress" [chunkCount]="document.chunkCount" [errorMessage]="document.errorMessage">
+    </app-ingestion-progress>
+  </div>
+
+  <!-- Error message (solo si falló) -->
+  <p-card class="mb-4" *ngIf="document?.status === 'failed'">
+    <div class="error-message flex align-items-start gap-3">
+      <i class="pi pi-exclamation-triangle text-red-500 text-3xl"></i>
+      <div>
+        <h3 class="mt-0 mb-2 text-red-600">Error en la ingestión</h3>
+        <p class="m-0 text-gray-700">{{ document?.errorMessage || 'Ocurrió un error durante el procesamiento del documento.' }}</p>
+      </div>
+    </div>
+  </p-card>
+
+  <!-- Tabs -->
+  <p-tabView *ngIf="document?.status === 'completed'">
+    <!-- Tab: Chunks -->
+    <p-tabPanel header="Chunks">
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+          <i class="pi pi-database"></i>
+          <span>Chunks</span>
+          <p-badge [value]="chunks.length" severity="info"></p-badge>
+        </div>
+      </ng-template>
+
+      <div class="tab-content">
+        <app-chunk-table [chunks]="chunks"></app-chunk-table>
+      </div>
+    </p-tabPanel>
+
+    <!-- Tab: Metadatos -->
+    <p-tabPanel header="Metadatos" *ngIf="document?.metadata && Object.keys(document?.metadata || {}).length > 0">
+      <ng-template pTemplate="header">
+        <div class="flex align-items-center gap-2">
+          <i class="pi pi-info-circle"></i>
+          <span>Metadatos</span>
+        </div>
+      </ng-template>
+
+      <div class="tab-content">
+        <pre class="metadata-json">{{ document?.metadata | json }}</pre>
+      </div>
+    </p-tabPanel>
+  </p-tabView>
+
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+</div>

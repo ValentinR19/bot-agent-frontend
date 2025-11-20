@@ -6,14 +6,14 @@
   </div>
 
   <div class="topbar-right">
-    <!-- Selector de Tenant (solo para super admins) -->
-    <div class="tenant-selector" #overlayHost *ngIf="isSuperAdmin">
+    <!-- Selector de Tenant Multi-Tenant -->
+    <div class="tenant-selector" #overlayHost *ngIf="showTenantSelector">
       <p-select
-        [options]="availableTenants"
+        [options]="userTenants"
         [(ngModel)]="selectedTenantId"
         optionLabel="name"
         optionValue="id"
-        placeholder="'currentTenantName'"
+        placeholder="Seleccionar tenant"
         (onChange)="onTenantChange($event)"
         [class]="'tenant-dropdown'"
       >
@@ -22,11 +22,16 @@
             <i class="pi pi-building"></i>
             <span>{{ currentTenantName }}</span>
           </div>
+          <div class="tenant-item" *ngIf="!selectedTenantId">
+            <i class="pi pi-building"></i>
+            <span>Seleccionar tenant</span>
+          </div>
         </ng-template>
         <ng-template let-tenant pTemplate="item">
           <div class="tenant-item">
             <i class="pi pi-building"></i>
             <span>{{ tenant.name }}</span>
+            <span class="tenant-role">({{ tenant.role }})</span>
           </div>
         </ng-template>
       </p-select>

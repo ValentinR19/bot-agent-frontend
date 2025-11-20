@@ -1,0 +1,143 @@
+<div class="conversations-detail-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>Detalle de la Conversación</h2>
+        <div class="flex gap-2">
+          <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!conversation"></p-button>
+          <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="loading" class="loading-skeleton">
+      <p-skeleton height="2rem" styleClass="mb-3"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+    </div>
+
+    <div *ngIf="!loading && conversation" class="conversation-details">
+      <div class="detail-section">
+        <h3>Información General</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Usuario Externo:</label>
+            <span class="value">{{ conversation.externalUserId }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Canal:</label>
+            <span class="value">
+              <strong>{{ conversation.channel?.name || 'N/A' }}</strong>
+              <br />
+              <small class="text-gray-500">{{ conversation.channel?.type || '' }}</small>
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Estado:</label>
+            <p-tag [value]="getStatusLabel(conversation.status)" [severity]="getStatusSeverity(conversation.status)"></p-tag>
+          </div>
+
+          <div class="detail-item">
+            <label>Flujo Actual:</label>
+            <span class="value">{{ conversation.currentFlowId || '-' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Nodo Actual:</label>
+            <span class="value">{{ conversation.currentNodeId || '-' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Último Mensaje:</label>
+            <span class="value">
+              {{ conversation.lastMessageAt ? (conversation.lastMessageAt | date: 'dd/MM/yyyy HH:mm') : '-' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="conversation.context">
+        <h3>Contexto</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item" *ngFor="let key of getContextKeys()">
+            <label>{{ key }}:</label>
+            <span class="value">{{ conversation.context![key] }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="messages.length > 0">
+        <h3>Mensajes ({{ messages.length }})</h3>
+        <p-divider></p-divider>
+
+        <p-timeline [value]="messages" align="left">
+          <ng-template pTemplate="content" let-message>
+            <div class="message-card">
+              <div class="message-header">
+                <span class="message-direction" [class.inbound]="message.direction === 'inbound'" [class.outbound]="message.direction === 'outbound'">
+                  {{ message.direction === 'inbound' ? 'Entrada' : 'Salida' }}
+                </span>
+                <span class="message-time">{{ message.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+              </div>
+              <div class="message-content">
+                <p>{{ message.content }}</p>
+                <small class="text-gray-500">Tipo: {{ message.type }}</small>
+              </div>
+            </div>
+          </ng-template>
+        </p-timeline>
+      </div>
+
+      <div class="detail-section">
+        <h3>Metadatos</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Iniciada:</label>
+            <span class="value">{{ conversation.startedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item" *ngIf="conversation.completedAt">
+            <label>Completada:</label>
+            <span class="value">{{ conversation.completedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item" *ngIf="conversation.abandonedAt">
+            <label>Abandonada:</label>
+            <span class="value">{{ conversation.abandonedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Creada:</label>
+            <span class="value">{{ conversation.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Última actualización:</label>
+            <span class="value">{{ conversation.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>ID:</label>
+            <span class="value text-sm text-gray-500">{{ conversation.id }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !conversation" class="text-center p-5">
+      <i class="pi pi-exclamation-circle text-4xl text-red-500 mb-3"></i>
+      <p>Conversación no encontrada</p>
+    </div>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

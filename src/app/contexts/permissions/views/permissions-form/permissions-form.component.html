@@ -1,0 +1,99 @@
+<div class="permissions-form-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>{{ isEditMode ? 'Editar Permiso' : 'Nuevo Permiso' }}</h2>
+        <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="permissionForm" (ngSubmit)="onSubmit()">
+      <!-- Key (solo en modo creación) -->
+      <div class="form-field" *ngIf="!isEditMode">
+        <label for="key" class="required">Clave (Key)</label>
+        <input
+          id="key"
+          type="text"
+          pInputText
+          formControlName="key"
+          placeholder="Ej: users.create"
+          [class.ng-invalid]="permissionForm.get('key')?.invalid && permissionForm.get('key')?.touched"
+        />
+        <small class="p-hint">Formato: modulo.accion (ej: users.create, flows.update)</small>
+        <small class="p-error" *ngIf="permissionForm.get('key')?.invalid && permissionForm.get('key')?.touched">
+          La clave es requerida y debe seguir el formato modulo.accion
+        </small>
+      </div>
+
+      <!-- Key (modo edición - solo lectura) -->
+      <div class="form-field" *ngIf="isEditMode">
+        <label for="keyReadonly">Clave (Key)</label>
+        <input id="keyReadonly" type="text" pInputText [value]="permissionKey" [readonly]="true" [disabled]="true" />
+        <small class="p-hint">La clave no puede ser modificada</small>
+      </div>
+
+      <!-- Module -->
+      <div class="form-field">
+        <label for="module" class="required">Módulo</label>
+        <input
+          id="module"
+          type="text"
+          pInputText
+          formControlName="module"
+          placeholder="Ej: users, flows, tenants"
+          [class.ng-invalid]="permissionForm.get('module')?.invalid && permissionForm.get('module')?.touched"
+        />
+        <small class="p-hint">Nombre del módulo al que pertenece este permiso</small>
+        <small class="p-error" *ngIf="permissionForm.get('module')?.invalid && permissionForm.get('module')?.touched"> El módulo es requerido </small>
+      </div>
+
+      <!-- Description -->
+      <div class="form-field-full">
+        <label for="description" class="required">Descripción</label>
+        <textarea
+          id="description"
+          pInputTextarea
+          formControlName="description"
+          placeholder="Describe qué permite hacer este permiso..."
+          rows="4"
+          [class.ng-invalid]="permissionForm.get('description')?.invalid && permissionForm.get('description')?.touched"
+        ></textarea>
+        <small class="p-hint">Descripción clara de la acción que permite este permiso</small>
+        <small class="p-error" *ngIf="permissionForm.get('description')?.invalid && permissionForm.get('description')?.touched">
+          La descripción es requerida (mínimo 10 caracteres)
+        </small>
+      </div>
+
+      <!-- Ejemplos de permisos comunes -->
+      <div class="examples-section" *ngIf="!isEditMode">
+        <h4>Ejemplos de permisos comunes:</h4>
+        <div class="examples-grid">
+          <div class="example-item" (click)="fillExample('users.create', 'users', 'Permite crear nuevos usuarios')">
+            <strong>users.create</strong>
+            <small>Crear usuarios</small>
+          </div>
+          <div class="example-item" (click)="fillExample('flows.update', 'flows', 'Permite actualizar flujos conversacionales')">
+            <strong>flows.update</strong>
+            <small>Actualizar flujos</small>
+          </div>
+          <div class="example-item" (click)="fillExample('conversations.read', 'conversations', 'Permite leer y visualizar conversaciones')">
+            <strong>conversations.read</strong>
+            <small>Leer conversaciones</small>
+          </div>
+          <div class="example-item" (click)="fillExample('destinations.delete', 'destinations', 'Permite eliminar destinos de integración')">
+            <strong>destinations.delete</strong>
+            <small>Eliminar destinos</small>
+          </div>
+        </div>
+        <small class="p-hint">Haz clic en un ejemplo para usarlo como plantilla</small>
+      </div>
+
+      <div class="form-actions">
+        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="permissionForm.invalid || saving" [loading]="saving"></p-button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

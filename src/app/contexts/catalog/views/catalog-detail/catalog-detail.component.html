@@ -1,0 +1,159 @@
+<div class="catalog-detail-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>Detalle del Item</h2>
+        <div class="flex gap-2">
+          <p-button label="Editar" icon="pi pi-pencil" (onClick)="goToEdit()" [disabled]="!item"></p-button>
+          <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+        </div>
+      </div>
+    </ng-template>
+
+    <div *ngIf="loading" class="loading-skeleton">
+      <p-skeleton height="2rem" styleClass="mb-3"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+      <p-skeleton height="1.5rem" styleClass="mb-2"></p-skeleton>
+    </div>
+
+    <div *ngIf="!loading && item" class="item-details">
+      <div class="detail-section">
+        <h3>Información General</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Título:</label>
+            <span class="value">{{ item.title }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Subtítulo:</label>
+            <span class="value">{{ item.subtitle || '-' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Tipo:</label>
+            <span class="badge badge-type">{{ getTypeLabel(item.type) }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>SKU:</label>
+            <span class="value font-semibold">{{ item.sku || '-' }}</span>
+          </div>
+
+          <div class="detail-item full-width">
+            <label>Descripción:</label>
+            <span class="value">{{ item.description || '-' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3>Precio e Inventario</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Precio:</label>
+            <span class="value text-primary font-semibold">
+              {{ item.price ? (item.price | number: '1.2-2') + ' ' + item.currency : 'No especificado' }}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Moneda:</label>
+            <span class="value">{{ item.currency }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Stock:</label>
+            <span class="value">{{ item.stock !== undefined ? item.stock : 'No aplica' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Destacado:</label>
+            <span [class]="'badge ' + (item.isFeatured ? 'badge-warning' : 'badge-secondary')">
+              {{ item.isFeatured ? 'Sí' : 'No' }}
+            </span>
+          </div>
+
+          <div class="detail-item">
+            <label>Estado:</label>
+            <span [class]="'badge ' + (item.isActive ? 'badge-success' : 'badge-danger')">
+              {{ item.isActive ? 'Activo' : 'Inactivo' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="item.externalSystem || item.externalId">
+        <h3>Sistema Externo</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Sistema:</label>
+            <span class="value">{{ item.externalSystem || '-' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>ID Externo:</label>
+            <span class="value">{{ item.externalId || '-' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="item.tags && item.tags.length > 0">
+        <h3>Tags</h3>
+        <p-divider></p-divider>
+
+        <div class="tags-container">
+          <p-chip *ngFor="let tag of item.tags" [label]="tag"></p-chip>
+        </div>
+      </div>
+
+      <div class="detail-section" *ngIf="item.imageUrl || (item.images && item.images.length > 0)">
+        <h3>Imágenes</h3>
+        <p-divider></p-divider>
+
+        <div class="images-container">
+          <img *ngIf="item.imageUrl" [src]="item.imageUrl" alt="Imagen principal" class="main-image" />
+          <div class="gallery" *ngIf="item.images && item.images.length > 0">
+            <img *ngFor="let image of item.images" [src]="image" alt="Imagen" class="gallery-image" />
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h3>Metadatos</h3>
+        <p-divider></p-divider>
+
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Creado:</label>
+            <span class="value">{{ item.createdAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>Última actualización:</label>
+            <span class="value">{{ item.updatedAt | date: 'dd/MM/yyyy HH:mm' }}</span>
+          </div>
+
+          <div class="detail-item">
+            <label>ID:</label>
+            <span class="value text-sm text-gray-500">{{ item.id }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!loading && !item" class="text-center p-5">
+      <i class="pi pi-exclamation-circle text-4xl text-red-500 mb-3"></i>
+      <p>Item no encontrado</p>
+    </div>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

@@ -1,0 +1,61 @@
+<div class="roles-form-page">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="flex justify-content-between align-items-center p-3">
+        <h2>{{ isEditMode ? 'Editar Rol' : 'Nuevo Rol' }}</h2>
+        <p-button label="Volver" icon="pi pi-arrow-left" severity="secondary" (onClick)="goBack()"></p-button>
+      </div>
+    </ng-template>
+
+    <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Nombre -->
+        <div class="form-field">
+          <label for="name" class="required">Nombre</label>
+          <input
+            id="name"
+            type="text"
+            pInputText
+            formControlName="name"
+            placeholder="Ej: Administrador"
+            [class.ng-invalid]="roleForm.controls.name.invalid && roleForm.controls.name.touched"
+          />
+          <small class="p-error" *ngIf="roleForm.controls.name.invalid && roleForm.controls.name.touched"> El nombre es requerido </small>
+        </div>
+
+        <!-- Código -->
+        <div class="form-field">
+          <label for="code" class="required">Código</label>
+          <input
+            id="code"
+            type="text"
+            pInputText
+            formControlName="code"
+            placeholder="Ej: ADMIN"
+            [class.ng-invalid]="roleForm.controls.code.invalid && roleForm.controls.code.touched"
+          />
+          <small class="p-error" *ngIf="roleForm.controls.code.invalid && roleForm.controls.code.touched"> El código es requerido </small>
+        </div>
+
+        <!-- Descripción -->
+        <div class="form-field full-width">
+          <label for="description">Descripción</label>
+          <textarea id="description" pInputTextarea formControlName="description" placeholder="Descripción del rol" rows="3"></textarea>
+        </div>
+
+        <!-- Estado Activo -->
+        <div class="form-field">
+          <label for="isActive">Activo</label>
+          <p-toggleswitch id="isActive" formControlName="isActive"></p-toggleswitch>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="roleForm.invalid || saving" [loading]="saving"></p-button>
+      </div>
+    </form>
+  </p-card>
+
+  <p-toast></p-toast>
+</div>

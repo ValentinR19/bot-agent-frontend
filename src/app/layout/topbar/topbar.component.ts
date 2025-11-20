@@ -1,18 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, OnDestroy, Output, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subject, takeUntil } from 'rxjs';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { MenuModule } from 'primeng/menu';
-
 import { SelectModule } from 'primeng/select';
 import { TenantService } from '../../core/services/tenant.service';
-import { AuthUser } from '../../features/auth/auth.model';
-import { AuthService } from '../../features/auth/auth.service';
-import { Tenant } from '../../features/tenants/tenant.model';
-import { TenantsService } from '../../features/tenants/tenants.service';
+import { AuthUser, AuthUserTenant } from '../../contexts/auth/models/auth.model';
+import { AuthService } from '../../contexts/auth/services/auth.service';
 
+/**
+ * Topbar con selector de tenant multi-tenant
+ *
+ * MULTI-TENANT:
+ * - Muestra lista de tenants asignados al usuario (NO todos los tenants del sistema)
+ * - Permite cambiar el tenant activo
+ * - Visible para todos los usuarios (no solo superadmins)
+ * - Si el usuario tiene 1 solo tenant, se puede ocultar el selector
+ */
 @Component({
   selector: 'app-topbar',
   standalone: true,
@@ -20,16 +27,16 @@ import { TenantsService } from '../../features/tenants/tenants.service';
   templateUrl: './topbar.component.html',
   styleUrl: './topbar.component.scss',
 })
-export class TopbarComponent implements OnInit {
+export class TopbarComponent implements OnInit, OnDestroy {
   @Output() toggleSidebar = new EventEmitter<void>();
 
   private readonly authService = inject(AuthService);
-  private readonly tenantsService = inject(TenantsService);
   private readonly tenantService = inject(TenantService);
   private readonly router = inject(Router);
+  private readonly destroy$ = new Subject<void>();
 
   currentUser: AuthUser | null = null;
-  availableTenants: Tenant[] = [];
+  userTenants: AuthUserTenant[] = [];
   selectedTenantId: string | null = null;
 
   userMenuItems: MenuItem[] = [
@@ -55,38 +62,32 @@ export class TopbarComponent implements OnInit {
 
   ngOnInit(): void {
     // Suscribirse al usuario actual
-    this.authService.currentUser$.subscribe((user) => {
+    this.authService.currentUser$.pipe(takeUntil(this.destroy$)).subscribe((user) => {
       this.currentUser = user;
-
-      // Si es super admin, cargar lista de tenants
-      if (user?.isSuperAdmin) {
-        this.loadTenants();
-      }
     });
 
-    // Suscribirse al tenant actual
-    this.tenantService.currentTenantId$.subscribe((tenantId) => {
+    // Suscribirse a la lista de tenants del usuario
+    this.tenantService.userTenants$.pipe(takeUntil(this.destroy$)).subscribe((tenants) => {
+      this.userTenants = tenants;
+    });
+
+    // Suscribirse al tenant activo
+    this.tenantService.currentTenantId$.pipe(takeUntil(this.destroy$)).subscribe((tenantId) => {
       this.selectedTenantId = tenantId;
     });
   }
 
-  loadTenants(): void {
-    this.tenantsService.findAll().subscribe({
-      next: (tenants) => {
-        this.availableTenants = tenants;
-      },
-      error: (error) => {
-        console.error('Error loading tenants:', error);
-      },
-    });
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onTenantChange(event: any): void {
     const newTenantId = event.value;
 
     if (newTenantId) {
-      // Cambiar el tenant actual
-      this.tenantService.setCurrentTenantId(newTenantId);
+      // Cambiar el tenant activo
+      this.tenantService.setActiveTenant(newTenantId);
 
       // Recargar la página para refrescar datos con el nuevo tenant
       window.location.reload();
@@ -125,7 +126,16 @@ export class TopbarComponent implements OnInit {
   get currentTenantName(): string {
     if (!this.selectedTenantId) return 'Sin tenant';
 
-    const tenant = this.availableTenants.find((t) => t.id === this.selectedTenantId);
+    const tenant = this.userTenants.find((t) => t.id === this.selectedTenantId);
     return tenant?.name || 'Tenant';
+  }
+
+  /**
+   * Muestra el selector de tenant si:
+   * - El usuario tiene más de 1 tenant, O
+   * - Es superadmin (puede tener 0 tenants pero necesita seleccionar uno)
+   */
+  get showTenantSelector(): boolean {
+    return this.userTenants.length > 1 || this.isSuperAdmin;
   }
 }
