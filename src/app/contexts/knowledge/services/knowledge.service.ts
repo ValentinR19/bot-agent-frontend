@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { CreateKnowledgeDocumentDto, DocumentStatus, DocumentType, KnowledgeDocument, KnowledgeDocumentSearchParams, UpdateKnowledgeDocumentDto } from '../models/knowledge.model';
+import { PaginatedResponse } from '../../../shared/models/pagination.model';
 
 /**
  * Servicio para gestión de Knowledge (Documentos RAG)
@@ -29,7 +30,8 @@ export class KnowledgeService {
   findAll(): Observable<KnowledgeDocument[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<KnowledgeDocument[]>(this.baseUrl).pipe(
+    return this.http.get<PaginatedResponse<KnowledgeDocument>>(this.baseUrl).pipe(
+      map((response) => response.data),
       tap({
         next: (documents) => {
           this.documentsSubject.next(documents);
@@ -47,7 +49,9 @@ export class KnowledgeService {
    * Listar documentos por tipo
    */
   findByType(type: DocumentType): Observable<KnowledgeDocument[]> {
-    return this.http.get<KnowledgeDocument[]>(`${this.baseUrl}/type/${type}`);
+    return this.http.get<PaginatedResponse<KnowledgeDocument>>(`${this.baseUrl}/type/${type}`).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**
@@ -55,7 +59,9 @@ export class KnowledgeService {
    * Listar documentos por estado
    */
   findByStatus(status: DocumentStatus): Observable<KnowledgeDocument[]> {
-    return this.http.get<KnowledgeDocument[]>(`${this.baseUrl}/status/${status}`);
+    return this.http.get<PaginatedResponse<KnowledgeDocument>>(`${this.baseUrl}/status/${status}`).pipe(
+      map((response) => response.data),
+    );
   }
   private toRecord(obj: any): Record<string, string> {
     const record: Record<string, string> = {};
@@ -82,9 +88,11 @@ export class KnowledgeService {
 
     const finalParams = this.toRecord(queryObj);
 
-    return this.http.get<KnowledgeDocument[]>(`${this.baseUrl}/search`, {
+    return this.http.get<PaginatedResponse<KnowledgeDocument>>(`${this.baseUrl}/search`, {
       params: finalParams,
-    });
+    }).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**

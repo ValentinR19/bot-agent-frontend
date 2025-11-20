@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { Conversation, ConversationStatus, CreateConversationDto, CreateMessageDto, Message, UpdateConversationDto } from '../models/conversations.model';
+import { PaginatedResponse } from '../../../shared/models/pagination.model';
 
 /**
  * Servicio para gestión de Conversations
@@ -29,7 +30,8 @@ export class ConversationsService {
   findAll(): Observable<Conversation[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<Conversation[]>(this.baseUrl).pipe(
+    return this.http.get<PaginatedResponse<Conversation>>(this.baseUrl).pipe(
+      map((response) => response.data),
       tap({
         next: (conversations) => {
           this.conversationsSubject.next(conversations);
@@ -47,7 +49,9 @@ export class ConversationsService {
    * Listar conversaciones por estado
    */
   findByStatus(status: ConversationStatus): Observable<Conversation[]> {
-    return this.http.get<Conversation[]>(`${this.baseUrl}/status/${status}`);
+    return this.http.get<PaginatedResponse<Conversation>>(`${this.baseUrl}/status/${status}`).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**
@@ -55,7 +59,9 @@ export class ConversationsService {
    * Listar conversaciones por canal
    */
   findByChannel(channelId: string): Observable<Conversation[]> {
-    return this.http.get<Conversation[]>(`${this.baseUrl}/channel/${channelId}`);
+    return this.http.get<PaginatedResponse<Conversation>>(`${this.baseUrl}/channel/${channelId}`).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**

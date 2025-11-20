@@ -1,8 +1,16 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
-import { AssignPermissionDto, AssignRoleDto, CreateRoleDto, Permission, Role, UpdateRoleDto } from '../models/role.model';
+import { PaginatedResponse } from '../../../shared/models/pagination.model';
+import {
+    AssignPermissionDto,
+    AssignRoleDto,
+    CreateRoleDto,
+    Permission,
+    Role,
+    UpdateRoleDto,
+} from '../models/role.model';
 
 /**
  * Servicio para gestión de Roles (RBAC)
@@ -29,7 +37,8 @@ export class RolesService {
   findAll(): Observable<Role[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<Role[]>(this.baseUrl).pipe(
+    return this.http.get<PaginatedResponse<Role>>(this.baseUrl).pipe(
+      map((response) => response.data),
       tap({
         next: (roles) => {
           this.rolesSubject.next(roles);
@@ -98,7 +107,9 @@ export class RolesService {
    * Obtener permisos de un rol
    */
   getRolePermissions(id: string): Observable<Permission[]> {
-    return this.http.get<Permission[]>(`${this.baseUrl}/${id}/permissions`);
+    return this.http.get<PaginatedResponse<Permission>>(`${this.baseUrl}/${id}/permissions`).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**

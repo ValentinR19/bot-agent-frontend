@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { PermissionCatalog, CreatePermissionDto, UpdatePermissionDto } from '../models/permission.model';
+import { PaginatedResponse } from '../../../shared/models/pagination.model';
 
 /**
  * Servicio para gestionar el catálogo de permisos
@@ -22,7 +24,9 @@ export class PermissionsService {
    * GET /api/v1/permissions
    */
   getPermissions(): Observable<PermissionCatalog[]> {
-    return this.http.get<PermissionCatalog[]>(this.apiUrl);
+    return this.http.get<PaginatedResponse<PermissionCatalog>>(this.apiUrl).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**
@@ -38,7 +42,9 @@ export class PermissionsService {
    * GET /api/v1/permissions/modules/{module}
    */
   getPermissionsByModule(module: string): Observable<PermissionCatalog[]> {
-    return this.http.get<PermissionCatalog[]>(`${this.apiUrl}/modules/${module}`);
+    return this.http.get<PaginatedResponse<PermissionCatalog>>(`${this.apiUrl}/modules/${module}`).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**

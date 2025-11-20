@@ -1,8 +1,16 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
-import { AddTeamMemberDto, CreateTeamDto, Team, TeamMember, UpdateTeamDto, UpdateTeamMemberRoleDto } from '../models/team.model';
+import { PaginatedResponse } from '../../../shared/models/pagination.model';
+import {
+    AddTeamMemberDto,
+    CreateTeamDto,
+    Team,
+    TeamMember,
+    UpdateTeamDto,
+    UpdateTeamMemberRoleDto,
+} from '../models/team.model';
 
 /**
  * Servicio para gestión de Teams
@@ -29,7 +37,8 @@ export class TeamsService {
   findAll(): Observable<Team[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<Team[]>(this.baseUrl).pipe(
+    return this.http.get<PaginatedResponse<Team>>(this.baseUrl).pipe(
+      map((response) => response.data),
       tap({
         next: (teams) => {
           this.teamsSubject.next(teams);
@@ -98,7 +107,9 @@ export class TeamsService {
    * Obtener miembros de un equipo
    */
   getTeamMembers(id: string): Observable<TeamMember[]> {
-    return this.http.get<TeamMember[]>(`${this.baseUrl}/${id}/members`);
+    return this.http.get<PaginatedResponse<TeamMember>>(`${this.baseUrl}/${id}/members`).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**

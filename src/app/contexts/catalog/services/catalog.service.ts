@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { CatalogItem, CatalogItemType, CatalogSearchParams, CreateCatalogItemDto, UpdateCatalogItemDto, UpdateStockDto } from '../models/catalog.model';
+import { PaginatedResponse } from '../../../shared/models/pagination.model';
 
 /**
  * Servicio para gestión de Catalog (productos/servicios)
@@ -29,7 +30,8 @@ export class CatalogService {
   findAll(): Observable<CatalogItem[]> {
     this.loadingSubject.next(true);
 
-    return this.http.get<CatalogItem[]>(this.baseUrl).pipe(
+    return this.http.get<PaginatedResponse<CatalogItem>>(this.baseUrl).pipe(
+      map((response) => response.data),
       tap({
         next: (items) => {
           this.catalogItemsSubject.next(items);
@@ -83,7 +85,9 @@ export class CatalogService {
    * Obtener items destacados
    */
   findFeatured(): Observable<CatalogItem[]> {
-    return this.http.get<CatalogItem[]>(`${this.baseUrl}/featured`);
+    return this.http.get<PaginatedResponse<CatalogItem>>(`${this.baseUrl}/featured`).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**
@@ -91,7 +95,9 @@ export class CatalogService {
    * Listar items por tipo
    */
   findByType(type: CatalogItemType): Observable<CatalogItem[]> {
-    return this.http.get<CatalogItem[]>(`${this.baseUrl}/type/${type}`);
+    return this.http.get<PaginatedResponse<CatalogItem>>(`${this.baseUrl}/type/${type}`).pipe(
+      map((response) => response.data),
+    );
   }
 
   /**
