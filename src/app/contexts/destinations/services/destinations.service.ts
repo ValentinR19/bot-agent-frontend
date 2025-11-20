@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { Destination, CreateDestinationDto, UpdateDestinationDto, TestDestinationDto, DestinationType } from '../models/destinations.model';
 import { PaginatedResponse } from '../../../shared/models/pagination.model';
@@ -22,30 +21,24 @@ export class DestinationsService {
    * Listar todos los destinos
    * GET /api/v1/destinations
    */
-  getDestinations(): Observable<Destination[]> {
-    return this.http.get<PaginatedResponse<Destination>>(this.apiUrl).pipe(
-      map((response) => response.data),
-    );
+  getDestinations(): Observable<PaginatedResponse<Destination>> {
+    return this.http.get<PaginatedResponse<Destination>>(this.apiUrl);
   }
 
   /**
    * Listar destinos activos
    * GET /api/v1/destinations/active
    */
-  getActiveDestinations(): Observable<Destination[]> {
-    return this.http.get<PaginatedResponse<Destination>>(`${this.apiUrl}/active`).pipe(
-      map((response) => response.data),
-    );
+  getActiveDestinations(): Observable<PaginatedResponse<Destination>> {
+    return this.http.get<PaginatedResponse<Destination>>(`${this.apiUrl}/active`);
   }
 
   /**
    * Listar destinos por tipo
    * GET /api/v1/destinations/type/{type}
    */
-  getDestinationsByType(type: DestinationType): Observable<Destination[]> {
-    return this.http.get<PaginatedResponse<Destination>>(`${this.apiUrl}/type/${type}`).pipe(
-      map((response) => response.data),
-    );
+  getDestinationsByType(type: DestinationType): Observable<PaginatedResponse<Destination>> {
+    return this.http.get<PaginatedResponse<Destination>>(`${this.apiUrl}/type/${type}`);
   }
 
   /**

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { PaginatedResponse } from '../../../shared/models/pagination.model';
 import {
@@ -34,14 +34,13 @@ export class TeamsService {
    * GET /api/v1/teams
    * Listar todos los equipos
    */
-  findAll(): Observable<Team[]> {
+  findAll(): Observable<PaginatedResponse<Team>> {
     this.loadingSubject.next(true);
 
     return this.http.get<PaginatedResponse<Team>>(this.baseUrl).pipe(
-      map((response) => response.data),
       tap({
-        next: (teams) => {
-          this.teamsSubject.next(teams);
+        next: (response) => {
+          this.teamsSubject.next(response.data);
           this.loadingSubject.next(false);
         },
         error: () => {
@@ -106,10 +105,8 @@ export class TeamsService {
    * GET /api/v1/teams/{id}/members
    * Obtener miembros de un equipo
    */
-  getTeamMembers(id: string): Observable<TeamMember[]> {
-    return this.http.get<PaginatedResponse<TeamMember>>(`${this.baseUrl}/${id}/members`).pipe(
-      map((response) => response.data),
-    );
+  getTeamMembers(id: string): Observable<PaginatedResponse<TeamMember>> {
+    return this.http.get<PaginatedResponse<TeamMember>>(`${this.baseUrl}/${id}/members`);
   }
 
   /**

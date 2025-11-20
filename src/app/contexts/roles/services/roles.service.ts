@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { PaginatedResponse } from '../../../shared/models/pagination.model';
 import {
@@ -34,14 +34,13 @@ export class RolesService {
    * GET /api/v1/roles
    * Listar todos los roles
    */
-  findAll(): Observable<Role[]> {
+  findAll(): Observable<PaginatedResponse<Role>> {
     this.loadingSubject.next(true);
 
     return this.http.get<PaginatedResponse<Role>>(this.baseUrl).pipe(
-      map((response) => response.data),
       tap({
-        next: (roles) => {
-          this.rolesSubject.next(roles);
+        next: (response) => {
+          this.rolesSubject.next(response.data);
           this.loadingSubject.next(false);
         },
         error: () => {
@@ -106,10 +105,8 @@ export class RolesService {
    * GET /api/v1/roles/{id}/permissions
    * Obtener permisos de un rol
    */
-  getRolePermissions(id: string): Observable<Permission[]> {
-    return this.http.get<PaginatedResponse<Permission>>(`${this.baseUrl}/${id}/permissions`).pipe(
-      map((response) => response.data),
-    );
+  getRolePermissions(id: string): Observable<PaginatedResponse<Permission>> {
+    return this.http.get<PaginatedResponse<Permission>>(`${this.baseUrl}/${id}/permissions`);
   }
 
   /**

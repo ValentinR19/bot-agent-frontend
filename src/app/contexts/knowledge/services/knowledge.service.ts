@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { CreateKnowledgeDocumentDto, DocumentStatus, DocumentType, KnowledgeDocument, KnowledgeDocumentSearchParams, UpdateKnowledgeDocumentDto } from '../models/knowledge.model';
 import { PaginatedResponse } from '../../../shared/models/pagination.model';
@@ -27,14 +27,13 @@ export class KnowledgeService {
    * GET /api/v1/knowledge/documents
    * Listar todos los documentos
    */
-  findAll(): Observable<KnowledgeDocument[]> {
+  findAll(): Observable<PaginatedResponse<KnowledgeDocument>> {
     this.loadingSubject.next(true);
 
     return this.http.get<PaginatedResponse<KnowledgeDocument>>(this.baseUrl).pipe(
-      map((response) => response.data),
       tap({
-        next: (documents) => {
-          this.documentsSubject.next(documents);
+        next: (response) => {
+          this.documentsSubject.next(response.data);
           this.loadingSubject.next(false);
         },
         error: () => {
@@ -48,20 +47,16 @@ export class KnowledgeService {
    * GET /api/v1/knowledge/documents/type/{type}
    * Listar documentos por tipo
    */
-  findByType(type: DocumentType): Observable<KnowledgeDocument[]> {
-    return this.http.get<PaginatedResponse<KnowledgeDocument>>(`${this.baseUrl}/type/${type}`).pipe(
-      map((response) => response.data),
-    );
+  findByType(type: DocumentType): Observable<PaginatedResponse<KnowledgeDocument>> {
+    return this.http.get<PaginatedResponse<KnowledgeDocument>>(`${this.baseUrl}/type/${type}`);
   }
 
   /**
    * GET /api/v1/knowledge/documents/status/{status}
    * Listar documentos por estado
    */
-  findByStatus(status: DocumentStatus): Observable<KnowledgeDocument[]> {
-    return this.http.get<PaginatedResponse<KnowledgeDocument>>(`${this.baseUrl}/status/${status}`).pipe(
-      map((response) => response.data),
-    );
+  findByStatus(status: DocumentStatus): Observable<PaginatedResponse<KnowledgeDocument>> {
+    return this.http.get<PaginatedResponse<KnowledgeDocument>>(`${this.baseUrl}/status/${status}`);
   }
   private toRecord(obj: any): Record<string, string> {
     const record: Record<string, string> = {};
@@ -79,7 +74,7 @@ export class KnowledgeService {
    * POST /api/v1/knowledge/documents/search
    * Buscar documentos
    */
-  search(params: KnowledgeDocumentSearchParams): Observable<KnowledgeDocument[]> {
+  search(params: KnowledgeDocumentSearchParams): Observable<PaginatedResponse<KnowledgeDocument>> {
     const queryObj: any = {
       tags: params.tags?.length ? params.tags.join(',') : undefined,
       type: params.type,
@@ -90,9 +85,7 @@ export class KnowledgeService {
 
     return this.http.get<PaginatedResponse<KnowledgeDocument>>(`${this.baseUrl}/search`, {
       params: finalParams,
-    }).pipe(
-      map((response) => response.data),
-    );
+    });
   }
 
   /**

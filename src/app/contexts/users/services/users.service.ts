@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { CreateUserDto, Role, Team, UpdateUserDto, User } from '../models/user.model';
 import { PaginatedResponse } from '../../../shared/models/pagination.model';
@@ -27,14 +27,13 @@ export class UsersService {
    * GET /api/v1/users
    * Listar todos los usuarios
    */
-  findAll(): Observable<User[]> {
+  findAll(): Observable<PaginatedResponse<User>> {
     this.loadingSubject.next(true);
 
     return this.http.get<PaginatedResponse<User>>(this.baseUrl).pipe(
-      map((response) => response.data),
       tap({
-        next: (users) => {
-          this.usersSubject.next(users);
+        next: (response) => {
+          this.usersSubject.next(response.data);
           this.loadingSubject.next(false);
         },
         error: () => {
@@ -99,19 +98,15 @@ export class UsersService {
    * GET /api/v1/users/{id}/roles
    * Obtener roles de un usuario
    */
-  getUserRoles(id: string): Observable<Role[]> {
-    return this.http.get<PaginatedResponse<Role>>(`${this.baseUrl}/${id}/roles`).pipe(
-      map((response) => response.data),
-    );
+  getUserRoles(id: string): Observable<PaginatedResponse<Role>> {
+    return this.http.get<PaginatedResponse<Role>>(`${this.baseUrl}/${id}/roles`);
   }
 
   /**
    * GET /api/v1/users/{id}/teams
    * Obtener equipos de un usuario
    */
-  getUserTeams(id: string): Observable<Team[]> {
-    return this.http.get<PaginatedResponse<Team>>(`${this.baseUrl}/${id}/teams`).pipe(
-      map((response) => response.data),
-    );
+  getUserTeams(id: string): Observable<PaginatedResponse<Team>> {
+    return this.http.get<PaginatedResponse<Team>>(`${this.baseUrl}/${id}/teams`);
   }
 }

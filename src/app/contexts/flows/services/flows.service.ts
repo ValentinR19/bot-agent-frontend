@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { PaginatedResponse } from '../../../shared/models/pagination.model';
 import {
@@ -37,14 +37,13 @@ export class FlowsService {
    * GET /api/v1/flows
    * Listar todos los flujos (respuesta paginada)
    */
-  findAll(): Observable<Flow[]> {
+  findAll(): Observable<PaginatedResponse<Flow>> {
     this.loadingSubject.next(true);
 
     return this.http.get<PaginatedResponse<Flow>>(this.baseUrl).pipe(
-      map((response) => response.data), // Extraer data del response paginado
       tap({
-        next: (flows) => {
-          this.flowsSubject.next(flows);
+        next: (response) => {
+          this.flowsSubject.next(response.data);
           this.loadingSubject.next(false);
         },
         error: () => {

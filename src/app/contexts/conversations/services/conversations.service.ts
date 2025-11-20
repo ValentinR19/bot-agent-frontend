@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { Conversation, ConversationStatus, CreateConversationDto, CreateMessageDto, Message, UpdateConversationDto } from '../models/conversations.model';
 import { PaginatedResponse } from '../../../shared/models/pagination.model';
@@ -27,14 +27,13 @@ export class ConversationsService {
    * GET /api/v1/conversations
    * Listar todas las conversaciones
    */
-  findAll(): Observable<Conversation[]> {
+  findAll(): Observable<PaginatedResponse<Conversation>> {
     this.loadingSubject.next(true);
 
     return this.http.get<PaginatedResponse<Conversation>>(this.baseUrl).pipe(
-      map((response) => response.data),
       tap({
-        next: (conversations) => {
-          this.conversationsSubject.next(conversations);
+        next: (response) => {
+          this.conversationsSubject.next(response.data);
           this.loadingSubject.next(false);
         },
         error: () => {
@@ -48,20 +47,16 @@ export class ConversationsService {
    * GET /api/v1/conversations/status/{status}
    * Listar conversaciones por estado
    */
-  findByStatus(status: ConversationStatus): Observable<Conversation[]> {
-    return this.http.get<PaginatedResponse<Conversation>>(`${this.baseUrl}/status/${status}`).pipe(
-      map((response) => response.data),
-    );
+  findByStatus(status: ConversationStatus): Observable<PaginatedResponse<Conversation>> {
+    return this.http.get<PaginatedResponse<Conversation>>(`${this.baseUrl}/status/${status}`);
   }
 
   /**
    * GET /api/v1/conversations/channel/{channelId}
    * Listar conversaciones por canal
    */
-  findByChannel(channelId: string): Observable<Conversation[]> {
-    return this.http.get<PaginatedResponse<Conversation>>(`${this.baseUrl}/channel/${channelId}`).pipe(
-      map((response) => response.data),
-    );
+  findByChannel(channelId: string): Observable<PaginatedResponse<Conversation>> {
+    return this.http.get<PaginatedResponse<Conversation>>(`${this.baseUrl}/channel/${channelId}`);
   }
 
   /**

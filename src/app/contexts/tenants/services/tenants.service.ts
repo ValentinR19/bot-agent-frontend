@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { CreateTenantDto, Tenant, UpdateTenantDto } from '../models/tenant.model';
 import { PaginatedResponse } from '../../../shared/models/pagination.model';
@@ -27,14 +27,13 @@ export class TenantsService {
    * GET /api/v1/tenants
    * Listar todos los tenants
    */
-  findAll(): Observable<Tenant[]> {
+  findAll(): Observable<PaginatedResponse<Tenant>> {
     this.loadingSubject.next(true);
 
     return this.http.get<PaginatedResponse<Tenant>>(this.baseUrl).pipe(
-      map((response) => response.data),
       tap({
-        next: (tenants) => {
-          this.tenantsSubject.next(tenants);
+        next: (response) => {
+          this.tenantsSubject.next(response.data);
           this.loadingSubject.next(false);
         },
         error: () => {

@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { CatalogItem, CatalogItemType, CatalogSearchParams, CreateCatalogItemDto, UpdateCatalogItemDto, UpdateStockDto } from '../models/catalog.model';
 import { PaginatedResponse } from '../../../shared/models/pagination.model';
@@ -27,14 +27,13 @@ export class CatalogService {
    * GET /api/v1/catalog
    * Listar todos los items del catálogo
    */
-  findAll(): Observable<CatalogItem[]> {
+  findAll(): Observable<PaginatedResponse<CatalogItem>> {
     this.loadingSubject.next(true);
 
     return this.http.get<PaginatedResponse<CatalogItem>>(this.baseUrl).pipe(
-      map((response) => response.data),
       tap({
-        next: (items) => {
-          this.catalogItemsSubject.next(items);
+        next: (response) => {
+          this.catalogItemsSubject.next(response.data);
           this.loadingSubject.next(false);
         },
         error: () => {
@@ -60,7 +59,7 @@ export class CatalogService {
    * GET /api/v1/catalog/search
    * Buscar items del catálogo
    */
-  search(params: CatalogSearchParams): Observable<any> {
+  search(params: CatalogSearchParams): Observable<PaginatedResponse<CatalogItem>> {
     const queryObj: any = {
       q: params.q,
       type: params.type,
@@ -75,7 +74,7 @@ export class CatalogService {
 
     const finalParams = this.toRecord(queryObj);
 
-    return this.http.get<any>(`${this.baseUrl}/search`, {
+    return this.http.get<PaginatedResponse<CatalogItem>>(`${this.baseUrl}/search`, {
       params: finalParams,
     });
   }
@@ -84,20 +83,16 @@ export class CatalogService {
    * GET /api/v1/catalog/featured
    * Obtener items destacados
    */
-  findFeatured(): Observable<CatalogItem[]> {
-    return this.http.get<PaginatedResponse<CatalogItem>>(`${this.baseUrl}/featured`).pipe(
-      map((response) => response.data),
-    );
+  findFeatured(): Observable<PaginatedResponse<CatalogItem>> {
+    return this.http.get<PaginatedResponse<CatalogItem>>(`${this.baseUrl}/featured`);
   }
 
   /**
    * GET /api/v1/catalog/type/{type}
    * Listar items por tipo
    */
-  findByType(type: CatalogItemType): Observable<CatalogItem[]> {
-    return this.http.get<PaginatedResponse<CatalogItem>>(`${this.baseUrl}/type/${type}`).pipe(
-      map((response) => response.data),
-    );
+  findByType(type: CatalogItemType): Observable<PaginatedResponse<CatalogItem>> {
+    return this.http.get<PaginatedResponse<CatalogItem>>(`${this.baseUrl}/type/${type}`);
   }
 
   /**

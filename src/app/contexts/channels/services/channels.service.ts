@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
 import { Channel, ChannelType, CreateChannelDto, UpdateChannelDto } from '../models/channel.model';
 import { TelegramConfigDto, TelegramSetupDto, WebhookInfo } from '../models/dtos/telegram-setup.dto';
@@ -28,14 +28,13 @@ export class ChannelsService {
    * GET /api/v1/channels
    * Listar todos los canales
    */
-  findAll(): Observable<Channel[]> {
+  findAll(): Observable<PaginatedResponse<Channel>> {
     this.loadingSubject.next(true);
 
     return this.http.get<PaginatedResponse<Channel>>(this.baseUrl).pipe(
-      map((response) => response.data),
       tap({
-        next: (channels) => {
-          this.channelsSubject.next(channels);
+        next: (response) => {
+          this.channelsSubject.next(response.data);
           this.loadingSubject.next(false);
         },
         error: () => {
@@ -49,20 +48,16 @@ export class ChannelsService {
    * GET /api/v1/channels/active
    * Listar canales activos
    */
-  findActive(): Observable<Channel[]> {
-    return this.http.get<PaginatedResponse<Channel>>(`${this.baseUrl}/active`).pipe(
-      map((response) => response.data),
-    );
+  findActive(): Observable<PaginatedResponse<Channel>> {
+    return this.http.get<PaginatedResponse<Channel>>(`${this.baseUrl}/active`);
   }
 
   /**
    * GET /api/v1/channels/type/{type}
    * Listar canales por tipo
    */
-  findByType(type: ChannelType): Observable<Channel[]> {
-    return this.http.get<PaginatedResponse<Channel>>(`${this.baseUrl}/type/${type}`).pipe(
-      map((response) => response.data),
-    );
+  findByType(type: ChannelType): Observable<PaginatedResponse<Channel>> {
+    return this.http.get<PaginatedResponse<Channel>>(`${this.baseUrl}/type/${type}`);
   }
 
   /**
