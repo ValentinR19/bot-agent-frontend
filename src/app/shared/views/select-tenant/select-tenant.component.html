@@ -1,0 +1,30 @@
+<div class="select-tenant-container">
+  <div class="select-tenant-header">
+    <h1>Seleccionar Tenant</h1>
+    <p class="subtitle">Hola {{ userName }}, selecciona un tenant para continuar</p>
+  </div>
+
+  <!-- Lista de tenants del usuario -->
+  <div class="tenants-grid" *ngIf="!hasNoTenants">
+    <p-card
+      *ngFor="let tenant of userTenants"
+      [header]="tenant.name"
+      class="tenant-card"
+      (click)="selectTenant(tenant)"
+    >
+      <div class="tenant-card-content">
+        <i class="pi pi-building tenant-icon"></i>
+        <p class="tenant-role">Rol: {{ tenant.role }}</p>
+        <p-button label="Seleccionar" icon="pi pi-check" styleClass="p-button-primary"></p-button>
+      </div>
+    </p-card>
+  </div>
+
+  <!-- Mensaje cuando no tiene tenants -->
+  <div class="no-tenants-message" *ngIf="hasNoTenants">
+    <i class="pi pi-exclamation-triangle warning-icon"></i>
+    <h2>Sin Tenants Asignados</h2>
+    <p>No tienes ningún tenant asignado. Por favor contacta al administrador del sistema.</p>
+    <p-button label="Cerrar Sesión" icon="pi pi-sign-out" (onClick)="logout()"></p-button>
+  </div>
+</div>

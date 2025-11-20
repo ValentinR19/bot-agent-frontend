@@ -145,13 +145,14 @@ export class AuthService {
       localStorage.setItem('refresh_token', response.refreshToken);
     }
     localStorage.setItem('user', JSON.stringify(response.user));
+    localStorage.setItem('tenants', JSON.stringify(response.tenants || []));
+
     this.currentUserSubject.next(response.user);
     this.isAuthenticatedSubject.next(true);
 
-    // IMPORTANTE: Guardar tenantId del usuario en TenantService
-    if (response.user.tenantId) {
-      this.tenantService.setCurrentTenantId(response.user.tenantId);
-    }
+    // MULTI-TENANT: Inicializar TenantService con lista de tenants del usuario
+    // Esto seleccionará automáticamente el tenant por defecto o el primero disponible
+    this.tenantService.initFromAuth(response.tenants || [], response.user.defaultTenantId);
   }
 
   private updateTokens(response: RefreshTokenResponse): void {
@@ -163,6 +164,7 @@ export class AuthService {
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
     localStorage.removeItem('user');
+    localStorage.removeItem('tenants');
     this.tenantService.clearCurrentTenantId();
     this.currentUserSubject.next(null);
     this.isAuthenticatedSubject.next(false);
@@ -170,18 +172,19 @@ export class AuthService {
 
   private loadUserFromStorage(): void {
     const userJson = localStorage.getItem('user');
+    const tenantsJson = localStorage.getItem('tenants');
     const token = localStorage.getItem('access_token');
 
     if (userJson && token) {
       try {
         const user = JSON.parse(userJson);
+        const tenants = tenantsJson ? JSON.parse(tenantsJson) : [];
+
         this.currentUserSubject.next(user);
         this.isAuthenticatedSubject.next(true);
 
-        // Restaurar tenantId en TenantService
-        if (user.tenantId) {
-          this.tenantService.setCurrentTenantId(user.tenantId);
-        }
+        // MULTI-TENANT: Restaurar contexto de tenants en TenantService
+        this.tenantService.initFromAuth(tenants, user.defaultTenantId);
       } catch (error) {
         this.clearAuthData();
       }

@@ -1,6 +1,6 @@
 /**
  * Modelos y DTOs para el contexto Auth
- * Actualizados para coincidir con la respuesta real del backend
+ * Actualizados para multi-tenant: un usuario puede tener N tenants
  */
 
 export interface LoginCredentials {
@@ -18,21 +18,36 @@ export interface ApiLoginResponse {
 }
 
 /**
+ * Tenant asignado al usuario con su rol
+ */
+export interface AuthUserTenant {
+  id: string;
+  name: string;
+  role: string;
+}
+
+/**
  * Datos de login dentro de data
+ * MULTI-TENANT: ahora incluye lista de tenants del usuario
  */
 export interface LoginResponse {
   accessToken: string;
   tokenType: string;
   expiresIn: number;
   user: AuthUser;
-  refreshToken?: string; // Opcional, el backend actual no lo devuelve
+  tenants: AuthUserTenant[]; // Lista de tenants del usuario
+  refreshToken?: string; // Opcional
 }
 
+/**
+ * Usuario autenticado
+ * MULTI-TENANT: ya no tiene un solo tenantId, sino defaultTenantId
+ */
 export interface AuthUser {
   id: string;
   email: string;
   fullName: string;
-  tenantId: string | null;
+  defaultTenantId?: string | null; // Tenant por defecto (opcional)
   isSuperAdmin?: boolean;
   isActive: boolean;
   avatarUrl?: string;
