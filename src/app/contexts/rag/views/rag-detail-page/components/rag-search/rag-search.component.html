@@ -5,15 +5,7 @@
       <div class="flex gap-3 mb-3">
         <span class="p-input-icon-left flex-1">
           <i class="pi pi-search"></i>
-          <input
-            type="text"
-            pInputText
-            formControlName="query"
-            placeholder="Escribe tu consulta..."
-            class="w-full"
-            (keyup.enter)="onSearch()"
-            [disabled]="isSearching"
-          />
+          <input type="text" pInputText formControlName="query" placeholder="Escribe tu consulta..." class="w-full" (keyup.enter)="onSearch()" [disabled]="isSearching" />
         </span>
         <p-button label="Buscar" icon="pi pi-search" (onClick)="onSearch()" [loading]="isSearching" [disabled]="!searchForm.value.query"></p-button>
         <p-button label="Limpiar" icon="pi pi-times" severity="secondary" (onClick)="onClear()" [disabled]="isSearching"></p-button>

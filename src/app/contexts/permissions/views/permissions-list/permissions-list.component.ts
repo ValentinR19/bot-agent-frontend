@@ -1,31 +1,22 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { TableModule } from 'primeng/table';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 import { Subject, takeUntil } from 'rxjs';
-import { PermissionsService } from '../../services/permissions.service';
 import { PermissionCatalog } from '../../models/permission.model';
+import { PermissionsService } from '../../services/permissions.service';
 
 @Component({
   selector: 'app-permissions-list',
   standalone: true,
-  imports: [
-    CommonModule,
-    TableModule,
-    ButtonModule,
-    CardModule,
-    InputTextModule,
-    ConfirmDialogModule,
-    ToastModule,
-    TagModule,
-  ],
+  imports: [CommonModule, TableModule, ButtonModule, CardModule, InputTextModule, ConfirmDialogModule, ToastModule, TagModule],
   providers: [ConfirmationService, MessageService],
   templateUrl: './permissions-list.component.html',
   styleUrl: './permissions-list.component.scss',
@@ -55,8 +46,8 @@ export class PermissionsListComponent implements OnInit, OnDestroy {
       .getPermissions()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (permissions) => {
-          this.permissions = permissions;
+        next: (permissions: any) => {
+          this.permissions = permissions.data;
           this.loading = false;
         },
         error: (error) => {

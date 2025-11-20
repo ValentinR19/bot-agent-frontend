@@ -20,15 +20,7 @@ import { LoginCredentials, LoginFormModel } from '../../models/auth.model';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    ToastModule,
-    ButtonModule,
-    InputTextModule,
-    PasswordModule,
-    CardModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, ToastModule, ButtonModule, InputTextModule, PasswordModule, CardModule],
   providers: [MessageService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',

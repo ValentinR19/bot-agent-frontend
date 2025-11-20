@@ -20,9 +20,7 @@
             placeholder="Ej: Equipo de Ventas"
             [class.ng-invalid]="teamForm.controls.name.invalid && teamForm.controls.name.touched"
           />
-          <small class="p-error" *ngIf="teamForm.controls.name.invalid && teamForm.controls.name.touched">
-            El nombre es requerido
-          </small>
+          <small class="p-error" *ngIf="teamForm.controls.name.invalid && teamForm.controls.name.touched"> El nombre es requerido </small>
         </div>
 
         <!-- Slug -->
@@ -36,39 +34,25 @@
             placeholder="Ej: equipo-ventas"
             [class.ng-invalid]="teamForm.controls.slug.invalid && teamForm.controls.slug.touched"
           />
-          <small class="p-error" *ngIf="teamForm.controls.slug.invalid && teamForm.controls.slug.touched">
-            El slug es requerido
-          </small>
+          <small class="p-error" *ngIf="teamForm.controls.slug.invalid && teamForm.controls.slug.touched"> El slug es requerido </small>
         </div>
 
         <!-- Descripción -->
         <div class="form-field full-width">
           <label for="description">Descripción</label>
-          <textarea
-            id="description"
-            pInputTextarea
-            formControlName="description"
-            placeholder="Descripción del equipo"
-            rows="3"
-          ></textarea>
+          <textarea id="description" pInputTextarea formControlName="description" placeholder="Descripción del equipo" rows="3"></textarea>
         </div>
 
         <!-- Estado Activo -->
         <div class="form-field">
           <label for="isActive">Activo</label>
-          <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
+          <p-toggleSwitch id="isActive" formControlName="isActive"></p-toggleSwitch>
         </div>
       </div>
 
       <div class="form-actions">
         <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
-        <p-button
-          [label]="isEditMode ? 'Actualizar' : 'Crear'"
-          icon="pi pi-save"
-          type="submit"
-          [disabled]="teamForm.invalid || saving"
-          [loading]="saving"
-        ></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="teamForm.invalid || saving" [loading]="saving"></p-button>
       </div>
     </form>
   </p-card>

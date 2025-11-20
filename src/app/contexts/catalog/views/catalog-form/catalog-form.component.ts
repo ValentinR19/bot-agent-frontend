@@ -1,26 +1,26 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ButtonModule } from 'primeng/button';
+import { CardModule } from 'primeng/card';
+import { ChipsModule } from 'primeng/chips';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputTextModule } from 'primeng/inputtext';
+import { Select } from 'primeng/select';
+import { Textarea } from 'primeng/textarea';
+import { ToastModule } from 'primeng/toast';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { CardModule } from 'primeng/card';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { Textarea } from 'primeng/textarea';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { Select } from 'primeng/select';
-import { InputSwitchModule } from 'primeng/inputswitch';
-import { ChipsModule } from 'primeng/chips';
-import { ToastModule } from 'primeng/toast';
-import { MessageService } from 'primeng/api';
+import { CatalogItemType, CreateCatalogItemDto, UpdateCatalogItemDto } from '../../models/catalog.model';
 import { CatalogService } from '../../services/catalog.service';
-import { CreateCatalogItemDto, UpdateCatalogItemDto, CatalogItemType } from '../../models/catalog.model';
 
 @Component({
   selector: 'app-catalog-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Textarea, InputNumberModule, Select, InputSwitchModule, ChipsModule, ToastModule],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Textarea, InputNumberModule, Select, ToggleSwitchModule, ChipsModule, ToastModule],
   providers: [MessageService],
   templateUrl: './catalog-form.component.html',
   styleUrl: './catalog-form.component.scss',
@@ -152,9 +152,7 @@ export class CatalogFormComponent implements OnInit, OnDestroy {
       }, {} as any);
 
       const operation =
-        this.isEditMode && this.itemId
-          ? this.catalogService.update(this.itemId, payload as UpdateCatalogItemDto)
-          : this.catalogService.create(payload as CreateCatalogItemDto);
+        this.isEditMode && this.itemId ? this.catalogService.update(this.itemId, payload as UpdateCatalogItemDto) : this.catalogService.create(payload as CreateCatalogItemDto);
 
       operation.pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {

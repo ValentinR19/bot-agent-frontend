@@ -20,9 +20,7 @@
             placeholder="Ej: Administrador"
             [class.ng-invalid]="roleForm.controls.name.invalid && roleForm.controls.name.touched"
           />
-          <small class="p-error" *ngIf="roleForm.controls.name.invalid && roleForm.controls.name.touched">
-            El nombre es requerido
-          </small>
+          <small class="p-error" *ngIf="roleForm.controls.name.invalid && roleForm.controls.name.touched"> El nombre es requerido </small>
         </div>
 
         <!-- Código -->
@@ -36,9 +34,7 @@
             placeholder="Ej: ADMIN"
             [class.ng-invalid]="roleForm.controls.code.invalid && roleForm.controls.code.touched"
           />
-          <small class="p-error" *ngIf="roleForm.controls.code.invalid && roleForm.controls.code.touched">
-            El código es requerido
-          </small>
+          <small class="p-error" *ngIf="roleForm.controls.code.invalid && roleForm.controls.code.touched"> El código es requerido </small>
         </div>
 
         <!-- Descripción -->
@@ -56,13 +52,7 @@
 
       <div class="form-actions">
         <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
-        <p-button
-          [label]="isEditMode ? 'Actualizar' : 'Crear'"
-          icon="pi pi-save"
-          type="submit"
-          [disabled]="roleForm.invalid || saving"
-          [loading]="saving"
-        ></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="roleForm.invalid || saving" [loading]="saving"></p-button>
       </div>
     </form>
   </p-card>

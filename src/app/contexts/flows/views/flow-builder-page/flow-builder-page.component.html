@@ -9,7 +9,11 @@
     <ng-template pTemplate="start">
       <div class="toolbar-start">
         <h2 class="m-0">{{ flow?.name || 'Cargando...' }}</h2>
-        <p-chip *ngIf="flow" [label]="flow.isActive ? 'Activo' : 'Inactivo'" [style]="{ background: flow.isActive ? '#10b981' : '#6c757d', color: 'white', marginLeft: '1rem' }"></p-chip>
+        <p-chip
+          *ngIf="flow"
+          [label]="flow.isActive ? 'Activo' : 'Inactivo'"
+          [style]="{ background: flow.isActive ? '#10b981' : '#6c757d', color: 'white', marginLeft: '1rem' }"
+        ></p-chip>
       </div>
     </ng-template>
 

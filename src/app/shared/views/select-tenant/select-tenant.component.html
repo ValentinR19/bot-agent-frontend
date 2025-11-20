@@ -6,12 +6,7 @@
 
   <!-- Lista de tenants del usuario -->
   <div class="tenants-grid" *ngIf="!hasNoTenants">
-    <p-card
-      *ngFor="let tenant of userTenants"
-      [header]="tenant.name"
-      class="tenant-card"
-      (click)="selectTenant(tenant)"
-    >
+    <p-card *ngFor="let tenant of userTenants" [header]="tenant.name" class="tenant-card" (click)="selectTenant(tenant)">
       <div class="tenant-card-content">
         <i class="pi pi-building tenant-icon"></i>
         <p class="tenant-role">Rol: {{ tenant.role }}</p>

@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService, ConfirmationService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 import { Subject, takeUntil } from 'rxjs';
 
-import { FlowsService } from '../../services/flows.service';
-import { Flow } from '../../models/flow.model';
-import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
-import { CustomTableComponent, TableColumn, TableAction } from '../../../../shared/components/custom-table/custom-table.component';
+import { CustomTableComponent, TableAction, TableColumn } from '../../../../shared/components/custom-table/custom-table.component';
 import { FilterPanelComponent } from '../../../../shared/components/filter-panel/filter-panel.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { Flow } from '../../models/flow.model';
+import { FlowsService } from '../../services/flows.service';
 
 @Component({
   selector: 'app-flows-list',
@@ -78,8 +78,8 @@ export class FlowsListComponent implements OnInit, OnDestroy {
       .findAll()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (flows) => {
-          this.flows = flows;
+        next: (flows: any) => {
+          this.flows = flows.data;
           this.loading = false;
         },
         error: () => {

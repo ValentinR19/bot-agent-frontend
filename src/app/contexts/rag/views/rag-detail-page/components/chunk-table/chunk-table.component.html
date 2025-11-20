@@ -1,9 +1,7 @@
 <p-table [value]="chunks" [paginator]="true" [rows]="10" responsiveLayout="scroll">
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="chunkIndex" style="width: 80px">
-        # <p-sortIcon field="chunkIndex"></p-sortIcon>
-      </th>
+      <th pSortableColumn="chunkIndex" style="width: 80px"># <p-sortIcon field="chunkIndex"></p-sortIcon></th>
       <th>Preview</th>
       <th style="width: 120px">Tokens</th>
       <th style="width: 130px" *ngIf="showSimilarity">Similitud</th>

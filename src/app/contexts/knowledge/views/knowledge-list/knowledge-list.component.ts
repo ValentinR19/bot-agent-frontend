@@ -1,19 +1,18 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { KnowledgeService } from '../../services/knowledge.service';
-import { KnowledgeDocument } from '../../models/knowledge.model';
-import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
-import { CustomTableComponent, TableColumn, TableAction } from '../../../../shared/components/custom-table/custom-table.component';
+import { CustomTableComponent, TableAction, TableColumn } from '../../../../shared/components/custom-table/custom-table.component';
 import { FilterPanelComponent } from '../../../../shared/components/filter-panel/filter-panel.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { KnowledgeDocument } from '../../models/knowledge.model';
+import { KnowledgeService } from '../../services/knowledge.service';
 
 @Component({
   selector: 'app-knowledge-list',
@@ -79,8 +78,8 @@ export class KnowledgeListComponent implements OnInit, OnDestroy {
       .findAll()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (documents) => {
-          this.documents = documents;
+        next: (documents: any) => {
+          this.documents = documents.data;
           this.loading = false;
         },
         error: (error) => {

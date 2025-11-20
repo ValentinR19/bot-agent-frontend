@@ -42,7 +42,9 @@
   font-size: 12px;
   font-weight: 600;
   pointer-events: none;
-  text-shadow: 0 0 3px white, 0 0 3px white;
+  text-shadow:
+    0 0 3px white,
+    0 0 3px white;
 }
 
 .nodes-layer {

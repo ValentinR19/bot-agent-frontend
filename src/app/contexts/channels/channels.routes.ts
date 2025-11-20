@@ -8,23 +8,19 @@ export const CHANNELS_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./views/channels-list/channels-list.component').then((m) => m.ChannelsListComponent),
+        loadComponent: () => import('./views/channels-list/channels-list.component').then((m) => m.ChannelsListComponent),
       },
       {
         path: 'new',
-        loadComponent: () =>
-          import('./views/channels-form/channels-form.component').then((m) => m.ChannelsFormComponent),
+        loadComponent: () => import('./views/channels-form/channels-form.component').then((m) => m.ChannelsFormComponent),
       },
       {
         path: ':id',
-        loadComponent: () =>
-          import('./views/channels-detail/channels-detail.component').then((m) => m.ChannelsDetailComponent),
+        loadComponent: () => import('./views/channels-detail/channels-detail.component').then((m) => m.ChannelsDetailComponent),
       },
       {
         path: ':id/edit',
-        loadComponent: () =>
-          import('./views/channels-form/channels-form.component').then((m) => m.ChannelsFormComponent),
+        loadComponent: () => import('./views/channels-form/channels-form.component').then((m) => m.ChannelsFormComponent),
       },
     ],
   },

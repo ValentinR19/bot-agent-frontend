@@ -26,14 +26,7 @@ interface TenantFormValue {
 @Component({
   selector: 'app-tenants-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    PageHeaderComponent,
-    CustomFormComponent,
-    CardModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, PageHeaderComponent, CustomFormComponent, CardModule, ToastModule],
   providers: [MessageService],
   templateUrl: './tenants-form.component.html',
   styleUrl: './tenants-form.component.scss',

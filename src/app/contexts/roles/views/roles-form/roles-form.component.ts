@@ -25,16 +25,7 @@ interface RoleForm {
 @Component({
   selector: 'app-roles-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    TextareaModule,
-    ToggleSwitchModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, TextareaModule, ToggleSwitchModule, ToastModule],
   providers: [MessageService],
   templateUrl: './roles-form.component.html',
   styleUrl: './roles-form.component.scss',
@@ -113,9 +104,8 @@ export class RolesFormComponent implements OnInit, OnDestroy {
       this.saving = true;
       const formValue = this.roleForm.getRawValue();
 
-      const operation = this.isEditMode && this.roleId
-        ? this.rolesService.update(this.roleId, this.buildUpdateDto(formValue))
-        : this.rolesService.create(this.buildCreateDto(formValue));
+      const operation =
+        this.isEditMode && this.roleId ? this.rolesService.update(this.roleId, this.buildUpdateDto(formValue)) : this.rolesService.create(this.buildCreateDto(formValue));
 
       operation.pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {

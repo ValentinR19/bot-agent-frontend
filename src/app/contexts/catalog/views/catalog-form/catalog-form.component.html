@@ -11,7 +11,14 @@
       <div class="form-grid">
         <div class="form-field">
           <label for="title" class="required">Título</label>
-          <input id="title" type="text" pInputText formControlName="title" placeholder="Ej: Producto 1" [class.ng-invalid]="itemForm.controls.title.invalid && itemForm.controls.title.touched" />
+          <input
+            id="title"
+            type="text"
+            pInputText
+            formControlName="title"
+            placeholder="Ej: Producto 1"
+            [class.ng-invalid]="itemForm.controls.title.invalid && itemForm.controls.title.touched"
+          />
           <small class="p-error" *ngIf="itemForm.controls.title.invalid && itemForm.controls.title.touched"> El título es requerido </small>
         </div>
 
@@ -22,7 +29,15 @@
 
         <div class="form-field">
           <label for="type" class="required">Tipo</label>
-          <p-select id="type" formControlName="type" [options]="itemTypes" optionLabel="label" optionValue="value" placeholder="Seleccionar tipo" [style]="{ width: '100%' }"></p-select>
+          <p-select
+            id="type"
+            formControlName="type"
+            [options]="itemTypes"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccionar tipo"
+            [style]="{ width: '100%' }"
+          ></p-select>
         </div>
 
         <div class="form-field">
@@ -32,12 +47,28 @@
 
         <div class="form-field">
           <label for="price">Precio</label>
-          <p-inputNumber id="price" formControlName="price" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" placeholder="0.00" [style]="{ width: '100%' }"></p-inputNumber>
+          <p-inputNumber
+            id="price"
+            formControlName="price"
+            mode="decimal"
+            [minFractionDigits]="2"
+            [maxFractionDigits]="2"
+            placeholder="0.00"
+            [style]="{ width: '100%' }"
+          ></p-inputNumber>
         </div>
 
         <div class="form-field">
           <label for="currency">Moneda</label>
-          <p-select id="currency" formControlName="currency" [options]="currencies" optionLabel="label" optionValue="value" placeholder="Seleccionar moneda" [style]="{ width: '100%' }"></p-select>
+          <p-select
+            id="currency"
+            formControlName="currency"
+            [options]="currencies"
+            optionLabel="label"
+            optionValue="value"
+            placeholder="Seleccionar moneda"
+            [style]="{ width: '100%' }"
+          ></p-select>
         </div>
 
         <div class="form-field">
@@ -72,12 +103,12 @@
 
         <div class="form-field">
           <label for="isFeatured">Destacado</label>
-          <p-inputSwitch id="isFeatured" formControlName="isFeatured"></p-inputSwitch>
+          <p-toggleSwitch id="isFeatured" formControlName="isFeatured"></p-toggleSwitch>
         </div>
 
         <div class="form-field">
           <label for="isActive">Activo</label>
-          <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
+          <p-toggleSwitch id="isActive" formControlName="isActive"></p-toggleSwitch>
         </div>
       </div>
 

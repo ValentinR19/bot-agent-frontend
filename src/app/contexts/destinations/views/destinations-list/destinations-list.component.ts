@@ -1,18 +1,18 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { TableModule } from 'primeng/table';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ToastModule } from 'primeng/toast';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { DestinationsService } from '../../services/destinations.service';
+import { ToastModule } from 'primeng/toast';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { Destination } from '../../models/destinations.model';
+import { DestinationsService } from '../../services/destinations.service';
 
 @Component({
   selector: 'app-destinations-list',
@@ -47,8 +47,8 @@ export class DestinationsListComponent implements OnInit, OnDestroy {
       .getDestinations()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (destinations) => {
-          this.destinations = destinations;
+        next: (destinations: any) => {
+          this.destinations = destinations.data;
           this.loading = false;
         },
         error: (error) => {

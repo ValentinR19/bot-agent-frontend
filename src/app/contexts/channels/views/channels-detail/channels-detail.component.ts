@@ -15,14 +15,7 @@ import { Channel } from '../../models/channel.model';
 @Component({
   selector: 'app-channels-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardModule,
-    ButtonModule,
-    DividerModule,
-    SkeletonModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, CardModule, ButtonModule, DividerModule, SkeletonModule, ToastModule],
   providers: [MessageService],
   templateUrl: './channels-detail.component.html',
   styleUrl: './channels-detail.component.scss',

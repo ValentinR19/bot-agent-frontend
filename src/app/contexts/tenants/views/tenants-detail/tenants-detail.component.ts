@@ -17,15 +17,7 @@ import { PageHeaderComponent } from '../../../../shared/components/page-header/p
 @Component({
   selector: 'app-tenants-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    PageHeaderComponent,
-    ButtonModule,
-    CardModule,
-    TagModule,
-    ToastModule,
-    ProgressSpinner,
-  ],
+  imports: [CommonModule, PageHeaderComponent, ButtonModule, CardModule, TagModule, ToastModule, ProgressSpinner],
   providers: [MessageService],
   templateUrl: './tenants-detail.component.html',
   styleUrl: './tenants-detail.component.scss',

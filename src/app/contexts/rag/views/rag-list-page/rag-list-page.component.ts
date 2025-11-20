@@ -25,17 +25,7 @@ import { BadgeModule } from 'primeng/badge';
 @Component({
   selector: 'app-rag-list-page',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardModule,
-    ButtonModule,
-    ToastModule,
-    TabViewModule,
-    BadgeModule,
-    DocumentTableComponent,
-    DocumentUploadComponent,
-    RagSearchComponent,
-  ],
+  imports: [CommonModule, CardModule, ButtonModule, ToastModule, TabViewModule, BadgeModule, DocumentTableComponent, DocumentUploadComponent, RagSearchComponent],
   providers: [MessageService],
   templateUrl: './rag-list-page.component.html',
   styleUrls: ['./rag-list-page.component.scss'],

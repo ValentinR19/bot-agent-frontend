@@ -1,25 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
-import { FormGroup, FormControl, Validators, ReactiveFormsModule, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { Textarea } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CreateDestinationDto, DestinationType, UpdateDestinationDto } from '../../models/destinations.model';
 import { DestinationsService } from '../../services/destinations.service';
 
 @Component({
   selector: 'app-destinations-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Select, Textarea, InputSwitchModule, InputNumberModule, ToastModule],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Select, Textarea, ToggleSwitchModule, InputNumberModule, ToastModule],
   providers: [MessageService],
   templateUrl: './destinations-form.component.html',
   styleUrl: './destinations-form.component.scss',

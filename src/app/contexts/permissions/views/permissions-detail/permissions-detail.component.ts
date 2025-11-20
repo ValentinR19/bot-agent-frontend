@@ -15,15 +15,7 @@ import { PermissionCatalog } from '../../models/permission.model';
 @Component({
   selector: 'app-permissions-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardModule,
-    ButtonModule,
-    DividerModule,
-    SkeletonModule,
-    ToastModule,
-    TagModule,
-  ],
+  imports: [CommonModule, CardModule, ButtonModule, DividerModule, SkeletonModule, ToastModule, TagModule],
   providers: [MessageService],
   templateUrl: './permissions-detail.component.html',
   styleUrl: './permissions-detail.component.scss',

@@ -1,17 +1,17 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { TableModule } from 'primeng/table';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
-import { InputTextModule } from 'primeng/inputtext';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { InputTextModule } from 'primeng/inputtext';
+import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { CatalogService } from '../../services/catalog.service';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CatalogItem } from '../../models/catalog.model';
+import { CatalogService } from '../../services/catalog.service';
 
 @Component({
   selector: 'app-catalog-list',
@@ -46,8 +46,8 @@ export class CatalogListComponent implements OnInit, OnDestroy {
       .findAll()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (items) => {
-          this.items = items;
+        next: (items: any) => {
+          this.items = items.data;
           this.loading = false;
         },
         error: (error) => {

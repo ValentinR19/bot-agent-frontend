@@ -20,9 +20,7 @@
             placeholder="Ej: Canal Principal"
             [class.ng-invalid]="channelForm.controls.name.invalid && channelForm.controls.name.touched"
           />
-          <small class="p-error" *ngIf="channelForm.controls.name.invalid && channelForm.controls.name.touched">
-            El nombre es requerido
-          </small>
+          <small class="p-error" *ngIf="channelForm.controls.name.invalid && channelForm.controls.name.touched"> El nombre es requerido </small>
         </div>
 
         <!-- Tipo -->
@@ -38,15 +36,13 @@
             [style]="{ width: '100%' }"
             [disabled]="isEditMode"
           ></p-select>
-          <small class="p-error" *ngIf="channelForm.controls.type.invalid && channelForm.controls.type.touched">
-            El tipo es requerido
-          </small>
+          <small class="p-error" *ngIf="channelForm.controls.type.invalid && channelForm.controls.type.touched"> El tipo es requerido </small>
         </div>
 
         <!-- Estado Activo -->
         <div class="form-field">
           <label for="isActive">Activo</label>
-          <p-inputSwitch id="isActive" formControlName="isActive"></p-inputSwitch>
+          <p-toggleSwitch id="isActive" formControlName="isActive"></p-toggleSwitch>
         </div>
       </div>
 
@@ -59,51 +55,27 @@
           <!-- Bot Token -->
           <div class="form-field">
             <label for="botToken">Bot Token</label>
-            <input
-              id="botToken"
-              type="text"
-              pInputText
-              formControlName="botToken"
-              placeholder="Ej: 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11"
-            />
+            <input id="botToken" type="text" pInputText formControlName="botToken" placeholder="Ej: 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11" />
             <small class="p-help">Para canales de Telegram</small>
           </div>
 
           <!-- Webhook URL -->
           <div class="form-field">
             <label for="webhookUrl">Webhook URL</label>
-            <input
-              id="webhookUrl"
-              type="text"
-              pInputText
-              formControlName="webhookUrl"
-              placeholder="Ej: https://api.example.com/webhooks/telegram"
-            />
+            <input id="webhookUrl" type="text" pInputText formControlName="webhookUrl" placeholder="Ej: https://api.example.com/webhooks/telegram" />
           </div>
 
           <!-- API Key -->
           <div class="form-field">
             <label for="apiKey">API Key</label>
-            <input
-              id="apiKey"
-              type="text"
-              pInputText
-              formControlName="apiKey"
-              placeholder="Ej: sk_live_51..."
-            />
+            <input id="apiKey" type="text" pInputText formControlName="apiKey" placeholder="Ej: sk_live_51..." />
             <small class="p-help">Para canales que requieran autenticación por API Key</small>
           </div>
 
           <!-- Phone Number -->
           <div class="form-field">
             <label for="phoneNumber">Número de Teléfono</label>
-            <input
-              id="phoneNumber"
-              type="text"
-              pInputText
-              formControlName="phoneNumber"
-              placeholder="Ej: +1234567890"
-            />
+            <input id="phoneNumber" type="text" pInputText formControlName="phoneNumber" placeholder="Ej: +1234567890" />
             <small class="p-help">Para canales de WhatsApp o SMS</small>
           </div>
         </div>
@@ -115,27 +87,14 @@
         <p-divider></p-divider>
 
         <div class="form-field full-width">
-          <textarea
-            id="metadata"
-            pInputTextarea
-            formControlName="metadata"
-            placeholder='{"key": "value"}'
-            rows="5"
-            [autoResize]="true"
-          ></textarea>
+          <textarea id="metadata" pInputTextarea formControlName="metadata" placeholder='{"key": "value"}' rows="5" [autoResize]="true"></textarea>
           <small class="p-help">Información adicional en formato JSON</small>
         </div>
       </div>
 
       <div class="form-actions">
         <p-button label="Cancelar" severity="secondary" (onClick)="goBack()" type="button"></p-button>
-        <p-button
-          [label]="isEditMode ? 'Actualizar' : 'Crear'"
-          icon="pi pi-save"
-          type="submit"
-          [disabled]="channelForm.invalid || saving"
-          [loading]="saving"
-        ></p-button>
+        <p-button [label]="isEditMode ? 'Actualizar' : 'Crear'" icon="pi pi-save" type="submit" [disabled]="channelForm.invalid || saving" [loading]="saving"></p-button>
       </div>
     </form>
   </p-card>

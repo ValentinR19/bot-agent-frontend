@@ -1,19 +1,18 @@
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { MessageService } from 'primeng/api';
-import { ToastModule } from 'primeng/toast';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
-import { UsersService } from '../../services/users.service';
-import { User } from '../../models/user.model';
-import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
-import { CustomTableComponent, TableColumn, TableAction } from '../../../../shared/components/custom-table/custom-table.component';
+import { CustomTableComponent, TableAction, TableColumn } from '../../../../shared/components/custom-table/custom-table.component';
 import { FilterPanelComponent } from '../../../../shared/components/filter-panel/filter-panel.component';
+import { PageHeaderComponent } from '../../../../shared/components/page-header/page-header.component';
+import { User } from '../../models/user.model';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-users-list',
@@ -79,8 +78,8 @@ export class UsersListComponent implements OnInit, OnDestroy {
       .findAll()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (users) => {
-          this.users = users;
+        next: (users: any) => {
+          this.users = users.data;
           this.loading = false;
         },
         error: (error) => {

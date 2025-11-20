@@ -2,14 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { HttpService } from '../../../core/http/http.service';
-import {
-    AssignPermissionDto,
-    AssignRoleDto,
-    CreateRoleDto,
-    Permission,
-    Role,
-    UpdateRoleDto,
-} from '../models/role.model';
+import { AssignPermissionDto, AssignRoleDto, CreateRoleDto, Permission, Role, UpdateRoleDto } from '../models/role.model';
 
 /**
  * Servicio para gestión de Roles (RBAC)

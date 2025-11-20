@@ -6,11 +6,11 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { DividerModule } from 'primeng/divider';
-import { InputSwitchModule } from 'primeng/inputswitch';
 import { InputTextModule } from 'primeng/inputtext';
 import { Select } from 'primeng/select';
 import { Textarea } from 'primeng/textarea';
 import { ToastModule } from 'primeng/toast';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ChannelType, CreateChannelDto, UpdateChannelDto } from '../../models/channel.model';
@@ -32,7 +32,7 @@ interface ChannelFormValue {
 @Component({
   selector: 'app-channels-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Textarea, Select, InputSwitchModule, ToastModule, DividerModule],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, Textarea, Select, ToggleSwitchModule, ToastModule, DividerModule],
   providers: [MessageService],
   templateUrl: './channels-form.component.html',
   styleUrl: './channels-form.component.scss',

@@ -10,14 +10,7 @@
         </div>
       </div>
       <div class="flex gap-2">
-        <p-button
-          label="Reintentar"
-          icon="pi pi-refresh"
-          severity="warn"
-          (onClick)="onRetryIngestion()"
-          *ngIf="document?.status === 'failed'"
-          [disabled]="isRetrying"
-        ></p-button>
+        <p-button label="Reintentar" icon="pi pi-refresh" severity="warn" (onClick)="onRetryIngestion()" *ngIf="document?.status === 'failed'" [disabled]="isRetrying"></p-button>
         <p-button label="Eliminar" icon="pi pi-trash" severity="danger" (onClick)="onDelete()"></p-button>
       </div>
     </div>
@@ -48,11 +41,11 @@
         </div>
         <div class="info-row">
           <span class="info-label">Creado:</span>
-          <span>{{ document.createdAt | date : 'medium' }}</span>
+          <span>{{ document.createdAt | date: 'medium' }}</span>
         </div>
         <div class="info-row">
           <span class="info-label">Actualizado:</span>
-          <span>{{ document.updatedAt | date : 'medium' }}</span>
+          <span>{{ document.updatedAt | date: 'medium' }}</span>
         </div>
       </div>
 

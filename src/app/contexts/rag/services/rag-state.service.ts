@@ -55,7 +55,7 @@ export class RagStateService {
           this.documents$.next(documents);
           this.setError(null);
         }),
-        finalize(() => this.setLoading(false))
+        finalize(() => this.setLoading(false)),
       )
       .subscribe({
         error: (err) => this.setError(err.message || 'Error al cargar documentos'),
@@ -74,7 +74,7 @@ export class RagStateService {
           this.documents$.next(documents);
           this.setError(null);
         }),
-        finalize(() => this.setLoading(false))
+        finalize(() => this.setLoading(false)),
       )
       .subscribe({
         error: (err) => this.setError(err.message || 'Error al cargar documentos por tipo'),
@@ -93,7 +93,7 @@ export class RagStateService {
           this.documents$.next(documents);
           this.setError(null);
         }),
-        finalize(() => this.setLoading(false))
+        finalize(() => this.setLoading(false)),
       )
       .subscribe({
         error: (err) => this.setError(err.message || 'Error al cargar documentos por estado'),
@@ -118,7 +118,7 @@ export class RagStateService {
           this.selectedDocument$.next(document);
           this.loadChunks(id);
         }),
-        finalize(() => this.setLoading(false))
+        finalize(() => this.setLoading(false)),
       )
       .subscribe({
         error: (err) => this.setError(err.message || 'Error al cargar documento'),
@@ -148,7 +148,7 @@ export class RagStateService {
         // Recargar lista de documentos después de subir
         this.loadDocuments();
       }),
-      finalize(() => this.setLoading(false))
+      finalize(() => this.setLoading(false)),
     );
   }
 
@@ -167,7 +167,7 @@ export class RagStateService {
           this.chunks$.next([]);
         }
       }),
-      finalize(() => this.setLoading(false))
+      finalize(() => this.setLoading(false)),
     );
   }
 
@@ -189,7 +189,7 @@ export class RagStateService {
           this.selectedDocument$.next(updatedDoc);
         }
       }),
-      finalize(() => this.setLoading(false))
+      finalize(() => this.setLoading(false)),
     );
   }
 
@@ -205,7 +205,7 @@ export class RagStateService {
           this.searchResults$.next(response.chunks);
           this.setError(null);
         }),
-        finalize(() => this.setLoading(false))
+        finalize(() => this.setLoading(false)),
       )
       .subscribe({
         error: (err) => this.setError(err.message || 'Error en búsqueda RAG'),

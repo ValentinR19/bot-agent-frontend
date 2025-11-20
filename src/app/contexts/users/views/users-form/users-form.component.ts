@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { InputTextModule } from 'primeng/inputtext';
 import { ToastModule } from 'primeng/toast';
-import { InputSwitchModule } from 'primeng/inputswitch';
+import { ToggleSwitchModule } from 'primeng/toggleswitch';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { CreateUserDto, UpdateUserDto } from '../../models/user.model';
 import { UsersService } from '../../services/users.service';
 
@@ -27,7 +27,7 @@ interface UserFormControls {
 @Component({
   selector: 'app-users-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, ToastModule, InputSwitchModule],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, ToastModule, ToggleSwitchModule],
   providers: [MessageService],
   templateUrl: './users-form.component.html',
   styleUrl: './users-form.component.scss',
@@ -67,23 +67,23 @@ export class UsersFormComponent implements OnInit, OnDestroy {
     this.userForm = new FormGroup<UserFormControls>({
       tenantId: new FormControl('', {
         nonNullable: true,
-        validators: this.isEditMode ? [] : [Validators.required]
+        validators: this.isEditMode ? [] : [Validators.required],
       }),
       firstName: new FormControl('', {
         nonNullable: true,
-        validators: [Validators.required]
+        validators: [Validators.required],
       }),
       lastName: new FormControl('', {
         nonNullable: true,
-        validators: [Validators.required]
+        validators: [Validators.required],
       }),
       email: new FormControl('', {
         nonNullable: true,
-        validators: [Validators.required, Validators.email]
+        validators: [Validators.required, Validators.email],
       }),
       password: new FormControl('', {
         nonNullable: true,
-        validators: this.isEditMode ? [] : [Validators.required, Validators.minLength(6)]
+        validators: this.isEditMode ? [] : [Validators.required, Validators.minLength(6)],
       }),
       phone: new FormControl('', { nonNullable: true }),
       avatarUrl: new FormControl('', { nonNullable: true }),
@@ -154,10 +154,7 @@ export class UsersFormComponent implements OnInit, OnDestroy {
         delete payload['tenantId'];
       }
 
-      const operation =
-        this.isEditMode && this.userId
-          ? this.usersService.update(this.userId, payload as UpdateUserDto)
-          : this.usersService.create(payload as CreateUserDto);
+      const operation = this.isEditMode && this.userId ? this.usersService.update(this.userId, payload as UpdateUserDto) : this.usersService.create(payload as CreateUserDto);
 
       operation.pipe(takeUntil(this.destroy$)).subscribe({
         next: () => {

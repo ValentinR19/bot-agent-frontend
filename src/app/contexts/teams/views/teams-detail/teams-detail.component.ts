@@ -17,15 +17,7 @@ import { Team } from '../../models/team.model';
 @Component({
   selector: 'app-teams-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardModule,
-    ButtonModule,
-    DividerModule,
-    SkeletonModule,
-    ToastModule,
-    TableModule,
-  ],
+  imports: [CommonModule, CardModule, ButtonModule, DividerModule, SkeletonModule, ToastModule, TableModule],
   providers: [MessageService],
   templateUrl: './teams-detail.component.html',
   styleUrl: './teams-detail.component.scss',

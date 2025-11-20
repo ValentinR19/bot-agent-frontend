@@ -21,15 +21,7 @@ interface PermissionFormValue {
 @Component({
   selector: 'app-permissions-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    TextareaModule,
-    ToastModule,
-  ],
+  imports: [CommonModule, ReactiveFormsModule, CardModule, ButtonModule, InputTextModule, TextareaModule, ToastModule],
   providers: [MessageService],
   templateUrl: './permissions-form.component.html',
   styleUrl: './permissions-form.component.scss',

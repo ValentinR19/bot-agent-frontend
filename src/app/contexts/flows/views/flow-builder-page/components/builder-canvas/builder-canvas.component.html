@@ -53,7 +53,15 @@
     </g>
 
     <!-- Drawing new transition (temp) -->
-    <path *ngIf="isDrawingTransition && drawingTransitionPath" [attr.d]="drawingTransitionPath" stroke="#f59e0b" stroke-width="2" stroke-dasharray="5,5" fill="none" marker-end="url(#arrowhead)" />
+    <path
+      *ngIf="isDrawingTransition && drawingTransitionPath"
+      [attr.d]="drawingTransitionPath"
+      stroke="#f59e0b"
+      stroke-width="2"
+      stroke-dasharray="5,5"
+      fill="none"
+      marker-end="url(#arrowhead)"
+    />
   </svg>
 
   <!-- Nodos layer -->

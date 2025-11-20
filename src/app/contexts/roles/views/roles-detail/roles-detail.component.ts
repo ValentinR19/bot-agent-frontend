@@ -17,15 +17,7 @@ import { Role } from '../../models/role.model';
 @Component({
   selector: 'app-roles-detail',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardModule,
-    ButtonModule,
-    DividerModule,
-    SkeletonModule,
-    ToastModule,
-    TableModule,
-  ],
+  imports: [CommonModule, CardModule, ButtonModule, DividerModule, SkeletonModule, ToastModule, TableModule],
   providers: [MessageService],
   templateUrl: './roles-detail.component.html',
   styleUrl: './roles-detail.component.scss',

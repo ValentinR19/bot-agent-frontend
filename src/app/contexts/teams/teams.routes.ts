@@ -8,23 +8,19 @@ export const TEAMS_ROUTES: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./views/teams-list/teams-list.component').then((m) => m.TeamsListComponent),
+        loadComponent: () => import('./views/teams-list/teams-list.component').then((m) => m.TeamsListComponent),
       },
       {
         path: 'new',
-        loadComponent: () =>
-          import('./views/teams-form/teams-form.component').then((m) => m.TeamsFormComponent),
+        loadComponent: () => import('./views/teams-form/teams-form.component').then((m) => m.TeamsFormComponent),
       },
       {
         path: ':id',
-        loadComponent: () =>
-          import('./views/teams-detail/teams-detail.component').then((m) => m.TeamsDetailComponent),
+        loadComponent: () => import('./views/teams-detail/teams-detail.component').then((m) => m.TeamsDetailComponent),
       },
       {
         path: ':id/edit',
-        loadComponent: () =>
-          import('./views/teams-form/teams-form.component').then((m) => m.TeamsFormComponent),
+        loadComponent: () => import('./views/teams-form/teams-form.component').then((m) => m.TeamsFormComponent),
       },
     ],
   },

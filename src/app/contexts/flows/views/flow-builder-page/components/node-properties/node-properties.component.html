@@ -56,7 +56,15 @@
 
           <div class="form-field">
             <label for="validationType">Tipo de Validación</label>
-            <p-select id="validationType" formControlName="validationType" [options]="validationTypes" optionLabel="label" optionValue="value" placeholder="Seleccionar" class="w-full"></p-select>
+            <p-select
+              id="validationType"
+              formControlName="validationType"
+              [options]="validationTypes"
+              optionLabel="label"
+              optionValue="value"
+              placeholder="Seleccionar"
+              class="w-full"
+            ></p-select>
           </div>
 
           <div class="form-field" *ngIf="nodeForm.get('validationType')?.value === 'regex'">
